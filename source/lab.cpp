@@ -1,7 +1,7 @@
 #include <fmt/format.h>
-#include <greeter/greeter.h>
+#include <lab/lab.h>
 
-using namespace greeter;
+using namespace lab;
 
 Lab::Lab(std::string _name) : name(std::move(_name)) {}
 

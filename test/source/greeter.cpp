@@ -1,21 +1,21 @@
 #include <doctest/doctest.h>
-#include <greeter/greeter.h>
-#include <greeter/version.h>
+#include <lab/lab.h>
+#include <lab/version.h>
 
 #include <string>
 
-TEST_CASE("Greeter") {
-  using namespace greeter;
+TEST_CASE("Lab") {
+    using namespace lab;
 
-  Greeter greeter("Tests");
+    Lab lab("Tests");
 
-  CHECK(greeter.greet(LanguageCode::EN) == "Hello, Tests!");
-  CHECK(greeter.greet(LanguageCode::DE) == "Hallo Tests!");
-  CHECK(greeter.greet(LanguageCode::ES) == "¡Hola Tests!");
-  CHECK(greeter.greet(LanguageCode::FR) == "Bonjour Tests!");
+    CHECK(lab.greet(LanguageCode::EN) == "Hello, Tests!");
+    CHECK(lab.greet(LanguageCode::DE) == "Hallo Tests!");
+    CHECK(lab.greet(LanguageCode::ES) == "¡Hola Tests!");
+    CHECK(lab.greet(LanguageCode::FR) == "Bonjour Tests!");
 }
 
-TEST_CASE("Greeter version") {
-  static_assert(std::string_view(GREETER_VERSION) == std::string_view("1.0"));
-  CHECK(std::string(GREETER_VERSION) == std::string("1.0"));
+TEST_CASE("Lab version") {
+    static_assert(std::string_view(GREETER_VERSION) == std::string_view("1.0"));
+    CHECK(std::string(GREETER_VERSION) == std::string("1.0"));
 }
