@@ -4,7 +4,7 @@ project(LabTests LANGUAGES CXX)
 
 # ---- Options ----
 
-option(ENABLE_TEST_COVERAGE "Enable test coverage" ON)
+option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
 option(TEST_INSTALLED_VERSION "Test the version found by find_package" OFF)
 
 # --- Import tools ----
@@ -43,7 +43,7 @@ if(NOT TEST_INSTALLED_VERSION)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     target_compile_options(Lab PUBLIC -Wall -Wpedantic -Wextra -Werror)
   elseif(MSVC)
-    target_compile_options(Lab PUBLIC /W4 /WX)
+    target_compile_options(Lab PUBLIC /W4)
     target_compile_definitions(LabTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
   endif()
 endif()
