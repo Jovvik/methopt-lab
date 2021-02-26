@@ -36,7 +36,7 @@ CPMAddPackage(
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 add_executable(LabTests ${sources})
 target_link_libraries(LabTests doctest::doctest Lab::Lab)
-set_target_properties(LabTests PROPERTIES CXX_STANDARD 17)
+set_target_properties(LabTests PROPERTIES CXX_STANDARD 20)
 
 # enable compiler warnings
 if(NOT TEST_INSTALLED_VERSION)
