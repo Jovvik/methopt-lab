@@ -13,17 +13,15 @@ namespace lab {
 
     class Optimizer {
       public:
-        Optimizer();
-        virtual ~Optimizer();
         double optimize(const std::function<double(double)>& optimized_function, double epsilon,
                         double start, double end);
         const std::vector<Segment>& get_segments();
 
       protected:
-        virtual bool is_done(Segment current_segment, double epsilon);
-        virtual Segment step(Segment current_segment, func optimized_function);
-        virtual double answer(Segment current_segment);
-        virtual Segment initial_step(double start, double end, func optimized_function);
+        virtual bool is_done(Segment current_segment, double epsilon) = 0;
+        virtual Segment step(Segment current_segment, func optimized_function) = 0;
+        virtual double answer(Segment current_segment) = 0;
+        virtual Segment new_segment(Segment current_segment, func optimized_function) = 0;
 
       private:
         std::vector<Segment> calculated_segments;

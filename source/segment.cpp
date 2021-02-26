@@ -2,5 +2,7 @@
 
 using namespace lab;
 
+Segment::Segment(double start_, double end_) : Segment(start_, end_, {}) {}
+
 Segment::Segment(double start_, double end_, std::vector<std::pair<double, double>> points_)
     : start(start_), end(end_), points(points_) {}
