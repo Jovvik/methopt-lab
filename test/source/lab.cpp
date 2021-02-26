@@ -1,7 +1,6 @@
 #include <doctest/doctest.h>
 
 #include <cmath>
-#include <numbers>
 #include <string>
 
 #include "lab/dichotomy.h"
@@ -18,10 +17,10 @@ TEST_CASE("Dichotomy") {
             auto optimizer = lab::Dichotomy(epsilon * delta_multiplier);
             CHECK(abs(optimizer.optimize([](double x) { return x * x; }, epsilon, -1, 1) - 0)
                   <= epsilon);
-            CHECK(abs(optimizer.optimize([](double x) { return sin(x); }, epsilon,
-                                         std::numbers::pi / 2, 2 * std::numbers::pi)
-                      - std::numbers::pi * 3 / 2)
-                  <= epsilon);
+            CHECK(
+                abs(optimizer.optimize([](double x) { return sin(x); }, epsilon, M_PI / 2, 2 * M_PI)
+                    - M_PI * 3 / 2)
+                <= epsilon);
         }
     }
 }
