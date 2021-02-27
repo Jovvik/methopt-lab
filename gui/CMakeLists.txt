@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(LabGui LANGUAGES CXX)
 
-find_package(Lab REQUIRED)
+CPMAddPackage(NAME Lab SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # --- Import tools ----
 
