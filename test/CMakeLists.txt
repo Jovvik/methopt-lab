@@ -23,6 +23,13 @@ else()
   CPMAddPackage(NAME Lab SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 endif()
 
+CPMAddPackage(
+  NAME Format.cmake
+  GITHUB_REPOSITORY TheLartians/Format.cmake
+  VERSION 1.6
+  OPTIONS "FORMAT_CHECK_CMAKE OFF"
+)
+
 # ---- Create binary ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
