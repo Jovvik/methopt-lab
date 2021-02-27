@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(LabGui LANGUAGES CXX)
 
-CPMAddPackage(NAME Lab SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
-
 # --- Import tools ----
 
 include(../cmake/tools.cmake)
@@ -11,6 +9,8 @@ include(../cmake/tools.cmake)
 # ---- Dependencies ----
 
 include(../cmake/CPM.cmake)
+
+CPMAddPackage(NAME Lab SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 find_package(
   Qt5
