@@ -9,7 +9,7 @@ using namespace lab;
 Dichotomy::Dichotomy(double delta_) : delta(delta_) {}
 
 bool Dichotomy::is_done(Segment current_segment, double epsilon) {
-    return (current_segment.end - current_segment.start) / 2 <= epsilon;
+    return current_segment.end <= 2 * epsilon + current_segment.start;
 }
 
 Segment Dichotomy::step(Segment current_segment, func optimized_function) {
