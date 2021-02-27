@@ -19,7 +19,7 @@ TEST_CASE("Dichotomy") {
             CHECK(abs(optimizer.optimize([](double x) { return x * x; }, epsilon, -1, 1) - 0)
                   <= epsilon);
             CHECK(
-                abs(optimizer.optimize(sin, epsilon, M_PI / 2, 2 * M_PI)
+                abs(optimizer.optimize([](double x) { return sin(x); }, epsilon, M_PI / 2, 2 * M_PI)
                     - M_PI * 3 / 2)
                 <= epsilon);
         }
