@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(LabGui LANGUAGES CXX)
 
+find_package(Lab REQUIRED)
+
 # --- Import tools ----
 
 include(../cmake/tools.cmake)
