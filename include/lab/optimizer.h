@@ -11,17 +11,55 @@ namespace lab {
 
     using func = const std::function<double(double)>&;
 
+    /**
+     * Абстрактный класс оптимизатора
+     */
     class Optimizer {
       public:
-        double optimize(const std::function<double(double)>& optimized_function, double epsilon,
-                        double start, double end);
+        /**
+         * Главная процедура оптимизации
+         *
+         * @param optimized_function Оптимизируемая функция
+         * @param epsilon Необходимая точность ответа
+         * @param start Левая граница отрезка, на котором происходит оптимизация
+         * @param end Правая граница отрезка, на котором происходит оптимизация
+         * @return Локальный минимум
+         */
+        double optimize(func optimized_function, double epsilon, double start,
+                        double end);
+
+        /**
+         * Возвращает сегменты, которые рассматривались во время оптимизации
+         */
         const std::vector<Segment>& get_segments();
 
       protected:
+        /**
+         * Возвращает, достигнута ли искомая точность
+         *
+         * @param current_segment Рассматриваемый сегмент
+         * @param epsilon Искомая точность
+         */
         virtual bool is_done(Segment current_segment, double epsilon) = 0;
-        virtual Segment step(Segment current_segment, func optimized_function) = 0;
+
+        /**
+         * Выполняет один шаг
+         */
+        virtual Segment step(Segment current_segment, func optimized_function)
+            = 0;
+
+        /**
+         * Возвращает результат работы метода
+         */
         virtual double answer(Segment current_segment) = 0;
-        virtual Segment new_segment(Segment current_segment, func optimized_function) = 0;
+
+        /**
+         * Находит точки в `current_segment`, которые будут использоваться для
+         * следующего шага
+         */
+        virtual Segment new_segment(Segment current_segment,
+                                    func optimized_function)
+            = 0;
 
       private:
         std::vector<Segment> calculated_segments;
