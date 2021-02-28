@@ -4,7 +4,7 @@
 \usepackage[english,russian]{babel}
 \usepackage[a4paper, mag=1000, left=2cm, right=2cm, top=2cm, bottom=2cm, headsep=0.7cm, footskip=1cm]{geometry}
 \usepackage{amsmath}
-\usepackage{pgfplots}
+\usepackage{pgfplots, colortbl}
 \usepackage{makecell}
 \usepackage{multicol}
 \usepackage{pgfplotstable}
@@ -21,11 +21,13 @@
 
 \newcommand{\stats}[1]{
     \pgfplotstabletypeset[
+        every even row/.style=
+            {before row={\rowcolor[gray]{0.95}}},
         string type,
         columns/number/.style={column name=$N$, column type={|l}},
-        columns/a/.style={column type={|c}},
-        columns/b/.style={column type={|c}},
-        columns/length/.style={column name=\makecell[b]{\% длины\\предыдущего отрезка}, column type={|c}},
+        columns/a/.style={column name=$a$, column type={|c}},
+        columns/b/.style={column name=$b$, column type={|c}},
+        columns/length/.style={column name=\makecell[b]{\% длины\\предыдущего\\отрезка}, column type={|c}},
         columns/x1/.style={column name=$x_1$, column type={|c}},
         columns/x2/.style={column name=$x_2$, column type={|c}},
         columns/f1/.style={column name=$f(x_1)$, column type={|c}},
