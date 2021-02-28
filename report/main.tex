@@ -1,0 +1,92 @@
+\input{settings}
+
+\begin{document}
+
+
+
+\begin{titlepage}
+\begin{center}
+\textsc{Национальный исследовательский университет ИТМО\\
+Прикладная математика и информатика}\\[5cm]
+
+\huge{Методы оптимизации\\[6mm]
+\large Отчет по лабораторной работе №1\\
+"Алгоритмы одномерной минимизации функции"\\[6mm]
+Вариант 1
+\\[3cm]
+}
+\end{center}
+
+\begin{flushright} 
+\begin{minipage}{0.25\textwidth} 
+    Выполнили:\\[2mm] 
+        Михайлов Максим\\
+        Загребина Мария\\
+        Кулагин Ярослав\\[2mm]
+    группа M3237
+\end{minipage}
+\end{flushright}
+
+\vfill
+\begin{center}
+ Санкт-Петербург, ?.03.2021
+\end{center}
+\end{titlepage}
+
+
+
+
+
+\section{Цель}
+Реализовать алгоритмы одномерной минимизации функции:
+\begin{itemize}
+    \item метод Дихотомии
+    \item метод золотого сечения
+    \item метод Фибоначчи
+    \item метод парабол
+    \item комбинированный метод Брента
+\end{itemize}
+Протестировать алгоритмы на \(f(x) = x^2 + e^{-0.35x}\) в интервале [-2; 3] и других функциях, сравнить методы друг с другом
+
+
+
+
+\section{Ход работы}
+
+\begin{multicols}{2}
+  \noindent Решение\\[2mm]
+  \textcolor{red}{Мб что-то поумнее существует?}\\
+  Максимум, что я знаю, - решение единственное\\
+  \(f(x) = x^2 + e^{-0.35x} \to min\)\\
+  \(f'(x) = 2x - 0.35e^{-0.35x}\)\\
+  \(x_{min} = 0,16517\)\\
+  \(y_{min} = 0,9711\)\\
+  Можно ли получить бан за то, что не указано, сколько знаков надо оставить в х, чтобы получить у с нужной точностью в соответствии с теорией погрешностей?
+\begin{tikzpicture}
+    \begin{axis}[
+	    title = \(x^2 + e^{-0.35x}\),
+	    xmin = -2,
+	    xmax = 3,
+    ]
+    \addplot[blue] {x^2 + e^(-0.35*x)};
+    \end{axis}
+\end{tikzpicture}
+\end{multicols}
+
+
+
+\subsection{Метод дихотомии}
+
+\stats{data/dichotomy.csv}\\[2mm]
+\graph{data/dichotomy2.csv}
+
+
+\section{Выводы}
+
+
+\newpage
+\section{Код}
+\mcode{Маразм}{code/dichotomy.cpp}
+
+\end{document}
+

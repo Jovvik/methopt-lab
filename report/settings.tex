@@ -1,0 +1,54 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage[a4paper, mag=1000, left=2cm, right=2cm, top=2cm, bottom=2cm, headsep=0.7cm, footskip=1cm]{geometry}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage{multicol}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.17}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{lstfiracode}
+\usepackage{caption}
+
+
+\usemintedstyle{colorful}
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+
+\newcommand{\stats}[1]{
+    \pgfplotstabletypeset[
+    string type,
+    columns/number/.style={column name=$N$, column type={|l}},
+    columns/a/.style={column type={|c}},
+    columns/b/.style={column type={|c}},
+    columns/length/.style={column name=$length$ \%, column type={|c}},
+    columns/x1/.style={column name=$x_1$, column type={|c}},
+    columns/x2/.style={column name=$x_2$, column type={|c}},
+    columns/f1/.style={column name=$f(x_1)$, column type={|c}},
+    columns/f2/.style={column name=$f(x_2)$, column type={|c|}},
+    every head row/.style={before row=\hline, after row=\hline},
+    every last row/.style={after row=\hline},
+    ]{#1}
+}
+
+\newcommand{\graph}[1]{
+    \begin{tikzpicture}
+        \begin{semilogxaxis}[
+            title = {График зависимости количества измерений от логарифма задаваемой точности $\varepsilon$},
+        	xlabel = $\varepsilon$,
+        	ylabel = $number$,
+            ]
+        \addplot table [x={eps}, y={number}] {#1};
+        \end{semilogxaxis}
+    \end{tikzpicture}
+}
+
+\newcommand{\mcode}[2]{
+    \begin{code}
+        \caption*{#1}
+    	\inputminted[breaklines=true, xleftmargin=1em, linenos, frame=single, framesep=10pt, fontsize=\footnotesize, firstline=1, lastline=33]{haskell}{#2}
+    \end{code}
+}
