@@ -18,8 +18,11 @@ find_package(
   REQUIRED
 )
 
-file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*)
+file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 add_executable(LabGui ${sources})
+
+file(GLOB assets ${CMAKE_CURRENT_SOURCE_DIR}/assets/*)
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 target_link_libraries(LabGui Qt5::Widgets)
 target_link_libraries(LabGui Lab::Lab)
