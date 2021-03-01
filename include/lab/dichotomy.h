@@ -1,12 +1,13 @@
 #pragma once
 
 #include "lab/optimizer.h"
+#include "lab/two_point.h"
 
 namespace lab {
     /**
      * Оптимизатор на основе метода дихотомии
      */
-    class Dichotomy : public Optimizer {
+    class Dichotomy : public TwoPoint {
       public:
         explicit Dichotomy(double delta);
 

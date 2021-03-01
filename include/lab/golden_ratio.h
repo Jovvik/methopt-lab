@@ -3,15 +3,13 @@
 #include <cmath>
 
 #include "lab/dichotomy.h"
+#include "lab/two_point.h"
 
 namespace lab {
     /**
      * Оптимизатор на основе метода золтого сечения
      */
-    class GoldenRatio : public Dichotomy {
-      public:
-        GoldenRatio();
-
+    class GoldenRatio : public TwoPoint {
       protected:
         Segment step(Segment current_segment, func optimized_function);
 
