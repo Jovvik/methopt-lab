@@ -61,6 +61,11 @@ namespace lab {
                                     func optimized_function)
             = 0;
 
+        /**
+         * Число выполненных шагов алгоритма
+         */
+        int steps_count;
+
       private:
         std::vector<Segment> calculated_segments;
     };
