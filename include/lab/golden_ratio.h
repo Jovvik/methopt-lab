@@ -14,14 +14,7 @@ namespace lab {
         Segment step(Segment current_segment, func optimized_function);
 
       private:
-        /**
-         * Вычисляет x_1
-         */
         double get_x1(double start, double end);
-
-        /**
-         * Вычисляет x_2
-         */
         double get_x2(double start, double end);
 
         const double TAU = (std::sqrt(5) - 1) / 2;
