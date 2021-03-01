@@ -1,3 +1,5 @@
+#pragma once
+
 #include "lab/optimizer.h"
 
 namespace lab {
