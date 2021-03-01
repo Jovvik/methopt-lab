@@ -1,0 +1,105 @@
+\input{settings}
+
+\begin{document}
+
+
+
+\begin{titlepage}
+    \begin{center}
+        \textsc{Национальный исследовательский университет ИТМО\\
+            Прикладная математика и информатика}\\[5cm]
+
+        \huge{Методы оптимизации\\[6mm]
+            \large Отчет по лабораторной работе №1\\
+            ``Алгоритмы одномерной минимизации функции''\\[6mm]
+            Вариант 1
+            \\[3cm]
+        }
+    \end{center}
+
+    \begin{flushright}
+        \begin{minipage}{0.25\textwidth}
+            Выполнили:\\[2mm]
+            Михайлов Максим\\
+            Загребина Мария\\
+            Кулагин Ярослав\\[2mm]
+            Группа M3237
+        \end{minipage}
+    \end{flushright}
+
+    \vfill
+    \begin{center}
+        Санкт-Петербург, \today
+    \end{center}
+\end{titlepage}
+
+
+
+
+
+\section{Цель}
+Реализовать алгоритмы одномерной минимизации функции:
+\begin{itemize}
+    \item Метод дихотомии
+    \item Метод золотого сечения
+    \item Метод Фибоначчи
+    \item Метод парабол
+    \item Комбинированный метод Брента
+\end{itemize}
+Протестировать алгоритмы на \(f(x) = x^2 + e^{-0.35x}\) в интервале \([-2; 3]\) и других функциях, сравнить методы друг с другом.
+
+
+
+
+\section{Ход работы}
+
+\subsection{Аналитическое решение}
+
+\begin{multicols}{2}
+    \begin{align*}
+        0 = f'(x)        & = 2x - 0.35 e^{ - 0.35x}                          \\
+        2x               & = 0.35 e^{ - 0.35x}                               \\
+        800 \cdot 0.35 x & = 49 \frac{1}{e^{0.35 x}}                         \\
+        0.35 x : = W(z)                                                      \\
+        800 \cdot W(z)   & = 49 \frac{W(z)}{z}                               \\
+        \frac{49}{800}   & = z                                               \\
+        0.35 x           & = W\left(\frac{800}{49}\right)                    \\
+        x                & = \frac{20}{7} \cdot W\left(\frac{800}{49}\right)
+    \end{align*}
+
+    \(W\)-функция Ламберта не может быть выражена в элементарных функциях, поэтому аналитическое решение приближенное:
+
+    \[\begin{cases}
+            x_{\min} \approx 0.16517 \\
+            y_{\min} \approx 0.9711  \\
+        \end{cases}\]
+    \columnbreak
+
+    \begin{tikzpicture}
+        \begin{axis}[
+                title = \(x^2 + e^{-0.35x}\),
+                xmin = -2,
+                xmax = 3,
+            ]
+            \addplot[blue, samples=50] {x^2 + e^(-0.35*x)};
+        \end{axis}
+    \end{tikzpicture}
+\end{multicols}
+
+
+
+\subsection{Метод дихотомии}
+
+\stats{data/dichotomy.csv}\\[2mm]
+\graph{data/dichotomy2.csv}
+
+
+\section{Выводы}
+
+
+\newpage
+\section{Код}
+\mcode{Маразм}{code/dichotomy.cpp}
+
+\end{document}
+

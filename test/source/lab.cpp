@@ -15,18 +15,31 @@ TEST_CASE("Lab version") {
     CHECK(std::string(LAB_VERSION) == std::string("1.0"));
 }
 
+TEST_CASE("segments") {
+    auto optimizer = lab::Dichotomy(1e-5);
+    optimizer.optimize([](double x) { return x * x; }, 1e-4, -1, 1);
+    auto segments = optimizer.get_segments();
+    CHECK(segments.size() > 0);
+    CHECK(segments[0].start == -1);
+    CHECK(segments[0].end == 1);
+}
+
 TEST_CASE("Dichotomy") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        for (double delta_multiplier = 1.5; delta_multiplier >= 0.1; delta_multiplier -= 0.1) {
+        for (double delta_multiplier = 1.5; delta_multiplier >= 0.1;
+             delta_multiplier -= 0.1) {
             auto optimizer = lab::Dichotomy(epsilon * delta_multiplier);
-            CHECK(std::abs(optimizer.optimize([](double x) { return x * x; }, epsilon, -1, 1) - 0)
+            CHECK(std::abs(optimizer.optimize([](double x) { return x * x; },
+                                              epsilon, -1, 1)
+                           - 0)
                   <= epsilon);
-            CHECK(std::abs(
-                      optimizer.optimize([](double x) { return sin(x); }, epsilon, PI / 2, 2 * PI)
-                      - PI * 3 / 2)
+            CHECK(std::abs(optimizer.optimize([](double x) { return sin(x); },
+                                              epsilon, PI / 2, 2 * PI)
+                           - PI * 3 / 2)
                   <= epsilon);
-            CHECK(std::abs(optimizer.optimize([](double x) { return x * x + exp(-0.35 * x); },
-                                              epsilon, -2, 3)
+            CHECK(std::abs(optimizer.optimize(
+                               [](double x) { return x * x + exp(-0.35 * x); },
+                               epsilon, -2, 3)
                            - 0.165170191649)
                   <= epsilon);
         }
