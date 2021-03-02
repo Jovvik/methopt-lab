@@ -22,45 +22,56 @@
 
 class Drawer : public QCustomPlot {
 public:
-    Drawer(QWidget *parent = 0) {
-        plot_setup();
+    Drawer(QWidget *parent = 0)
+            : QCustomPlot(parent) {
+        Drawer::setInteraction(QCP::iRangeDrag, true);
+        Drawer::setInteraction(QCP::iRangeZoom, true);
+        Drawer::setInteraction(QCP::iSelectPlottables, true);
+        connect(this, &QCustomPlot::beforeReplot, this, &Drawer::replot_f);
+        connect(this, &QCustomPlot::plottableClick, this, &Drawer::rescale_on_click);
         auto optimizer = lab::Dichotomy(1e-5);
         optimizer.optimize(f, 1e-4, -2, 3);
         segments = optimizer.get_segments();
+        draw();
+        rescaleAxes();
     }
 
-    void draw(int iteration) {
-        auto[a, b, _] = segments[iteration];
+    void draw(int iteration = 0) {
         clearGraphs();
         addGraph();
+        addGraph();
+        if (iteration == 0) {
+            draw_f(-2, 3);
+            return;
+        }
+        auto[a, b, _] = segments[iteration - 1];
         graph(0)->setPen(QPen(Qt::red));
         graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
         graph(0)->addData(a, f(a));
         graph(0)->addData(b, f(b));
-        draw_f(a, b);
-        rescaleAxes();
+        replot();
     }
+
+    std::vector <lab::Segment> segments;
 
 private:
 
-    void replot_f();
+    void rescale_on_click(QCPAbstractPlottable *plottable, int dataIndex, QMouseEvent *event) {
+        plottable->rescaleAxes();
+        std::cout << 1;
+    }
+
+    void replot_f() {
+        auto range = xAxis->range();
+        draw_f(range.lower, range.upper);
+    }
 
     void draw_f(double a, double b) {
         std::vector<double> x, y;
         points_to_x_y(get_f_points(a, b), x, y);
-//        plot->removeGraph(plot->graphCount() - 1);
-        removeGraph(1);
-        addGraph();
         graph(1)->setPen(QPen(Qt::blue));
         graph(1)->setData(QVector<double>::fromStdVector(x),
                           QVector<double>::fromStdVector(y));
-    }
-
-    void plot_setup() {
-        Drawer::setInteraction(QCP::iRangeDrag, true);
-        Drawer::setInteraction(QCP::iRangeZoom, true);
-        connect(this, &QCustomPlot::beforeReplot, this, &Drawer::replot_f);
-//        connect(this, &QCustomPlot::mouseWheel, this, &Drawer::replot_f);
     }
 
     static double f(double x) { return x * x; }
@@ -82,44 +93,53 @@ private:
             y.emplace_back(point.second);
         }
     }
-
-    std::vector <lab::Segment> segments;
 };
 
-void Drawer::replot_f() {
-    auto range = xAxis->range();
-    draw_f(range.lower, range.upper);
-}
+class Slider : public QWidget {
+public:
+    Slider(QWidget *parent = 0)
+            : QWidget(parent),
+              slider(new QSlider(Qt::Horizontal, this)),
+              label(new QLabel("0", this)) {
+        QHBoxLayout *layout = new QHBoxLayout(this);
+        layout->addWidget(slider);
+        layout->addWidget(label);
+        connect(slider, &QSlider::valueChanged, label,
+                static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+    }
+
+    QSlider *slider;
+private:
+    QLabel *label;
+};
 
 class MainWindow : public QWidget {
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0) : QWidget(parent) {
+        auto v_box = new QVBoxLayout(this);
+        auto h_box = new QHBoxLayout(this);
+
+        auto graphic = new Drawer(this);
+        auto combo_box = new QComboBox(this);
+        auto slider = new Slider(this);
+
+        v_box->addWidget(graphic, 1);
+        v_box->addLayout(h_box);
+        h_box->addWidget(combo_box);
+        h_box->addWidget(slider);
+
+        QStringList optimizators
+                = {"Дихотомия", "Золотое сечение", "Фиббоначи", "Параболы", "Брент"};
+        combo_box->addItems(optimizators);
+        combo_box->setFixedWidth(200);
+        slider->slider->setMaximum(graphic->segments.size());
+        connect(slider->slider, &QSlider::valueChanged, graphic, &Drawer::draw);
+//        slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//        connect(slider, &QSlider::valueChanged, label,
+//                static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+//        connect(slider, &QSlider::valueChanged, label, &);
+    }
 };
-
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
-    auto v_box = new QVBoxLayout(this);
-    auto h_box = new QHBoxLayout(this);
-
-    auto graphic = new Drawer(this);
-    auto combo_box = new QComboBox(this);
-    auto slider = new QSlider(Qt::Horizontal, this);
-    auto label = new QLabel("0", this);
-
-    v_box->addWidget(graphic, 1);
-    v_box->addLayout(h_box);
-    h_box->addWidget(combo_box);
-    h_box->addWidget(slider);
-    h_box->addWidget(label);
-
-    graphic->draw(2);
-    QStringList optimizators
-            = {"Дихотомия", "Золотое сечение", "Фиббоначи", "Параболы", "Брент"};
-    combo_box->addItems(optimizators);
-    combo_box->setFixedWidth(200);
-    slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    connect(slider, &QSlider::valueChanged, label,
-            static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
-}
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
