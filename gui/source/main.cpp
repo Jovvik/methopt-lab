@@ -31,17 +31,15 @@ public:
 
     void draw(int iteration) {
         auto[a, b, _] = segments[iteration];
-        this->clearGraphs();
-        this->addGraph();
-        this->graph(0)->setPen(QPen(Qt::red));
-        this->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
-        this->graph(0)->addData(a, f(a));
-        this->graph(0)->addData(b, f(b));
+        clearGraphs();
+        addGraph();
+        graph(0)->setPen(QPen(Qt::red));
+        graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+        graph(0)->addData(a, f(a));
+        graph(0)->addData(b, f(b));
         draw_f(a, b);
-        this->rescaleAxes();
+        rescaleAxes();
     }
-
-    signals:
 
 private:
 
@@ -51,17 +49,18 @@ private:
         std::vector<double> x, y;
         points_to_x_y(get_f_points(a, b), x, y);
 //        plot->removeGraph(plot->graphCount() - 1);
-        this->removeGraph(1);
-        this->addGraph();
-        this->graph(1)->setPen(QPen(Qt::blue));
-        this->graph(1)->setData(QVector<double>::fromStdVector(x),
-                                QVector<double>::fromStdVector(y));
+        removeGraph(1);
+        addGraph();
+        graph(1)->setPen(QPen(Qt::blue));
+        graph(1)->setData(QVector<double>::fromStdVector(x),
+                          QVector<double>::fromStdVector(y));
     }
 
     void plot_setup() {
         Drawer::setInteraction(QCP::iRangeDrag, true);
         Drawer::setInteraction(QCP::iRangeZoom, true);
-        connect(this, &QCustomPlot::mouseWheel, this, &Drawer::replot_f);
+        connect(this, &QCustomPlot::beforeReplot, this, &Drawer::replot_f);
+//        connect(this, &QCustomPlot::mouseWheel, this, &Drawer::replot_f);
     }
 
     static double f(double x) { return x * x; }
