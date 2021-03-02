@@ -8,6 +8,7 @@
 #define PI 3.141592653589793238462643383279502884197169399375105820974944
 
 #include "lab/dichotomy.h"
+#include "lab/fibonacci.h"
 #include "lab/golden_ratio.h"
 #include "lab/version.h"
 
@@ -50,6 +51,25 @@ TEST_CASE("Dichotomy") {
 TEST_CASE("Golden ratio") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
         auto optimizer = lab::GoldenRatio();
+        CHECK(std::abs(optimizer.optimize([](double x) { return x * x; },
+                                          epsilon, -1, 1)
+                       - 0)
+              <= epsilon);
+        CHECK(std::abs(optimizer.optimize([](double x) { return sin(x); },
+                                          epsilon, PI / 2, 2 * PI)
+                       - PI * 3 / 2)
+              <= epsilon);
+        CHECK(std::abs(optimizer.optimize(
+                           [](double x) { return x * x + exp(-0.35 * x); },
+                           epsilon, -2, 3)
+                       - 0.165170191649)
+              <= epsilon);
+    }
+}
+
+TEST_CASE("Fibonacci") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        auto optimizer = lab::Fibonacci();
         CHECK(std::abs(optimizer.optimize([](double x) { return x * x; },
                                           epsilon, -1, 1)
                        - 0)
