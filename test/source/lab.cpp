@@ -23,8 +23,12 @@ TEST_CASE("segments") {
     optimizer.optimize([](double x) { return x * x; }, 1e-4, -1, 1);
     auto segments = optimizer.get_segments();
     CHECK(segments.size() > 0);
-    CHECK(segments[0].start == -1);
-    CHECK(segments[0].end == 1);
+    lab::Segment segment = segments[0];
+    CHECK(segment.get_start() == -1);
+    CHECK(segment.get_end() == 1);
+    CHECK(segment.get_ans() == std::nullopt);
+    segment.set_ans(42);
+    CHECK(*segment.get_ans() == 42);
 }
 
 TEST_CASE("Dichotomy") {

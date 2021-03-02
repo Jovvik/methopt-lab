@@ -4,17 +4,14 @@
 
 using namespace lab;
 
-double TwoPoint::answer(Segment current_segment) {
-    return (current_segment.end + current_segment.start) / 2;
+double TwoPoint::answer(Segment segment) {
+    return (segment.get_end() + segment.get_start()) / 2;
 }
 
-Segment TwoPoint::new_segment(Segment current_segment,
-                              func optimized_function) {
-    double start = current_segment.start;
-    double end = current_segment.end;
+Segment TwoPoint::new_segment(Segment segment, func f) {
+    double start = segment.get_start();
+    double end = segment.get_end();
     double x1 = get_x1(start, end);
     double x2 = get_x2(start, end);
-    return Segment(
-        start, end,
-        {{x1, optimized_function(x1)}, {x2, optimized_function(x2)}});
+    return Segment(start, end, {{x1, f(x1)}, {x2, f(x2)}});
 }

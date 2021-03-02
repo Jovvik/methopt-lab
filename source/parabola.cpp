@@ -4,9 +4,9 @@
 
 using namespace lab;
 
-Segment Parabola::new_segment(Segment current_segment, func f) {
-    double x1 = current_segment.start;
-    double x3 = current_segment.end;
+Segment Parabola::new_segment(Segment segment, func f) {
+    double x1 = segment.get_start();
+    double x3 = segment.get_end();
     double x2;
     do {
         x2 = ((double)rand()) / RAND_MAX * (x3 - x1) + x1;
@@ -14,10 +14,11 @@ Segment Parabola::new_segment(Segment current_segment, func f) {
     return Segment(x1, x3, {{x1, f(x1)}, {x2, f(x2)}, {x3, f(x3)}});
 }
 
-double Parabola::answer(Segment current_segment) {
-    auto [x1, f1] = current_segment.points[0];
-    auto [x2, f2] = current_segment.points[1];
-    auto [x3, f3] = current_segment.points[2];
+double Parabola::answer(Segment segment) {
+    auto points = segment.get_points();
+    auto [x1, f1] = points[0];
+    auto [x2, f2] = points[1];
+    auto [x3, f3] = points[2];
     return x2
            - 0.5
                  * ((x2 - x1) * (x2 - x1) * (f2 - f3)
@@ -25,11 +26,12 @@ double Parabola::answer(Segment current_segment) {
                  / ((x2 - x1) * (f2 - f3) - (x2 - x3) * (f2 - f1));
 }
 
-Segment Parabola::step(Segment current_segment, func f) {
-    auto [x1, f1] = current_segment.points[0];
-    auto [x2, f2] = current_segment.points[1];
-    auto [x3, f3] = current_segment.points[2];
-    double ans = answer(current_segment);
+Segment Parabola::step(Segment segment, func f) {
+    auto points = segment.get_points();
+    auto [x1, f1] = points[0];
+    auto [x2, f2] = points[1];
+    auto [x3, f3] = points[2];
+    double ans = answer(segment);
     double f_ans = f(ans);
     if (ans < x2) {
         if (f_ans >= f2) {

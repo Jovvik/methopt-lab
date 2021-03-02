@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ostream>
+#include <optional>
 #include <utility>
 #include <vector>
 
@@ -11,10 +11,20 @@ namespace lab {
      */
     class Segment {
       public:
-        double start, end;
-        std::vector<std::pair<double, double>> points;
         Segment(double start, double end);
         Segment(double start, double end,
                 std::vector<std::pair<double, double>> points);
+
+        double get_start();
+        double get_end();
+        std::optional<double> get_ans();
+        const std::vector<std::pair<double, double>>& get_points();
+
+        void set_ans(double ans);
+
+      private:
+        double start, end;
+        std::optional<double> ans;
+        std::vector<std::pair<double, double>> points;
     };
 }  // namespace lab
