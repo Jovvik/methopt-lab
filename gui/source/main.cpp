@@ -20,8 +20,8 @@
 #include "lab/dichotomy.h"
 #include "qcustomplot.h"
 
-class Drawer : public QWidget {
-  public:
+class Drawer : public QCustomPlot {
+public:
     Drawer(QWidget *parent = 0) {
         plot_setup();
         auto optimizer = lab::Dichotomy(1e-5);
@@ -30,38 +30,45 @@ class Drawer : public QWidget {
     }
 
     void draw(int iteration) {
-        auto [a, b, _] = segments[iteration];
-        std::vector<double> f_x, f_y;
-        points_to_x_y(get_f_points(-2, 3), f_x, f_y);
-        plot->addGraph();
-        plot->graph(0)->setPen(QPen(Qt::blue));
-        plot->graph(0)->setData(QVector<double>(f_x.begin(), f_x.end()),
-                                QVector<double>(f_y.begin(), f_y.end()));
-        plot->addGraph();
-        plot->graph(1)->setPen(QPen(Qt::red));
-        plot->graph(1)->setData({a, b}, {f(a), f(b)});
-        plot->graph(1)->setScatterStyle(QCPScatterStyle::ssCircle);
-        plot->graph(1)->addData(a, f(a));
-        plot->graph(1)->addData(b, f(b));
-        plot->rescaleAxes();
+        auto[a, b, _] = segments[iteration];
+        this->clearGraphs();
+        this->addGraph();
+        this->graph(0)->setPen(QPen(Qt::red));
+        this->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+        this->graph(0)->addData(a, f(a));
+        this->graph(0)->addData(b, f(b));
+        draw_f(a, b);
+        this->rescaleAxes();
     }
 
-  private:
-    QCustomPlot *plot;
+    signals:
+
+private:
+
+    void replot_f();
+
+    void draw_f(double a, double b) {
+        std::vector<double> x, y;
+        points_to_x_y(get_f_points(a, b), x, y);
+//        plot->removeGraph(plot->graphCount() - 1);
+        this->removeGraph(1);
+        this->addGraph();
+        this->graph(1)->setPen(QPen(Qt::blue));
+        this->graph(1)->setData(QVector<double>::fromStdVector(x),
+                                QVector<double>::fromStdVector(y));
+    }
 
     void plot_setup() {
-        plot = new QCustomPlot(this);
-        auto grid = new QGridLayout(this);
-        grid->addWidget(plot);
-        plot->setInteraction(QCP::iRangeDrag, true);
-        plot->setInteraction(QCP::iRangeZoom, true);
+        Drawer::setInteraction(QCP::iRangeDrag, true);
+        Drawer::setInteraction(QCP::iRangeZoom, true);
+        connect(this, &QCustomPlot::mouseWheel, this, &Drawer::replot_f);
     }
 
     static double f(double x) { return x * x; }
 
-    std::vector<std::pair<double, double>> get_f_points(double a, double b,
-                                                        int count = 1000) {
-        std::vector<std::pair<double, double>> points;
+    std::vector <std::pair<double, double>> get_f_points(double a, double b,
+                                                         int count = 1000) {
+        std::vector <std::pair<double, double>> points;
         double step = (b - a) / count;
         for (double x = a; x < b; x += step) {
             points.emplace_back(x, f(x));
@@ -69,23 +76,26 @@ class Drawer : public QWidget {
         return points;
     }
 
-    void points_to_x_y(std::vector<std::pair<double, double>> points,
+    void points_to_x_y(std::vector <std::pair<double, double>> points,
                        std::vector<double> &x, std::vector<double> &y) {
         for (auto point : points) {
-            x.push_back(point.first);
-            y.push_back(point.second);
+            x.emplace_back(point.first);
+            y.emplace_back(point.second);
         }
     }
 
-    std::vector<lab::Segment> segments;
+    std::vector <lab::Segment> segments;
 };
+
+void Drawer::replot_f() {
+    auto range = xAxis->range();
+    draw_f(range.lower, range.upper);
+}
 
 class MainWindow : public QWidget {
-  public:
+public:
     MainWindow(QWidget *parent = 0);
 };
-
-double f(double x) { return x * x; }
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     auto v_box = new QVBoxLayout(this);
@@ -102,10 +112,9 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     h_box->addWidget(slider);
     h_box->addWidget(label);
 
-    graphic->draw(10);
-    graphic->setStyleSheet("background: yellow");
+    graphic->draw(2);
     QStringList optimizators
-        = {"Дихотомия", "Золотое сечение", "Фиббоначи", "Параболы", "Брент"};
+            = {"Дихотомия", "Золотое сечение", "Фиббоначи", "Параболы", "Брент"};
     combo_box->addItems(optimizators);
     combo_box->setFixedWidth(200);
     slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
