@@ -35,10 +35,9 @@ namespace lab {
 
       protected:
         /**
-         * Возвращает, достигнута ли искомая точность
-         *
          * @param current_segment Рассматриваемый сегмент
          * @param epsilon Искомая точность
+         * @return Достигнута ли искомая точность
          */
         virtual bool is_done(Segment current_segment, double epsilon) = 0;
 
@@ -49,7 +48,7 @@ namespace lab {
             = 0;
 
         /**
-         * Возвращает результат работы метода
+         * @return Результат работы метода
          */
         virtual double answer(Segment current_segment) = 0;
 

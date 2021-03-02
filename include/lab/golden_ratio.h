@@ -2,7 +2,6 @@
 
 #include <cmath>
 
-#include "lab/dichotomy.h"
 #include "lab/two_point.h"
 
 namespace lab {
