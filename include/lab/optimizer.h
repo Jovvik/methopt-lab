@@ -39,7 +39,7 @@ namespace lab {
          * @param epsilon Искомая точность
          * @return Достигнута ли искомая точность
          */
-        bool is_done(Segment current_segment, double epsilon);
+        virtual bool is_done(Segment current_segment, double epsilon);
 
         /**
          * Выполняет один шаг
