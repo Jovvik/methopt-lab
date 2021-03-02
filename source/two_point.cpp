@@ -4,10 +4,6 @@
 
 using namespace lab;
 
-bool TwoPoint::is_done(Segment current_segment, double epsilon) {
-    return current_segment.end <= 2 * epsilon + current_segment.start;
-}
-
 double TwoPoint::answer(Segment current_segment) {
     return (current_segment.end + current_segment.start) / 2;
 }

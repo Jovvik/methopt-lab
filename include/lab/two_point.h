@@ -10,7 +10,6 @@ namespace lab {
      */
     class TwoPoint : public Optimizer {
       protected:
-        bool is_done(Segment current_segment, double epsilon);
         double answer(Segment current_segment);
         Segment new_segment(Segment current_segment, func optimized_function);
 

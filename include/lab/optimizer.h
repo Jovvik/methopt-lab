@@ -29,7 +29,7 @@ namespace lab {
                         double end);
 
         /**
-         * Возвращает сегменты, которые рассматривались во время оптимизации
+         * @return Сегменты, которые рассматривались во время оптимизации
          */
         const std::vector<Segment>& get_segments();
 
@@ -39,7 +39,7 @@ namespace lab {
          * @param epsilon Искомая точность
          * @return Достигнута ли искомая точность
          */
-        virtual bool is_done(Segment current_segment, double epsilon) = 0;
+        bool is_done(Segment current_segment, double epsilon);
 
         /**
          * Выполняет один шаг
@@ -53,7 +53,7 @@ namespace lab {
         virtual double answer(Segment current_segment) = 0;
 
         /**
-         * Находит точки в `current_segment`, которые будут использоваться для
+         * @return Точки в `current_segment`, которые будут использоваться для
          * следующего шага
          */
         virtual Segment new_segment(Segment current_segment,

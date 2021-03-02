@@ -10,6 +10,7 @@
 #include "lab/dichotomy.h"
 #include "lab/fibonacci.h"
 #include "lab/golden_ratio.h"
+#include "lab/parabola.h"
 #include "lab/version.h"
 
 TEST_CASE("Lab version") {
@@ -78,6 +79,17 @@ TEST_CASE("Fibonacci") {
                                           epsilon, PI / 2, 2 * PI)
                        - PI * 3 / 2)
               <= epsilon);
+        CHECK(std::abs(optimizer.optimize(
+                           [](double x) { return x * x + exp(-0.35 * x); },
+                           epsilon, -2, 3)
+                       - 0.165170191649)
+              <= epsilon);
+    }
+}
+
+TEST_CASE("Parabola") {
+    for (double epsilon = 1e-1; epsilon > 1e-5; epsilon /= 10) {
+        auto optimizer = lab::Parabola();
         CHECK(std::abs(optimizer.optimize(
                            [](double x) { return x * x + exp(-0.35 * x); },
                            epsilon, -2, 3)
