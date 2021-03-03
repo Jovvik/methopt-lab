@@ -15,12 +15,14 @@ namespace lab {
 
       protected:
         void step();
+        bool is_done();
 
       private:
         const double TAU = (3 - std::sqrt(5)) / 2;
-        double d, e, g;
+        double d, e;
         double x, w, v;
         double fx, fw, fv;
+        bool m_is_done = false;
 
         bool areDistinct(double a, double b, double c) {
             return a != b && b != c;

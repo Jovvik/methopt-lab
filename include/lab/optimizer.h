@@ -71,6 +71,8 @@ namespace lab {
 
         void save_segment();
 
+        void unsave_segment();
+
         func f;
         Segment segment;
         double epsilon;
