@@ -1,5 +1,7 @@
 #include "lab/brent.h"
 
+#include <fmt/core.h>
+
 #include <cmath>
 #include <iostream>
 
@@ -8,49 +10,62 @@ using namespace lab;
 Brent::Brent(const func& optimized_function, double epsilon, double start,
              double end)
     : Optimizer(optimized_function, epsilon, start, end) {
-    x = (start + end) / 2;
+    x = end;
     w = x;
     v = x;
     fx = f(x);
     fw = fx;
     fv = fx;
-    d = end - start;
-    e = d;
+    d = e = end - start;
 }
 
-void Brent::step() {
-    double a = segment.get_start();
-    double c = segment.get_end();
-    g = e;
-    e = d;
-    double u;
+bool Brent::is_done() { return m_is_done || Optimizer::is_done(); }
 
-    if (areDistinct(x, w, v) && areDistinct(fx, fw, fv)) {
-        u = parabola(x, w, v, fx, fw, fv);
-        if (u >= a + epsilon && u <= c - epsilon && std::abs(u - x) < g / 2) {
-            d = std::abs(u - x);
+void Brent::step() {
+    double min = segment.get_start();
+    double max = segment.get_end();
+    double mid = (min + max) / 2;
+    double t = epsilon / 2 * std::abs(x) + epsilon / 10;
+    if (std::abs(x - mid) <= (t * 2 - (max - min) / 2)) {
+        m_is_done = true;
+        return;
+    }
+    double u, fu;
+
+    if (std::abs(e) > t) {
+        double r = (x - w) * (fx - fv);
+        double q = (x - v) * (fx - fw);
+        double p = (x - v) * q - (x - w) * r;
+        q = 2 * (q - r);
+        if (q > 0) p = -p;
+        q = std::abs(q);
+        double g = e;
+        e = d;
+        // Проверка точности параболы:
+        if ((std::abs(p) >= std::abs(q * g / 2)) || (p <= q * (min - x))
+            || (p >= q * (max - x))) {
+            // Парабола неточная, используем золотое сечение
+            e = (x >= mid) ? min - x : max - x;
+            d = TAU * e;
         } else {
-            if (x < (c - a) / 2) {
-                u = a + TAU * (c - x);
-                d = c - x;
-            } else {
-                u = c - TAU * (x - a);
-                d = x - a;
+            // Используем параболу
+            d = p / q;
+            u = x + d;
+            if (((u - min) < t * 2) || ((max - u) < t * 2)) {
+                d = std::copysign(t, mid - x);
             }
         }
     } else {
-        if (x < (c - a) / 2) {
-            u = x + TAU * (c - x);
-            d = c - x;
-        } else {
-            u = x - TAU * (x - a);
-            d = x - a;
-        }
-        if (std::abs(u - x) < epsilon) {
-            u = x + std::copysign(epsilon, u - x);
-        }
+        // Используем золотое сечение
+        e = (x >= mid) ? min - x : max - x;
+        d = TAU * e;
     }
-    double fu = f(u);
+    if (std::abs(d) >= t) {
+        u = x + d;
+    } else {
+        u = x + std::copysign(t, d);
+    }
+    fu = f(u);
 
     segment.saved_points["u"] = {u, fu};
     segment.saved_points["w"] = {w, fw};
@@ -60,9 +75,9 @@ void Brent::step() {
 
     if (fu <= fx) {
         if (u >= x) {
-            segment = {x, c};
+            min = x;
         } else {
-            segment = {a, x};
+            max = x;
         }
         v = w;
         w = x;
@@ -71,19 +86,21 @@ void Brent::step() {
         fw = fx;
         fx = fu;
     } else {
-        if (u >= x) {
-            segment = {a, u};
+        if (u < x) {
+            min = u;
         } else {
-            segment = {u, c};
+            max = u;
         }
-        if (fu <= fw || w == x) {
+        if ((fu <= fw) || (w == x)) {
             v = w;
             w = u;
             fv = fw;
             fw = fu;
-        } else if (fu <= fv || v == x || v == w) {
+        } else if ((fu <= fv) || (v == x) || (v == w)) {
             v = u;
             fv = fu;
         }
     }
+
+    segment = {min, max};
 }
