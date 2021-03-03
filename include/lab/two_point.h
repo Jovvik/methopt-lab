@@ -9,11 +9,16 @@ namespace lab {
      * Общий класс оптимизаторов, которые на каждом шаге рассматривают две точки
      */
     class TwoPoint : public Optimizer {
-      protected:
-        double answer(Segment current_segment);
-        Segment new_segment(Segment current_segment, func optimized_function);
+        using Optimizer::Optimizer;
 
-      private:
+      protected:
+        double answer();
+        /**
+         * Вычисляет `x1`, `x2`, `fx1` и `fx2`
+         */
+        void calc_points();
+
+      protected:
         /**
          * Вычисляет первую точку для рассмотрения
          */
@@ -23,6 +28,15 @@ namespace lab {
          * Вычисляет вторую точку для рассмотрения
          */
         virtual double get_x2(double start, double end) = 0;
+
+        /**
+         * Рассматриваемые в отрезке точки
+         */
+        double x1, x2;
+        /**
+         * Значения оптимизируемой функции в рассматриваемых точках
+         */
+        double fx1, fx2;
     };
 
 }  // namespace lab

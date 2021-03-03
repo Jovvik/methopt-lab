@@ -6,17 +6,29 @@
 
 using namespace lab;
 
-Segment GoldenRatio::step(Segment segment, func f) {
-    auto [x1, f_x1] = segment.get_points()[0];
-    auto [x2, f_x2] = segment.get_points()[1];
+GoldenRatio::GoldenRatio(const func& optimized_function, double epsilon,
+                         double start, double end)
+    : TwoPoint(optimized_function, epsilon, start, end) {
+    calc_points();
+}
+
+void GoldenRatio::step() {
     double start = segment.get_start();
     double end = segment.get_end();
-    if (f_x1 <= f_x2) {
+    if (fx1 <= fx2) {
+        segment = {start, x2};
         double new_x1 = get_x1(start, x2);
-        return Segment(start, x2, {{new_x1, f(new_x1)}, {x1, f_x1}});
+        x2 = x1;
+        fx2 = fx1;
+        x1 = new_x1;
+        fx1 = f(x1);
     } else {
+        segment = {x1, end};
         double new_x2 = get_x2(x1, end);
-        return Segment(x1, end, {{x2, f_x2}, {new_x2, f(new_x2)}});
+        x1 = x2;
+        fx1 = fx2;
+        x2 = new_x2;
+        fx2 = f(x2);
     }
 }
 

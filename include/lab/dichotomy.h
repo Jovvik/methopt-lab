@@ -8,17 +8,15 @@ namespace lab {
      * Оптимизатор на основе метода дихотомии
      */
     class Dichotomy : public TwoPoint {
-      public:
-        explicit Dichotomy(double delta);
+        using TwoPoint::TwoPoint;
 
       protected:
-        Segment step(Segment current_segment, func optimized_function);
-
-      private:
+        void step();
         double get_x1(double start, double end);
         double get_x2(double start, double end);
 
-        double delta;
+      private:
+        double delta = epsilon / 2;
     };
 
 }  // namespace lab

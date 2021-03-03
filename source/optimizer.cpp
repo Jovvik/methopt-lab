@@ -4,24 +4,25 @@
 
 using namespace lab;
 
-double Optimizer::optimize(func f, const double epsilon, double start,
-                           double end) {
-    steps_count = 0;
-    auto segment = new_segment(Segment(start, end), f);
-    calculated_segments.push_back(segment);
-    while (!is_done(segment, epsilon)) {
-        segment = step(segment, f);
-        segment.set_ans(answer(segment));
-        calculated_segments.push_back(segment);
+Optimizer::Optimizer(const func& f, const double epsilon, double start,
+                     double end)
+    : f(f), segment(start, end), epsilon(epsilon), steps_count(0) {}
+
+double Optimizer::optimize() {
+    calculated_segments.emplace_back(new Segment(segment));
+    while (!is_done()) {
+        step();
+        segment.set_ans(answer());
+        calculated_segments.emplace_back(new Segment(segment));
         steps_count++;
     }
-    return answer(segment);
+    return answer();
 }
 
-const std::vector<Segment>& Optimizer::get_segments() {
+const std::vector<std::shared_ptr<Segment>>& Optimizer::get_segments() {
     return calculated_segments;
 }
 
-bool Optimizer::is_done(Segment segment, double epsilon) {
+bool Optimizer::is_done() {
     return segment.get_end() <= 2 * epsilon + segment.get_start();
 }

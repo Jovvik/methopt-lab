@@ -5,11 +5,11 @@
 namespace lab {
     class Fibonacci : public GoldenRatio {
       public:
-        double optimize(func optimized_function, double epsilon, double start,
-                        double end);
+        Fibonacci(const func& optimized_function, double epsilon, double start,
+                  double end);
 
       protected:
-        bool is_done(Segment current_segment, double epsilon);
+        bool is_done();
 
       private:
         double get_x1(double start, double end);
@@ -29,7 +29,7 @@ namespace lab {
         double initial_end;
 
         /**
-         * Число для получения ответа
+         * Число итераций для получения ответа
          */
         int n;
     };

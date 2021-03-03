@@ -7,9 +7,15 @@ namespace lab {
      * Оптимизатор на основе метода парабол
      */
     class Parabola : public Optimizer {
+      public:
+        Parabola(const func& optimized_function, double epsilon, double start,
+                 double end);
+
       protected:
-        Segment new_segment(Segment current_segment, func optimized_function);
-        Segment step(Segment current_segment, func optimized_function);
-        double answer(Segment current_segment);
+        void step();
+        double answer();
+
+      private:
+        double f_start, f_mid, f_end;
     };
 }  // namespace lab

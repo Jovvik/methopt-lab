@@ -4,16 +4,16 @@
 
 using namespace lab;
 
-double Fibonacci::optimize(func optimized_function, double epsilon,
-                           double start, double end) {
+Fibonacci::Fibonacci(const func& optimized_function, double epsilon,
+                     double start, double end)
+    : GoldenRatio(optimized_function, epsilon, start, end) {
     initial_start = start;
     initial_end = end;
     n = std::ceil(std::log((end - start) / epsilon * std::sqrt(5))
                   / std::log((1 + std::sqrt(5)) / 2));
-    return Optimizer::optimize(optimized_function, epsilon, start, end);
 }
 
-bool Fibonacci::is_done(Segment, double) { return steps_count >= n; }
+bool Fibonacci::is_done() { return steps_count >= n; }
 
 double Fibonacci::get_x1(double start, double end) {
     return start

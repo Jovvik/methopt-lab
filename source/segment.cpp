@@ -2,20 +2,19 @@
 
 using namespace lab;
 
-Segment::Segment(double start_, double end_) : Segment(start_, end_, {}) {}
+Segment::Segment(double start, double end) : start(start), end(end) {}
 
-Segment::Segment(double start_, double end_,
-                 std::vector<std::pair<double, double>> points_)
-    : start(start_), end(end_), points(points_) {}
+Segment::Segment(double start, double mid, double end)
+    : start(start), mid(mid), end(end) {}
 
 double Segment::get_start() { return start; }
 
 double Segment::get_end() { return end; }
 
-const std::vector<std::pair<double, double>>& Segment::get_points() {
-    return points;
-}
-
 std::optional<double> Segment::get_ans() { return ans; }
 
+std::optional<double> Segment::get_mid() { return mid; }
+
 void Segment::set_ans(double ans) { this->ans = ans; }
+
+void Segment::set_mid(double mid) { this->mid = mid; }

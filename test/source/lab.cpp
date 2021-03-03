@@ -18,86 +18,85 @@ TEST_CASE("Lab version") {
     CHECK(std::string(LAB_VERSION) == std::string("1.0"));
 }
 
-TEST_CASE("segments") {
-    auto optimizer = lab::Dichotomy(1e-5);
-    optimizer.optimize([](double x) { return x * x; }, 1e-4, -1, 1);
+auto square = [](double x) { return x * x; };
+auto my_sin = [](double x) { return sin(x); };
+auto f = [](double x) { return x * x + exp(-0.35 * x); };
+
+TEST_CASE("Segment") {
+    auto optimizer = lab::Dichotomy(f, 1e-4, -2, 3);
+    optimizer.optimize();
     auto segments = optimizer.get_segments();
     CHECK(segments.size() > 0);
-    lab::Segment segment = segments[0];
-    CHECK(segment.get_start() == -1);
-    CHECK(segment.get_end() == 1);
-    CHECK(segment.get_ans() == std::nullopt);
-    segment.set_ans(42);
-    CHECK(*segment.get_ans() == 42);
+    CHECK(segments[0]->get_start() == -2);
+    CHECK(segments[0]->get_end() == 3);
+    CHECK(segments[0]->get_ans() == std::nullopt);
+    segments[0]->set_ans(42);
+    CHECK(*segments[0]->get_ans() == 42);
 }
 
-TEST_CASE("Dichotomy") {
+TEST_CASE("Dichotomy square") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        for (double delta_multiplier = 1.5; delta_multiplier >= 0.1;
-             delta_multiplier -= 0.1) {
-            auto optimizer = lab::Dichotomy(epsilon * delta_multiplier);
-            CHECK(std::abs(optimizer.optimize([](double x) { return x * x; },
-                                              epsilon, -1, 1)
-                           - 0)
-                  <= epsilon);
-            CHECK(std::abs(optimizer.optimize([](double x) { return sin(x); },
-                                              epsilon, PI / 2, 2 * PI)
-                           - PI * 3 / 2)
-                  <= epsilon);
-            CHECK(std::abs(optimizer.optimize(
-                               [](double x) { return x * x + exp(-0.35 * x); },
-                               epsilon, -2, 3)
-                           - 0.165170191649)
-                  <= epsilon);
-        }
+        lab::Dichotomy optimizer(square, epsilon, -1, 1);
+        CHECK(std::abs(optimizer.optimize()) < epsilon);
+    }
+}
+TEST_CASE("Dichotomy sin") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Dichotomy optimizer(my_sin, epsilon, PI / 2, 2 * PI);
+        CHECK(std::abs(optimizer.optimize() - PI * 3 / 2) < epsilon);
     }
 }
 
-TEST_CASE("Golden ratio") {
+TEST_CASE("Golden ratio f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        auto optimizer = lab::GoldenRatio();
-        CHECK(std::abs(optimizer.optimize([](double x) { return x * x; },
-                                          epsilon, -1, 1)
-                       - 0)
-              <= epsilon);
-        CHECK(std::abs(optimizer.optimize([](double x) { return sin(x); },
-                                          epsilon, PI / 2, 2 * PI)
-                       - PI * 3 / 2)
-              <= epsilon);
-        CHECK(std::abs(optimizer.optimize(
-                           [](double x) { return x * x + exp(-0.35 * x); },
-                           epsilon, -2, 3)
-                       - 0.165170191649)
-              <= epsilon);
+        lab::Dichotomy optimizer(f, epsilon, -2, 3);
+        CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }
 
-TEST_CASE("Fibonacci") {
+TEST_CASE("Golden ratio square") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        auto optimizer = lab::Fibonacci();
-        CHECK(std::abs(optimizer.optimize([](double x) { return x * x; },
-                                          epsilon, -1, 1)
-                       - 0)
-              <= epsilon);
-        CHECK(std::abs(optimizer.optimize([](double x) { return sin(x); },
-                                          epsilon, PI / 2, 2 * PI)
-                       - PI * 3 / 2)
-              <= epsilon);
-        CHECK(std::abs(optimizer.optimize(
-                           [](double x) { return x * x + exp(-0.35 * x); },
-                           epsilon, -2, 3)
-                       - 0.165170191649)
-              <= epsilon);
+        lab::GoldenRatio optimizer(square, epsilon, -1, 1);
+        CHECK(std::abs(optimizer.optimize()) < epsilon);
+    }
+}
+TEST_CASE("Golden ratio sin") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::GoldenRatio optimizer(my_sin, epsilon, PI / 2, 2 * PI);
+        CHECK(std::abs(optimizer.optimize() - PI * 3 / 2) < epsilon);
     }
 }
 
-TEST_CASE("Parabola") {
-    for (double epsilon = 1e-1; epsilon > 1e-5; epsilon /= 10) {
-        auto optimizer = lab::Parabola();
-        CHECK(std::abs(optimizer.optimize(
-                           [](double x) { return x * x + exp(-0.35 * x); },
-                           epsilon, -2, 3)
-                       - 0.165170191649)
-              <= epsilon);
+TEST_CASE("Golden ratio f") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::GoldenRatio optimizer(f, epsilon, -2, 3);
+        CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
+    }
+}
+
+TEST_CASE("Fibonacci square") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Fibonacci optimizer(square, epsilon, -1, 1);
+        CHECK(std::abs(optimizer.optimize()) < epsilon);
+    }
+}
+TEST_CASE("Fibonacci sin") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Fibonacci optimizer(my_sin, epsilon, PI / 2, 2 * PI);
+        CHECK(std::abs(optimizer.optimize() - PI * 3 / 2) < epsilon);
+    }
+}
+
+TEST_CASE("Fibonacci f") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Fibonacci optimizer(f, epsilon, -2, 3);
+        CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
+    }
+}
+
+TEST_CASE("Parabola f") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Parabola optimizer(f, epsilon, -2, 3);
+        CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }

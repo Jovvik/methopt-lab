@@ -9,7 +9,7 @@
 
 namespace lab {
 
-    using func = const std::function<double(double)>&;
+    using func = std::function<double(double)>;
 
     /**
      * Абстрактный класс оптимизатора
@@ -17,21 +17,26 @@ namespace lab {
     class Optimizer {
       public:
         /**
-         * Главная процедура оптимизации
-         *
          * @param optimized_function Оптимизируемая функция
          * @param epsilon Необходимая точность ответа
          * @param start Левая граница отрезка, на котором происходит оптимизация
          * @param end Правая граница отрезка, на котором происходит оптимизация
          * @return Локальный минимум
          */
-        double optimize(func optimized_function, double epsilon, double start,
-                        double end);
+        Optimizer(const func& optimized_function, double epsilon, double start,
+                  double end);
+
+        /**
+         * Процедура оптимизации
+         *
+         * @return результат оптимизации
+         */
+        double optimize();
 
         /**
          * @return Сегменты, которые рассматривались во время оптимизации
          */
-        const std::vector<Segment>& get_segments();
+        const std::vector<std::shared_ptr<Segment>>& get_segments();
 
       protected:
         /**
@@ -39,26 +44,21 @@ namespace lab {
          * @param epsilon Искомая точность
          * @return Достигнута ли искомая точность
          */
-        virtual bool is_done(Segment current_segment, double epsilon);
+        virtual bool is_done();
 
         /**
          * Выполняет один шаг
          */
-        virtual Segment step(Segment current_segment, func optimized_function)
-            = 0;
+        virtual void step() = 0;
 
         /**
          * @return Результат работы метода
          */
-        virtual double answer(Segment current_segment) = 0;
+        virtual double answer() = 0;
 
-        /**
-         * @return Точки в `current_segment`, которые будут использоваться для
-         * следующего шага
-         */
-        virtual Segment new_segment(Segment current_segment,
-                                    func optimized_function)
-            = 0;
+        func f;
+        Segment segment;
+        double epsilon;
 
         /**
          * Число выполненных шагов алгоритма
@@ -66,7 +66,7 @@ namespace lab {
         int steps_count;
 
       private:
-        std::vector<Segment> calculated_segments;
+        std::vector<std::shared_ptr<Segment>> calculated_segments;
     };
 
 }  // namespace lab
