@@ -25,14 +25,14 @@ void Brent::step() {
     double min = segment.get_start();
     double max = segment.get_end();
     double mid = (min + max) / 2;
-    double t = epsilon / 2 * std::abs(x) + epsilon / 10;
-    if (std::abs(x - mid) <= (t * 2 - (max - min) / 2)) {
+    double tol = epsilon * std::abs(x) + epsilon / 10;
+    if (std::abs(x - mid) + (max - min) / 2 <= tol * 2) {
         m_is_done = true;
         return;
     }
     double u, fu;
 
-    if (std::abs(e) > t) {
+    if (std::abs(e) > tol) {
         double r = (x - w) * (fx - fv);
         double q = (x - v) * (fx - fw);
         double p = (x - v) * q - (x - w) * r;
@@ -51,8 +51,8 @@ void Brent::step() {
             // Используем параболу
             d = p / q;
             u = x + d;
-            if (((u - min) < t * 2) || ((max - u) < t * 2)) {
-                d = std::copysign(t, mid - x);
+            if (((u - min) < tol * 2) || ((max - u) < tol * 2)) {
+                d = std::copysign(tol, mid - x);
             }
         }
     } else {
@@ -60,10 +60,10 @@ void Brent::step() {
         e = (x >= mid) ? min - x : max - x;
         d = TAU * e;
     }
-    if (std::abs(d) >= t) {
+    if (std::abs(d) >= tol) {
         u = x + d;
     } else {
-        u = x + std::copysign(t, d);
+        u = x + std::copysign(tol, d);
     }
     fu = f(u);
 
