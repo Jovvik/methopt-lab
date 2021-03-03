@@ -7,6 +7,7 @@
 
 #define PI 3.141592653589793238462643383279502884197169399375105820974944
 
+#include "lab/brent.h"
 #include "lab/dichotomy.h"
 #include "lab/fibonacci.h"
 #include "lab/golden_ratio.h"
@@ -98,6 +99,26 @@ TEST_CASE("Fibonacci f") {
 TEST_CASE("Parabola f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
         lab::Parabola optimizer(f, epsilon, -2, 3);
+        CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
+    }
+}
+
+TEST_CASE("Brent square") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Brent optimizer(square, epsilon, -1, 1);
+        CHECK(std::abs(optimizer.optimize()) < epsilon);
+    }
+}
+TEST_CASE("Brent sin") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Brent optimizer(my_sin, epsilon, PI / 2, 2 * PI);
+        CHECK(std::abs(optimizer.optimize() - PI * 3 / 2) < epsilon);
+    }
+}
+
+TEST_CASE("Brent f") {
+    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+        lab::Brent optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }

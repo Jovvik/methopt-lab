@@ -26,3 +26,7 @@ const std::vector<Segment>& Optimizer::get_segments() {
 bool Optimizer::is_done() {
     return segment.get_end() <= 2 * epsilon + segment.get_start();
 }
+
+double Optimizer::answer() {
+    return (segment.get_end() + segment.get_start()) / 2;
+}

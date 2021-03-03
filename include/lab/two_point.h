@@ -12,7 +12,6 @@ namespace lab {
         using Optimizer::Optimizer;
 
       protected:
-        double answer();
         /**
          * Вычисляет `x1`, `x2`, `fx1` и `fx2`
          */

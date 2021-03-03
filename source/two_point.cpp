@@ -4,10 +4,6 @@
 
 using namespace lab;
 
-double TwoPoint::answer() {
-    return (segment.get_end() + segment.get_start()) / 2;
-}
-
 void TwoPoint::calc_points() {
     double start = segment.get_start();
     double end = segment.get_end();

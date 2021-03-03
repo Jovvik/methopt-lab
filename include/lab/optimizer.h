@@ -54,7 +54,7 @@ namespace lab {
         /**
          * @return Результат работы метода
          */
-        virtual double answer() = 0;
+        virtual double answer();
 
         func f;
         Segment segment;
