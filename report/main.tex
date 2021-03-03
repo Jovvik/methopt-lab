@@ -186,49 +186,57 @@
 
 Для каждого метода $\varepsilon = 10^{-6}$\\
 
-Из рассмотренных алгоритмов быстрее всего сходится комбинированный алгоритм Брента, т.к. он сочетает в себе преимущества метода парабол и золотого сечения --- квадратичная сходимость в окрестности решения и гарантированно линейная сходимость вне окрестности.
+Из рассмотренных алгоритмов быстрее всего сходится комбинированный алгоритм Брента, т.к. он сочетает в себе преимущества метода парабол и золотого сечения --- квадратичная сходимость в окрестности решения и гарантированно линейная сходимость вне окрестности. Оптимизируемая функция весьма точно аппроксимируется параболой, т.к. \(e^{ - 0.35 x} \ll x^2\) при \(x\in( - \varepsilon, \varepsilon)\), поэтому метод парабол также сходится быстро.
 
-Рассмотренные алгоритмы не способны выполнять нахождение глобального многомодальных функций в общем случае, но находят локальный.
+Рассмотренные алгоритмы не способны выполнять нахождение глобального минимума многомодальных функций в общем случае, но находят локальный.
 
 \newpage
 \section{Исходный код}
 
-\subsection{Рассматриваемый отрезок}
+\subsection{Оптимизация}
+
+\subsubsection{Рассматриваемый отрезок}
 \mcode{../include/lab/segment.h}
 \mcode{../source/segment.cpp}
+\newpage
 
-\subsection{Общий класс оптимизаторов}
+\subsubsection{Общий класс оптимизаторов}
 \mcode{../include/lab/optimizer.h}
 \mcode{../source/optimizer.cpp}
 \newpage
 
-\subsection{Общий класс оптимизаторов, рассматривающих 2 точки}
+\subsubsection{Общий класс оптимизаторов, рассматривающих 2 точки}
 \mcode{../include/lab/two_point.h}
 \mcode{../source/two_point.cpp}
 \newpage
 
-\subsection{Метод дихотомии}
+\subsubsection{Метод дихотомии}
 \mcode{../include/lab/dichotomy.h}
 \mcode{../source/dichotomy.cpp}
 \newpage
 
-\subsection{Метод золотого сечения}
+\subsubsection{Метод золотого сечения}
 \mcode{../include/lab/golden_ratio.h}
 \mcode{../source/golden_ratio.cpp}
 \newpage
 
-\subsection{Метод Фибоначчи}
+\subsubsection{Метод Фибоначчи}
 \mcode{../include/lab/fibonacci.h}
 \mcode{../source/fibonacci.cpp}
 \newpage
 
-\subsection{Метод парабол}
+\subsubsection{Метод парабол}
 \mcode{../include/lab/parabola.h}
 \mcode{../source/parabola.cpp}
 
-\subsection{Комбинированный метод Брента}
+\subsubsection{Комбинированный метод Брента}
 \mcode{../include/lab/brent.h}
 \mcode{../source/brent.cpp}
+
+\subsection{Графический интерфейс}
+\mcode{../gui/include/customwidgets.h}
+\mcode{../gui/source/customwidgets.cpp}
+\mcode{../gui/source/main.cpp}
 
 \end{document}
 
