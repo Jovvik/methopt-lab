@@ -15,6 +15,9 @@ GoldenRatio::GoldenRatio(const func& optimized_function, double epsilon,
 void GoldenRatio::step() {
     double start = segment.get_start();
     double end = segment.get_end();
+    segment.saved_points["x1"] = {x1, fx1};
+    segment.saved_points["x2"] = {x2, fx2};
+    save_segment();
     if (fx1 <= fx2) {
         segment = {start, x2};
         double new_x1 = get_x1(start, x2);

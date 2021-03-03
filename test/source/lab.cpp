@@ -92,6 +92,9 @@ TEST_CASE("Fibonacci f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
         lab::Fibonacci optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
+        for (auto segm : optimizer.get_segments()) {
+            fmt::print("a: {} b: {}\n", segm.get_start(), segm.get_end());
+        }
     }
 }
 
