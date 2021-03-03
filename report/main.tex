@@ -23,7 +23,12 @@
             Михайлов Максим\\
             Загребина Мария\\
             Кулагин Ярослав\\[2mm]
-            Группа M3237
+            Команда:
+
+            \(\forall \bar R \in \mathscr{R}^n : \mathrm{\textbf{R}}(\bar R) \in \mathscr{R}\)
+
+            (КаМаЗ)\\[2mm]
+            Группа: M3237
         \end{minipage}
     \end{flushright}
 
@@ -111,56 +116,82 @@
 
 \subsection{Комбинированный метод Брента}
 \pgfplotstabletypeset[
-	every even row/.style=
-	{before row={\rowcolor[gray]{0.95}}},
-	string type,
-	columns/number/.style={column name=$N$, column type={|l}},
-	columns/a/.style={column name=$a$, column type={|c}},
-	columns/b/.style={column name=$b$, column type={|c|}},
-	columns/length/.style={column name=\makecell[b]{\% длины\\предыдущего\\отрезка}, column type={c|}},
-	columns/u/.style={column name=$u$, column type={c|}},
-	columns/w/.style={column name=$w$, column type={c|}},
-	columns/x/.style={column name=$x$, column type={c|}},
-	columns/v/.style={column name=$v$, column type={c|}},
-	columns/fu/.style={column name=$f(u)$, column type={c|}},
-	columns/fw/.style={column name=$f(w)$, column type={c|}},
-	columns/fx/.style={column name=$f(x)$, column type={c|}},
-	columns/fv/.style={column name=$f(v)$, column type={c|}},
-	every head row/.style={before row=\hline, after row=\hline},
-	every last row/.style={after row=\hline},
-	]{data/brent.csv}	
+    every even row/.style=
+        {before row={\rowcolor[gray]{0.95}}},
+    string type,
+    columns/number/.style={column name=$N$, column type={|l}},
+    columns/a/.style={column name=$a$, column type={|c}},
+    columns/b/.style={column name=$b$, column type={|c|}},
+    columns/length/.style={column name=\makecell[b]{\% длины\\предыдущего\\отрезка}, column type={c|}},
+    columns/u/.style={column name=$u$, column type={c|}},
+    columns/w/.style={column name=$w$, column type={c|}},
+    columns/x/.style={column name=$x$, column type={c|}},
+    columns/v/.style={column name=$v$, column type={c|}},
+    columns/fu/.style={column name=$f(u)$, column type={c|}},
+    columns/fw/.style={column name=$f(w)$, column type={c|}},
+    columns/fx/.style={column name=$f(x)$, column type={c|}},
+    columns/fv/.style={column name=$f(v)$, column type={c|}},
+    every head row/.style={before row=\hline, after row=\hline},
+    every last row/.style={after row=\hline},
+]{data/brent.csv}
 
 \graph{data/brent2.csv}
 
 \section{Тестирование на многомодальных функциях}
 
-\subsection{\(f(x) = sin(x)*x\)}
-    \begin{tikzpicture}
-	\begin{axis}[
-		xmin = -5,
-		xmax = 5,
-		]
-	\addplot[blue, samples=50] {sin(deg(x))*x};
-\end{axis}
+\subsection{\(f(x) = \sin(x)\cdot x\)}
+\begin{tikzpicture}
+    \begin{axis}[
+            xmin = -5,
+            xmax = 5,
+        ]
+        \addplot[blue, samples=50] {sin(deg(x))*x};
+    \end{axis}
 \end{tikzpicture}
 
 \begin{tabular}{ | l | l | l | }
-	\hline
-	 & \(f(x) = sin(x)*x\) & \\ \hline
-	Верный ответ  & 4.91318 &  \\ \hline
-	Дихотомия & 2.2594e-16 &\\ \hline
-	Золотое сечение & 2.80886e-16 &  \\ \hline
-	Фибоначчи & 2.2594e-16 & \\ \hline
-	Параболы & 4.91318 &  \\ \hline
-	Метод Брента & 4.91318 & \\ \hline
+    \hline
+                    & \(f(x) = \sin(x)\cdot x\) & \\ \hline
+    Верный ответ    & 4.91318                   & \\ \hline
+    Дихотомия       & 2.2594e-16                & \\ \hline
+    Золотое сечение & 2.80886e-16               & \\ \hline
+    Фибоначчи       & 2.2594e-16                & \\ \hline
+    Параболы        & 4.91318                   & \\ \hline
+    Метод Брента    & 4.91318                   & \\ \hline
 \end{tabular}
 
 \section{Выводы}
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{semilogxaxis}[
+                title = {Общий график},
+                xlabel = $\varepsilon$,
+                ylabel = $n$,
+                width=0.7\textwidth
+            ]
+            \addplot table [x={eps}, y={number}] {data/dichotomy2.csv};
+            \addplot table [x={eps}, y={number}] {data/goldenRatio2.csv};
+            \addplot table [x={eps}, y={number}] {data/fibonacci2.csv};
+            \addplot table [x={eps}, y={number}] {data/parabola2.csv};
+            \addplot table [x={eps}, y={number}] {data/brent2.csv};
+            \addlegendentry{Дихотомия}
+            \addlegendentry{Золотое сечение}
+            \addlegendentry{Фибоначчи}
+            \addlegendentry{Метод парабол}
+            \addlegendentry{Метод Брента}
+        \end{semilogxaxis}
+    \end{tikzpicture}
+\end{center}
+
 Для каждого метода $\varepsilon = 10^{-6}$\\
 
+Из рассмотренных алгоритмов быстрее всего сходится комбинированный алгоритм Брента, т.к. он сочетает в себе преимущества метода парабол и золотого сечения --- квадратичная сходимость в окрестности решения и гарантированно линейная сходимость вне окрестности.
+
+Рассмотренные алгоритмы не способны выполнять нахождение глобального многомодальных функций в общем случае, но находят локальный.
 
 \newpage
-\section{Код}
+\section{Исходный код}
 
 \subsection{Рассматриваемый отрезок}
 \mcode{../include/lab/segment.h}
@@ -176,7 +207,7 @@
 \mcode{../source/two_point.cpp}
 \newpage
 
-\subsection{Метод Дихотомии}
+\subsection{Метод дихотомии}
 \mcode{../include/lab/dichotomy.h}
 \mcode{../source/dichotomy.cpp}
 \newpage
