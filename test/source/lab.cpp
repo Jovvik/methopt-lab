@@ -27,11 +27,12 @@ TEST_CASE("Segment") {
     optimizer.optimize();
     auto segments = optimizer.get_segments();
     CHECK(segments.size() > 0);
-    CHECK(segments[0]->get_start() == -2);
-    CHECK(segments[0]->get_end() == 3);
-    CHECK(segments[0]->get_ans() == std::nullopt);
-    segments[0]->set_ans(42);
-    CHECK(*segments[0]->get_ans() == 42);
+    CHECK(segments[0].get_start() == -2);
+    CHECK(segments[0].get_end() == 3);
+    CHECK(segments[0].get_ans() == std::nullopt);
+    CHECK(segments[0].get_mid() == std::nullopt);
+    segments[0].set_ans(42);
+    CHECK(*segments[0].get_ans() == 42);
 }
 
 TEST_CASE("Dichotomy square") {

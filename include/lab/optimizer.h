@@ -36,7 +36,7 @@ namespace lab {
         /**
          * @return Сегменты, которые рассматривались во время оптимизации
          */
-        const std::vector<std::shared_ptr<Segment>>& get_segments();
+        const std::vector<Segment>& get_segments();
 
       protected:
         /**
@@ -66,7 +66,7 @@ namespace lab {
         int steps_count;
 
       private:
-        std::vector<std::shared_ptr<Segment>> calculated_segments;
+        std::vector<Segment> calculated_segments;
     };
 
 }  // namespace lab

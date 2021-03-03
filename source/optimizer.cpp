@@ -9,17 +9,17 @@ Optimizer::Optimizer(const func& f, const double epsilon, double start,
     : f(f), segment(start, end), epsilon(epsilon), steps_count(0) {}
 
 double Optimizer::optimize() {
-    calculated_segments.emplace_back(new Segment(segment));
+    calculated_segments.push_back(segment);
     while (!is_done()) {
         step();
         segment.set_ans(answer());
-        calculated_segments.emplace_back(new Segment(segment));
+        calculated_segments.push_back(segment);
         steps_count++;
     }
     return answer();
 }
 
-const std::vector<std::shared_ptr<Segment>>& Optimizer::get_segments() {
+const std::vector<Segment>& Optimizer::get_segments() {
     return calculated_segments;
 }
 
