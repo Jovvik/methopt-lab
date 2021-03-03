@@ -15,8 +15,8 @@ namespace lab {
         DICHOTOMY,
         GOLDEN_RATIO,
         FIBONACCI,
-        Parabola,
-        Brent
+        PARABOLA,
+        BRENT
     };
 
     /**
