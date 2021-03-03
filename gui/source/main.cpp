@@ -21,7 +21,7 @@
 #include "qcustomplot.h"
 
 class Drawer : public QCustomPlot {
-  public:
+public:
     Drawer(QWidget *parent = 0) : QCustomPlot(parent) {
         Drawer::setInteraction(QCP::iRangeDrag, true);
         Drawer::setInteraction(QCP::iRangeZoom, true);
@@ -32,6 +32,7 @@ class Drawer : public QCustomPlot {
         auto optimizer = lab::Dichotomy(1e-5);
         optimizer.optimize(f, 1e-4, -2, 3);
         segments = optimizer.get_segments();
+        xAxis->setRange(-2, 3);
         draw();
         rescaleAxes();
     }
@@ -40,7 +41,7 @@ class Drawer : public QCustomPlot {
         clearGraphs();
         addGraph();
         if (iteration == 0) {
-            draw_f(-2, 3);
+            replot();
             return;
         }
         lab::Segment segment = segments[iteration - 1];
@@ -64,13 +65,17 @@ class Drawer : public QCustomPlot {
         replot();
     }
 
-    void set_method(const QString &text) { method = text.toStdString(); }
+    void set_method(const QString &text) {
+        method = text.toStdString();
+        xAxis->setRange(-2, 3);
+        draw();
+        rescaleAxes();
+    }
 
-    std::vector<lab::Segment> segments;
+    std::vector <lab::Segment> segments;
 
-  private:
-    void rescale_on_click(QCPAbstractPlottable *plottable, int dataIndex,
-                          QMouseEvent *event) {
+private:
+    void rescale_on_click(QCPAbstractPlottable *plottable, int _, QMouseEvent *__) {
         plottable->rescaleAxes();
     }
 
@@ -89,9 +94,9 @@ class Drawer : public QCustomPlot {
 
     static double f(double x) { return x * x; }
 
-    std::vector<std::pair<double, double>> get_f_points(double a, double b,
-                                                        int count = 1000) {
-        std::vector<std::pair<double, double>> points;
+    std::vector <std::pair<double, double>> get_f_points(double a, double b,
+                                                         int count = 1000) {
+        std::vector <std::pair<double, double>> points;
         double step = (b - a) / count;
         for (double x = a; x < b; x += step) {
             points.emplace_back(x, f(x));
@@ -99,7 +104,7 @@ class Drawer : public QCustomPlot {
         return points;
     }
 
-    void points_to_x_y(std::vector<std::pair<double, double>> points,
+    void points_to_x_y(std::vector <std::pair<double, double>> points,
                        std::vector<double> &x, std::vector<double> &y) {
         for (auto point : points) {
             x.emplace_back(point.first);
@@ -111,11 +116,11 @@ class Drawer : public QCustomPlot {
 };
 
 class Slider : public QWidget {
-  public:
+public:
     Slider(QWidget *parent = 0)
-        : QWidget(parent),
-          slider(new QSlider(Qt::Horizontal, this)),
-          label(new QLabel("0", this)) {
+            : QWidget(parent),
+              slider(new QSlider(Qt::Horizontal, this)),
+              label(new QLabel("0", this)) {
         QHBoxLayout *layout = new QHBoxLayout(this);
         layout->addWidget(slider);
         layout->addWidget(label);
@@ -123,14 +128,18 @@ class Slider : public QWidget {
                 static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
     }
 
+    void clear() {
+        slider->setSliderPosition(0);
+    }
+
     QSlider *slider;
 
-  private:
+private:
     QLabel *label;
 };
 
 class MainWindow : public QWidget {
-  public:
+public:
     MainWindow(QWidget *parent = 0) : QWidget(parent) {
         auto v_box = new QVBoxLayout(this);
         auto h_box = new QHBoxLayout(this);
@@ -152,11 +161,8 @@ class MainWindow : public QWidget {
         connect(slider->slider, &QSlider::valueChanged, graphic, &Drawer::draw);
         connect(combo_box, &QComboBox::currentTextChanged, graphic,
                 &Drawer::set_method);
-        //        slider->setSizePolicy(QSizePolicy::Expanding,
-        //        QSizePolicy::Expanding); connect(slider,
-        //        &QSlider::valueChanged, label,
-        //                static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
-        //        connect(slider, &QSlider::valueChanged, label, &);
+        connect(combo_box, &QComboBox::currentTextChanged, slider,
+                &Slider::clear);
     }
 };
 
