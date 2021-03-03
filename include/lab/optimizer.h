@@ -11,6 +11,14 @@ namespace lab {
 
     using func = std::function<double(double)>;
 
+    enum class Optimizers {
+        DICHOTOMY,
+        GOLDEN_RATIO,
+        FIBONACCI,
+        Parabola,
+        Brent
+    };
+
     /**
      * Абстрактный класс оптимизатора
      */
