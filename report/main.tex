@@ -115,6 +115,8 @@
 \graph{data/parabola2.csv}
 
 \subsection{Комбинированный метод Брента}
+\footnotesize
+\tabcolsep=0.11cm
 \pgfplotstabletypeset[
     every even row/.style=
         {before row={\rowcolor[gray]{0.95}}},
@@ -122,7 +124,7 @@
     columns/number/.style={column name=$N$, column type={|l}},
     columns/a/.style={column name=$a$, column type={|c}},
     columns/b/.style={column name=$b$, column type={|c|}},
-    columns/length/.style={column name=\makecell[b]{\% длины\\предыдущего\\отрезка}, column type={c|}},
+    columns/length/.style={column name=\makecell[b]{\%}, column type={c|}},
     columns/u/.style={column name=$u$, column type={c|}},
     columns/w/.style={column name=$w$, column type={c|}},
     columns/x/.style={column name=$x$, column type={c|}},
@@ -139,6 +141,7 @@
 
 \section{Тестирование на многомодальных функциях}
 
+\begin{multicols}{2}
 \subsection{\(f(x) = \sin(x)\cdot x\)}
 \begin{tikzpicture}
     \begin{axis}[
@@ -149,15 +152,27 @@
     \end{axis}
 \end{tikzpicture}
 
+
+\subsection{\(f(x) = x^3 + e^{-x}\)}
+	\begin{tikzpicture}
+	\begin{axis}[
+		xmin = -4,
+		xmax = 3,
+		]
+	\addplot[blue, samples=50] {x^3 + e^(-x)};
+	\end{axis}
+\end{tikzpicture}
+\end{multicols}
+
 \begin{tabular}{ | l | l | l | }
     \hline
-                    & \(f(x) = \sin(x)\cdot x\) & \\ \hline
-    Верный ответ    & 4.91318                   & \\ \hline
-    Дихотомия       & 2.2594e-16                & \\ \hline
-    Золотое сечение & 2.80886e-16               & \\ \hline
-    Фибоначчи       & 2.2594e-16                & \\ \hline
-    Параболы        & 4.91318                   & \\ \hline
-    Метод Брента    & 4.91318                   & \\ \hline
+                    & \(f(x) = \sin(x)\cdot x\) & \(f(x) = x^3 + e^{-x}\)\\ \hline
+    Верный ответ    & 4.91318                   & -3.73308 \\ \hline
+    Дихотомия       & 2.2594e-16                & 0.458962 \\ \hline
+    Золотое сечение & 2.80886e-16               & 0.458962 \\ \hline
+    Фибоначчи       & 2.2594e-16                & 0.458962 \\ \hline
+    Параболы        & 4.91318                   & -3.73308 \\ \hline
+    Метод Брента    & 4.91318                   & 0.458962 \\ \hline
 \end{tabular}
 
 \section{Выводы}
@@ -184,7 +199,7 @@
     \end{tikzpicture}
 \end{center}
 
-Для каждого метода $\varepsilon = 10^{-6}$\\
+Для каждого метода таблица построена для $\varepsilon = 10^{-6}$\\
 
 Из рассмотренных алгоритмов быстрее всего сходится комбинированный алгоритм Брента, т.к. он сочетает в себе преимущества метода парабол и золотого сечения --- квадратичная сходимость в окрестности решения и гарантированно линейная сходимость вне окрестности. Оптимизируемая функция весьма точно аппроксимируется параболой, т.к. \(e^{ - 0.35 x} \ll x^2\) при \(x\in( - \varepsilon, \varepsilon)\), поэтому метод парабол также сходится быстро.
 
