@@ -92,6 +92,18 @@ void Drawer::draw_method(lab::Segment segment) {
             break;
         }
         case lab::Optimizers ::PARABOLA: {
+            addGraph();
+            addGraph();
+            addGraph();
+            graph(3)->setPen(QPen(Qt::red));
+            graph(3)->setScatterStyle(QCPScatterStyle::ssCircle);
+            graph(3)->addData(a, f(a));
+            graph(4)->setPen(QPen(Qt::red));
+            graph(4)->setScatterStyle(QCPScatterStyle::ssCircle);
+            graph(4)->addData(b, f(b));
+            graph(5)->setPen(QPen(Qt::red));
+            graph(5)->setScatterStyle(QCPScatterStyle::ssCircle);
+            graph(5)->addData(*segment.get_mid(), f(*segment.get_mid()));
             auto parabola = new Parabola(a, *segment.get_mid(), b);
             double step = (3 - -2.) / COUNT;
             std::vector<double> x, y;
