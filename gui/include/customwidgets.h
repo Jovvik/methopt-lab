@@ -19,7 +19,9 @@
 #include <QVector>
 #include <QWidget>
 
+#include "../../include/lab/optimizer.h"
 #include "lab/dichotomy.h"
+#include <iostream>
 #include "qcustomplot.h"
 
 class Drawer : public QCustomPlot {
@@ -29,6 +31,7 @@ class Drawer : public QCustomPlot {
     void draw(int iteration = 0);
     void set_method(const QString &text);
     std::vector<lab::Segment> segments;
+    static double f(double x) { return 5 * x + x * x - 5 * x * x * x; }
 
   signals:
     void method_changed(int size);
@@ -38,13 +41,13 @@ class Drawer : public QCustomPlot {
     void setup();
     void clear();
     void _draw(int iteration);
+    void recalc_segments();
     void draw_answer(std::optional<double> ans);
     void draw_method(lab::Segment segment);
     void rescale_on_click(QCPAbstractPlottable *plottable, int _,
                           QMouseEvent *__);
     void replot_f();
-    static double f(double x) { return x * x; }
-    std::string method = "Дихотомия";
+    lab::Optimizers method = lab::Optimizers::PARABOLA;
 };
 
 class Slider : public QWidget {
@@ -57,6 +60,11 @@ class Slider : public QWidget {
 
   private:
     QLabel *label;
+};
+
+class MainWindow : public QWidget {
+  public:
+    MainWindow(QWidget *parent = 0);
 };
 
 #endif  // LAB_CUSTOMWIDGETS_H

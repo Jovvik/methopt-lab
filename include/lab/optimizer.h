@@ -18,7 +18,12 @@ namespace lab {
         PARABOLA,
         BRENT
     };
-
+    static std::unordered_map<std::string, Optimizers> const optimizers_table
+        = {{"Дихотомия", Optimizers::DICHOTOMY},
+           {"Золотое сечение", Optimizers::GOLDEN_RATIO},
+           {"Фиббоначи", Optimizers::FIBONACCI},
+           {"Параболы", Optimizers::PARABOLA},
+           {"Брент", Optimizers::BRENT}};
     /**
      * Абстрактный класс оптимизатора
      */

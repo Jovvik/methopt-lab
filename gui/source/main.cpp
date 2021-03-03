@@ -1,31 +1,28 @@
 #include "customwidgets.h"
 
-class MainWindow : public QWidget {
-  public:
-    MainWindow(QWidget *parent = 0) : QWidget(parent) {
-        auto v_box = new QVBoxLayout(this);
-        auto h_box = new QHBoxLayout(this);
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
+    auto v_box = new QVBoxLayout(this);
+    auto h_box = new QHBoxLayout(this);
 
-        auto graphic = new Drawer(this);
-        auto combo_box = new QComboBox(this);
-        auto slider = new Slider(this);
+    auto graphic = new Drawer(this);
+    auto combo_box = new QComboBox(this);
+    auto slider = new Slider(this);
 
-        v_box->addWidget(graphic, 1);
-        v_box->addLayout(h_box);
-        h_box->addWidget(combo_box);
-        h_box->addWidget(slider);
+    v_box->addWidget(graphic, 1);
+    v_box->addLayout(h_box);
+    h_box->addWidget(combo_box);
+    h_box->addWidget(slider);
 
-        QStringList optimizators = {"Дихотомия", "Золотое сечение", "Фиббоначи",
-                                    "Параболы", "Брент"};
-        combo_box->addItems(optimizators);
-        combo_box->setFixedWidth(200);
-        connect(slider->slider, &QSlider::valueChanged, graphic, &Drawer::draw);
-        connect(combo_box, &QComboBox::textActivated, graphic,
-                &Drawer::set_method);
-        connect(graphic, SIGNAL(method_changed(int)), slider, SLOT(setup(int)));
-        graphic->set_method(optimizators[0]);
+    for (auto [name, enum_name] : lab::optimizers_table) {
+        combo_box->addItem(QString::fromStdString(name));
     }
-};
+    combo_box->setFixedWidth(200);
+    connect(slider->slider, &QSlider::valueChanged, graphic, &Drawer::draw);
+    connect(combo_box, &QComboBox::currentTextChanged, graphic,
+            &Drawer::set_method);
+    connect(graphic, SIGNAL(method_changed(int)), slider, SLOT(setup(int)));
+    //    graphic->set_method(optimizators[0]);
+}
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
