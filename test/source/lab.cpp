@@ -127,8 +127,8 @@ TEST_CASE("Dichotomy logging") {
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
-    CHECK(segms[0].saved_points.contains("x1"));
-    CHECK(segms[0].saved_points.contains("x2"));
+    CHECK(segms[0].saved_points.count("x1") != 0);
+    CHECK(segms[0].saved_points.count("x2") != 0);
 }
 
 TEST_CASE("Golden ratio logging") {
@@ -136,8 +136,8 @@ TEST_CASE("Golden ratio logging") {
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
-    CHECK(segms[0].saved_points.contains("x1"));
-    CHECK(segms[0].saved_points.contains("x2"));
+    CHECK(segms[0].saved_points.count("x1") != 0);
+    CHECK(segms[0].saved_points.count("x2") != 0);
 }
 
 TEST_CASE("Fibonacci logging") {
@@ -145,8 +145,8 @@ TEST_CASE("Fibonacci logging") {
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
-    CHECK(segms[0].saved_points.contains("x1"));
-    CHECK(segms[0].saved_points.contains("x2"));
+    CHECK(segms[0].saved_points.count("x1") != 0);
+    CHECK(segms[0].saved_points.count("x2") != 0);
 }
 
 TEST_CASE("Parabola logging") {
@@ -154,9 +154,9 @@ TEST_CASE("Parabola logging") {
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
-    CHECK(segms[0].saved_points.contains("x1"));
-    CHECK(segms[0].saved_points.contains("x2"));
-    CHECK(segms[0].saved_points.contains("x3"));
+    CHECK(segms[0].saved_points.count("x1") != 0);
+    CHECK(segms[0].saved_points.count("x2") != 0);
+    CHECK(segms[0].saved_points.count("x3") != 0);
 }
 
 TEST_CASE("Brent logging") {
@@ -164,8 +164,8 @@ TEST_CASE("Brent logging") {
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
-    CHECK(segms[0].saved_points.contains("u"));
-    CHECK(segms[0].saved_points.contains("w"));
-    CHECK(segms[0].saved_points.contains("v"));
-    CHECK(segms[0].saved_points.contains("x"));
+    CHECK(segms[0].saved_points.count("u") != 0);
+    CHECK(segms[0].saved_points.count("w") != 0);
+    CHECK(segms[0].saved_points.count("v") != 0);
+    CHECK(segms[0].saved_points.count("x") != 0);
 }
