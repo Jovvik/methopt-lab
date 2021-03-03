@@ -93,13 +93,111 @@
 \stats{data/dichotomy.csv}\\[2mm]
 \graph{data/dichotomy2.csv}
 
+\subsection{Метод золотого сечения}
+
+\stats{data/goldenRatio.csv}\\[2mm]
+\graph{data/goldenRatio2.csv}
+
+\subsection{Метод Фибоначчи}
+
+\stats{data/fibonacci.csv}\\[2mm]
+\graph{data/fibonacci2.csv}
+
+
+\subsection{Метод парабол}
+
+\stats{data/parabola.csv}\\[2mm]
+\graph{data/parabola2.csv}
+
+\subsection{Комбинированный метод Брента}
+\pgfplotstabletypeset[
+	every even row/.style=
+	{before row={\rowcolor[gray]{0.95}}},
+	string type,
+	columns/number/.style={column name=$N$, column type={|l}},
+	columns/a/.style={column name=$a$, column type={|c}},
+	columns/b/.style={column name=$b$, column type={|c|}},
+	columns/length/.style={column name=\makecell[b]{\% длины\\предыдущего\\отрезка}, column type={c|}},
+	columns/u/.style={column name=$u$, column type={c|}},
+	columns/w/.style={column name=$w$, column type={c|}},
+	columns/x/.style={column name=$x$, column type={c|}},
+	columns/v/.style={column name=$v$, column type={c|}},
+	columns/fu/.style={column name=$f(u)$, column type={c|}},
+	columns/fw/.style={column name=$f(w)$, column type={c|}},
+	columns/fx/.style={column name=$f(x)$, column type={c|}},
+	columns/fv/.style={column name=$f(v)$, column type={c|}},
+	every head row/.style={before row=\hline, after row=\hline},
+	every last row/.style={after row=\hline},
+	]{data/brent.csv}	
+
+\graph{data/brent2.csv}
+
+\section{Тестирование на многомодальных функциях}
+
+\subsection{\(f(x) = sin(x)*x\)}
+    \begin{tikzpicture}
+	\begin{axis}[
+		xmin = -5,
+		xmax = 5,
+		]
+	\addplot[blue, samples=50] {sin(deg(x))*x};
+\end{axis}
+\end{tikzpicture}
+
+\begin{tabular}{ | l | l | l | }
+	\hline
+	 & \(f(x) = sin(x)*x\) & \\ \hline
+	Верный ответ  & 4.91318 &  \\ \hline
+	Дихотомия & 2.2594e-16 &\\ \hline
+	Золотое сечение & 2.80886e-16 &  \\ \hline
+	Фибоначчи & 2.2594e-16 & \\ \hline
+	Параболы & 4.91318 &  \\ \hline
+	Метод Брента & 4.91318 & \\ \hline
+\end{tabular}
 
 \section{Выводы}
+Для каждого метода $\varepsilon = 10^{-6}$\\
 
 
 \newpage
 \section{Код}
-\mcode{Маразм}{code/dichotomy.cpp}
+
+\subsection{Рассматриваемый отрезок}
+\mcode{../include/lab/segment.h}
+\mcode{../source/segment.cpp}
+
+\subsection{Общий класс оптимизаторов}
+\mcode{../include/lab/optimizer.h}
+\mcode{../source/optimizer.cpp}
+\newpage
+
+\subsection{Общий класс оптимизаторов, рассматривающих 2 точки}
+\mcode{../include/lab/two_point.h}
+\mcode{../source/two_point.cpp}
+\newpage
+
+\subsection{Метод Дихотомии}
+\mcode{../include/lab/dichotomy.h}
+\mcode{../source/dichotomy.cpp}
+\newpage
+
+\subsection{Метод золотого сечения}
+\mcode{../include/lab/golden_ratio.h}
+\mcode{../source/golden_ratio.cpp}
+\newpage
+
+\subsection{Метод Фибоначчи}
+\mcode{../include/lab/fibonacci.h}
+\mcode{../source/fibonacci.cpp}
+\newpage
+
+\subsection{Метод парабол}
+\mcode{../include/lab/parabola.h}
+\mcode{../source/parabola.cpp}
+
+\subsection{Комбинированный метод Брента}
+\mcode{../include/lab/brent.h}
+\mcode{../source/brent.cpp}
 
 \end{document}
 
