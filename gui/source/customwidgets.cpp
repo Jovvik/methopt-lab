@@ -1,15 +1,14 @@
 #include "customwidgets.h"
 
-#include "../../include/lab/dichotomy.h"
-#include "../../include/lab/fibonacci.h"
-#include "../../include/lab/golden_ratio.h"
-#include "../../include/lab/parabola.h"
-#include "../../include/lab/segment.h"
-#include "../../include/lab/brent.h"
-#include "../include/customwidgets.h"
-static double square(double x) { return x * x; };
-static double my_sin(double x) { return sin(x); };
+#include "lab/brent.h"
+#include "lab/dichotomy.h"
+#include "lab/fibonacci.h"
+#include "lab/golden_ratio.h"
+#include "lab/parabola.h"
+#include "lab/segment.h"
+
 static double f(double x) { return x * x + exp(-0.35 * x); };
+
 class Parabola {
   public:
     Parabola(double a, double b, double c) {
@@ -22,7 +21,9 @@ class Parabola {
              / (x3 - x2);
     }
 
-    double q(double x) { return a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2); }
+    double const q(double x) {
+        return a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
+    }
 
   private:
     double a0, a1, a2, x1, x2, x3;
@@ -36,28 +37,30 @@ Drawer::Drawer(QWidget *parent) : QCustomPlot(parent) {
     connect(this, &QCustomPlot::plottableClick, this,
             &Drawer::rescale_on_click);
 }
+
 void Drawer::recalc_segments() {
     lab::Optimizer *optimizer;
     switch (method) {
-        case lab::Optimizers ::DICHOTOMY:
-            optimizer = new lab::Dichotomy(f, 1e-4, -2, 3);
+        case lab::Optimizers::DICHOTOMY:
+            optimizer = new lab::Dichotomy(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers ::GOLDEN_RATIO:
-            optimizer = new lab::GoldenRatio(f, 1e-4, -2, 3);
+        case lab::Optimizers::GOLDEN_RATIO:
+            optimizer = new lab::GoldenRatio(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers ::FIBONACCI:
-            optimizer = new lab::Fibonacci(f, 1e-4, -2, 3);
+        case lab::Optimizers::FIBONACCI:
+            optimizer = new lab::Fibonacci(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers ::PARABOLA:
-            optimizer = new lab::Parabola(f, 1e-4, -2, 3);
+        case lab::Optimizers::PARABOLA:
+            optimizer = new lab::Parabola(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers ::BRENT:
+        case lab::Optimizers::BRENT:
             optimizer = new lab::Brent(f, 1e-8, -2, 3);
             break;
     }
     optimizer->optimize();
     segments = optimizer->get_segments();
 }
+
 void Drawer::draw(int iteration) {
     clearGraphs();
     addGraph();
@@ -65,6 +68,7 @@ void Drawer::draw(int iteration) {
     addGraph();
     iteration == 0 ? replot() : _draw(iteration - 1);
 }
+
 void Drawer::draw_answer(std::optional<double> ans) {
     if (ans) {
         graph(1)->setPen(QPen(Qt::green));
@@ -72,6 +76,7 @@ void Drawer::draw_answer(std::optional<double> ans) {
         graph(1)->addData(*ans, f(*ans));
     }
 }
+
 void Drawer::draw_method(lab::Segment segment) {
     double a = segment.get_start();
     double b = segment.get_end();
@@ -80,7 +85,7 @@ void Drawer::draw_method(lab::Segment segment) {
         case lab::Optimizers ::DICHOTOMY:
         case lab::Optimizers ::GOLDEN_RATIO:
         case lab::Optimizers ::FIBONACCI:
-        case lab::Optimizers ::BRENT:{
+        case lab::Optimizers ::BRENT: {
             graph(2)->setScatterStyle(QCPScatterStyle::ssCircle);
             graph(2)->addData(a, f(a));
             graph(2)->addData(b, f(b));
@@ -100,17 +105,20 @@ void Drawer::draw_method(lab::Segment segment) {
         }
     }
 }
+
 void Drawer::_draw(int iteration) {
     lab::Segment segment = segments[iteration];
     draw_answer(segment.get_ans());
     draw_method(segment);
     replot();
 }
+
 void Drawer::set_method(const QString &text) {
     method = lab::optimizers_table.at(text.toStdString());
     setup();
     emit method_changed(segments.size());
 }
+
 void Drawer::setup() {
     clearGraphs();
     addGraph();
@@ -119,6 +127,7 @@ void Drawer::setup() {
     recalc_segments();
     replot();
 }
+
 void Drawer::replot_f() {
     auto [start, end] = xAxis->range();
     double step = (end - start) / COUNT;
@@ -131,6 +140,7 @@ void Drawer::replot_f() {
     graph(0)->setData(QVector<double>::fromStdVector(x),
                       QVector<double>::fromStdVector(y));
 }
+
 void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int _,
                               QMouseEvent *__) {
     plottable->rescaleAxes();

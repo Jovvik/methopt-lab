@@ -36,8 +36,7 @@ int main(int argc, char *argv[]) {
 
     MainWindow window;
     window.resize(500, 500);
-    window.setWindowTitle("SOSI");
-    window.setWindowIcon(QIcon("build/assets/bin.png"));
+    window.setWindowTitle("Оптимизация");
     window.show();
 
     return app.exec();

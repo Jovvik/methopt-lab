@@ -1,5 +1,4 @@
-#ifndef LAB_CUSTOMWIDGETS_H
-#define LAB_CUSTOMWIDGETS_H
+#pragma once
 
 #include <QApplication>
 #include <QComboBox>
@@ -19,12 +18,9 @@
 #include <QVector>
 #include <QWidget>
 #include <cmath>
-#define PI 3.141592653589793238462643383279502884197169399375105820974944
 
-#include <iostream>
-
-#include "../../include/lab/optimizer.h"
 #include "lab/dichotomy.h"
+#include "lab/optimizer.h"
 #include "qcustomplot.h"
 
 class Drawer : public QCustomPlot {
@@ -71,5 +67,3 @@ class MainWindow : public QWidget {
   public:
     MainWindow(QWidget *parent = 0);
 };
-
-#endif  // LAB_CUSTOMWIDGETS_H
