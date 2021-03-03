@@ -18,10 +18,13 @@
 #include <QVBoxLayout>
 #include <QVector>
 #include <QWidget>
+#include <cmath>
+#define PI 3.141592653589793238462643383279502884197169399375105820974944
+
+#include <iostream>
 
 #include "../../include/lab/optimizer.h"
 #include "lab/dichotomy.h"
-#include <iostream>
 #include "qcustomplot.h"
 
 class Drawer : public QCustomPlot {
@@ -31,7 +34,9 @@ class Drawer : public QCustomPlot {
     void draw(int iteration = 0);
     void set_method(const QString &text);
     std::vector<lab::Segment> segments;
-    static double f(double x) { return 5 * x + x * x - 5 * x * x * x; }
+    static double square(double x) { return x * x; };
+    static double my_sin(double x) { return sin(x); };
+    static double f(double x) { return x * x + exp(-0.35 * x); };
 
   signals:
     void method_changed(int size);
@@ -47,7 +52,7 @@ class Drawer : public QCustomPlot {
     void rescale_on_click(QCPAbstractPlottable *plottable, int _,
                           QMouseEvent *__);
     void replot_f();
-    lab::Optimizers method = lab::Optimizers::PARABOLA;
+    lab::Optimizers method = lab::Optimizers::DICHOTOMY;
 };
 
 class Slider : public QWidget {

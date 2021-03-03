@@ -5,17 +5,20 @@
 #include "../../include/lab/golden_ratio.h"
 #include "../../include/lab/parabola.h"
 #include "../../include/lab/segment.h"
+#include "../../include/lab/brent.h"
 #include "../include/customwidgets.h"
+static double square(double x) { return x * x; };
+static double my_sin(double x) { return sin(x); };
+static double f(double x) { return x * x + exp(-0.35 * x); };
 class Parabola {
   public:
     Parabola(double a, double b, double c) {
         x1 = a;
         x2 = b;
         x3 = c;
-        a0 = Drawer::f(x1);
-        a1 = (Drawer::f(x2) - Drawer::f(x1)) / (x2 - x1);
-        a2 = ((Drawer::f(x3) - Drawer::f(x1)) / (x3 - x1)
-              - (Drawer::f(x2) - Drawer::f(x1)) / (x2 - x1))
+        a0 = f(x1);
+        a1 = (f(x2) - f(x1)) / (x2 - x1);
+        a2 = ((f(x3) - f(x1)) / (x3 - x1) - (f(x2) - f(x1)) / (x2 - x1))
              / (x3 - x2);
     }
 
@@ -32,39 +35,35 @@ Drawer::Drawer(QWidget *parent) : QCustomPlot(parent) {
     connect(this, &QCustomPlot::beforeReplot, this, &Drawer::replot_f);
     connect(this, &QCustomPlot::plottableClick, this,
             &Drawer::rescale_on_click);
-    setup();
 }
 void Drawer::recalc_segments() {
-    std::cout << "123";
-    lab::Optimizer* optimizer;
+    lab::Optimizer *optimizer;
     switch (method) {
-//        case lab::Optimizers ::DICHOTOMY:
-//            optimizer = new lab::Dichotomy(f, 1e-4, -2, 3);
-//            break;
-//        case lab::Optimizers ::GOLDEN_RATIO:
-//            optimizer = new lab::GoldenRatio(f, 1e-4, -2, 3);
-//            break;
-//        case lab::Optimizers ::FIBONACCI:
-//            optimizer = new lab::Fibonacci(f, 1e-4, -2, 3);
-//            break;
+        case lab::Optimizers ::DICHOTOMY:
+            optimizer = new lab::Dichotomy(f, 1e-4, -2, 3);
+            break;
+        case lab::Optimizers ::GOLDEN_RATIO:
+            optimizer = new lab::GoldenRatio(f, 1e-4, -2, 3);
+            break;
+        case lab::Optimizers ::FIBONACCI:
+            optimizer = new lab::Fibonacci(f, 1e-4, -2, 3);
+            break;
         case lab::Optimizers ::PARABOLA:
             optimizer = new lab::Parabola(f, 1e-4, -2, 3);
             break;
-//        case lab::Optimizers ::BRENT:
-//            optimizer = new lab::Dichotomy(f, 1e-4, -2, 3);
-//            break;
-//        default:
-//            break;
+        case lab::Optimizers ::BRENT:
+            optimizer = new lab::Brent(f, 1e-8, -2, 3);
+            break;
     }
-//    optimizer->optimize();
-//    segments = optimizer->get_segments();
+    optimizer->optimize();
+    segments = optimizer->get_segments();
 }
 void Drawer::draw(int iteration) {
     clearGraphs();
     addGraph();
     addGraph();
     addGraph();
-    iteration == 0 ? replot() : _draw(iteration);
+    iteration == 0 ? replot() : _draw(iteration - 1);
 }
 void Drawer::draw_answer(std::optional<double> ans) {
     if (ans) {
@@ -80,7 +79,8 @@ void Drawer::draw_method(lab::Segment segment) {
     switch (method) {
         case lab::Optimizers ::DICHOTOMY:
         case lab::Optimizers ::GOLDEN_RATIO:
-        case lab::Optimizers ::FIBONACCI: {
+        case lab::Optimizers ::FIBONACCI:
+        case lab::Optimizers ::BRENT:{
             graph(2)->setScatterStyle(QCPScatterStyle::ssCircle);
             graph(2)->addData(a, f(a));
             graph(2)->addData(b, f(b));
@@ -88,9 +88,9 @@ void Drawer::draw_method(lab::Segment segment) {
         }
         case lab::Optimizers ::PARABOLA: {
             auto parabola = new Parabola(a, *segment.get_mid(), b);
-            double step = (b - a) / COUNT;
+            double step = (3 - -2.) / COUNT;
             std::vector<double> x, y;
-            for (double point = a; point < b; point += step) {
+            for (double point = -2; point < 3; point += step) {
                 x.emplace_back(point);
                 y.emplace_back(parabola->q(point));
             }
@@ -115,6 +115,7 @@ void Drawer::setup() {
     clearGraphs();
     addGraph();
     xAxis->setRange(-2, 3);
+    yAxis->setRange(0, 5);
     recalc_segments();
     replot();
 }
