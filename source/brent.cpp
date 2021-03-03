@@ -1,6 +1,7 @@
 #include "lab/brent.h"
 
 #include <cmath>
+#include <iostream>
 
 using namespace lab;
 
@@ -50,6 +51,13 @@ void Brent::step() {
         }
     }
     double fu = f(u);
+
+    segment.saved_points["u"] = {u, fu};
+    segment.saved_points["w"] = {w, fw};
+    segment.saved_points["x"] = {x, fx};
+    segment.saved_points["v"] = {v, fv};
+    save_segment();
+
     if (fu <= fx) {
         if (u >= x) {
             segment = {x, c};

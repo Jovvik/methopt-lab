@@ -30,7 +30,6 @@ TEST_CASE("Segment") {
     CHECK(segments.size() > 0);
     CHECK(segments[0].get_start() == -2);
     CHECK(segments[0].get_end() == 3);
-    CHECK(segments[0].get_ans() == std::nullopt);
     CHECK(segments[0].get_mid() == std::nullopt);
     segments[0].set_ans(42);
     CHECK(*segments[0].get_ans() == 42);
@@ -49,7 +48,7 @@ TEST_CASE("Dichotomy sin") {
     }
 }
 
-TEST_CASE("Golden ratio f") {
+TEST_CASE("Dichotomy ratio f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
         lab::Dichotomy optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
@@ -104,21 +103,69 @@ TEST_CASE("Parabola f") {
 }
 
 TEST_CASE("Brent square") {
-    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+    for (double epsilon = 1e-1; epsilon > 1e-8; epsilon /= 10) {
         lab::Brent optimizer(square, epsilon, -1, 1);
         CHECK(std::abs(optimizer.optimize()) < epsilon);
     }
 }
 TEST_CASE("Brent sin") {
-    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+    for (double epsilon = 1e-1; epsilon > 1e-8; epsilon /= 10) {
         lab::Brent optimizer(my_sin, epsilon, PI / 2, 2 * PI);
         CHECK(std::abs(optimizer.optimize() - PI * 3 / 2) < epsilon);
     }
 }
 
 TEST_CASE("Brent f") {
-    for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
+    for (double epsilon = 1e-1; epsilon > 1e-8; epsilon /= 10) {
         lab::Brent optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
+}
+
+TEST_CASE("Dichotomy logging") {
+    auto optimizer = lab::Dichotomy(f, 1e-4, -2, 3);
+    optimizer.optimize();
+    auto segms = optimizer.get_segments();
+    CHECK(segms.size() != 0);
+    CHECK(segms[0].saved_points.contains("x1"));
+    CHECK(segms[0].saved_points.contains("x2"));
+}
+
+TEST_CASE("Golden ratio logging") {
+    auto optimizer = lab::GoldenRatio(f, 1e-4, -2, 3);
+    optimizer.optimize();
+    auto segms = optimizer.get_segments();
+    CHECK(segms.size() != 0);
+    CHECK(segms[0].saved_points.contains("x1"));
+    CHECK(segms[0].saved_points.contains("x2"));
+}
+
+TEST_CASE("Fibonacci logging") {
+    auto optimizer = lab::Fibonacci(f, 1e-4, -2, 3);
+    optimizer.optimize();
+    auto segms = optimizer.get_segments();
+    CHECK(segms.size() != 0);
+    CHECK(segms[0].saved_points.contains("x1"));
+    CHECK(segms[0].saved_points.contains("x2"));
+}
+
+TEST_CASE("Parabola logging") {
+    auto optimizer = lab::Parabola(f, 1e-4, -2, 3);
+    optimizer.optimize();
+    auto segms = optimizer.get_segments();
+    CHECK(segms.size() != 0);
+    CHECK(segms[0].saved_points.contains("x1"));
+    CHECK(segms[0].saved_points.contains("x2"));
+    CHECK(segms[0].saved_points.contains("x3"));
+}
+
+TEST_CASE("Brent logging") {
+    auto optimizer = lab::Brent(f, 1e-4, -2, 3);
+    optimizer.optimize();
+    auto segms = optimizer.get_segments();
+    CHECK(segms.size() != 0);
+    CHECK(segms[0].saved_points.contains("u"));
+    CHECK(segms[0].saved_points.contains("w"));
+    CHECK(segms[0].saved_points.contains("v"));
+    CHECK(segms[0].saved_points.contains("x"));
 }

@@ -11,4 +11,7 @@ void TwoPoint::calc_points() {
     fx1 = f(x1);
     x2 = get_x2(start, end);
     fx2 = f(x2);
+    segment.saved_points["x1"] = {x1, fx1};
+    segment.saved_points["x2"] = {x2, fx2};
+    save_segment();
 }

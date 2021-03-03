@@ -9,11 +9,8 @@ Optimizer::Optimizer(const func& f, const double epsilon, double start,
     : f(f), segment(start, end), epsilon(epsilon), steps_count(0) {}
 
 double Optimizer::optimize() {
-    calculated_segments.push_back(segment);
     while (!is_done()) {
         step();
-        segment.set_ans(answer());
-        calculated_segments.push_back(segment);
         steps_count++;
     }
     return answer();
@@ -29,4 +26,9 @@ bool Optimizer::is_done() {
 
 double Optimizer::answer() {
     return (segment.get_end() + segment.get_start()) / 2;
+}
+
+void Optimizer::save_segment() {
+    segment.set_ans(answer());
+    calculated_segments.push_back(segment);
 }

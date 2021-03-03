@@ -56,6 +56,8 @@ namespace lab {
          */
         virtual double answer();
 
+        void save_segment();
+
         func f;
         Segment segment;
         double epsilon;

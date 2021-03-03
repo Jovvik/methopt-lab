@@ -35,6 +35,12 @@ void Parabola::step() {
     double start = segment.get_start();
     double mid = *segment.get_mid();
     double end = segment.get_end();
+
+    segment.saved_points["x1"] = {start, f_start};
+    segment.saved_points["x2"] = {mid, f_mid};
+    segment.saved_points["x3"] = {end, f_end};
+    save_segment();
+
     if (ans < mid) {
         if (f_ans >= f_mid) {
             segment = {ans, mid, end};

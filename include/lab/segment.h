@@ -1,6 +1,8 @@
 #pragma once
 
+#include <map>
 #include <optional>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -22,6 +24,8 @@ namespace lab {
 
         void set_ans(double ans);
         void set_mid(double mid);
+
+        std::map<std::string, std::pair<double, double>> saved_points;
 
       private:
         double start;

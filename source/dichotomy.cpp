@@ -1,5 +1,7 @@
 #include "lab/dichotomy.h"
 
+#include <iostream>
+
 #include "lab/segment.h"
 
 using namespace lab;
