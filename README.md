@@ -5,3 +5,14 @@
 
 # methopt-lab-1
 
+## Как билдить
+
+### Из консоли
+
+`cmake -Hall -Bbuild`
+
+`cmake --build build`
+
+### IDE
+
+Необходимо указать, что основной `CmakeLists.txt` лежит в папке `all`.
