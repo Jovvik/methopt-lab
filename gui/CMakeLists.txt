@@ -33,3 +33,8 @@ target_link_libraries(LabGui PUBLIC Qt5::Widgets)
 target_link_libraries(LabGui PUBLIC Qt5::PrintSupport)
 target_link_libraries(LabGui PUBLIC Lab::Lab)
 set_target_properties(LabGui PROPERTIES CXX_STANDARD 20)
+set_source_files_properties(
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/qcustomplot.cpp
+  PROPERTIES
+  COMPILE_FLAGS "-w"
+)

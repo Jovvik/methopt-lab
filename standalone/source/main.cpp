@@ -4,4 +4,4 @@
 
 #include "lab/optimizer.h"
 
-int main(int argc, char** argv) {}
+int main() {}

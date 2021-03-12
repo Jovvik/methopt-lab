@@ -7,7 +7,7 @@
 #include "lab/parabola.h"
 #include "lab/segment.h"
 
-static double f(double x) { return x * x + exp(-0.35 * x); };
+static double f(double x) { return x * x + exp(-0.35 * x); }
 
 class Parabola {
   public:
@@ -21,7 +21,7 @@ class Parabola {
              / (x3 - x2);
     }
 
-    double const q(double x) {
+    double q(double x) const {
         return a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
     }
 
@@ -111,8 +111,8 @@ void Drawer::draw_method(lab::Segment segment) {
                 x.emplace_back(point);
                 y.emplace_back(parabola->q(point));
             }
-            graph(2)->setData(QVector<double>::fromStdVector(x),
-                              QVector<double>::fromStdVector(y));
+            graph(2)->setData(QVector<double>(x.begin(), x.end()),
+                              QVector<double>(y.begin(), y.end()));
             break;
         }
     }
@@ -149,12 +149,12 @@ void Drawer::replot_f() {
         y.emplace_back(f(point));
     }
     graph(0)->setPen(QPen(Qt::blue));
-    graph(0)->setData(QVector<double>::fromStdVector(x),
-                      QVector<double>::fromStdVector(y));
+    graph(0)->setData(QVector<double>(x.begin(), x.end()),
+                      QVector<double>(y.begin(), y.end()));
 }
 
-void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int _,
-                              QMouseEvent *__) {
+void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int,
+                              QMouseEvent *) {
     plottable->rescaleAxes();
 }
 
