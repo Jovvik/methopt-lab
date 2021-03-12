@@ -1,7 +1,5 @@
 #include "lab/brent.h"
 
-#include <fmt/core.h>
-
 #include <cmath>
 #include <iostream>
 
@@ -31,6 +29,7 @@ void Brent::step() {
         return;
     }
     double u, fu;
+    bool using_parabola = false;
 
     if (std::abs(e) > tol) {
         double r = (x - w) * (fx - fv);
@@ -54,6 +53,7 @@ void Brent::step() {
             if (((u - min) < tol * 2) || ((max - u) < tol * 2)) {
                 d = std::copysign(tol, mid - x);
             }
+            using_parabola = true;
         }
     } else {
         // Используем золотое сечение
@@ -66,6 +66,9 @@ void Brent::step() {
         u = x + std::copysign(tol, d);
     }
     fu = f(u);
+    if (using_parabola) {
+        segment.set_mid(u);
+    }
 
     segment.saved_points["u"] = {u, fu};
     segment.saved_points["w"] = {w, fw};
