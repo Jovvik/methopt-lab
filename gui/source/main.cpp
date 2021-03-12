@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     connect(graphic, SIGNAL(method_changed(int)), slider, SLOT(setup(int)));
     connect(combo_box, &QComboBox::currentTextChanged, graphic,
             &Drawer::set_method);
-    // поправь пж, чтобы не выглядело костыльно
-    graphic->set_method(QString::fromStdString("Брент"));
+    graphic->set_method(
+        QString::fromStdString(lab::optimizers_table.begin()->first));
 }
 
 int main(int argc, char *argv[]) {
