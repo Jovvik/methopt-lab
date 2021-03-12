@@ -23,19 +23,5 @@ namespace lab {
         double x, w, v;
         double fx, fw, fv;
         bool m_is_done = false;
-
-        bool areDistinct(double a, double b, double c) {
-            return a != b && b != c;
-        }
-
-        double parabola(double start, double mid, double end, double f_start,
-                        double f_mid, double f_end) {
-            return mid
-                   - 0.5
-                         * ((mid - start) * (mid - start) * (f_mid - f_end)
-                            - (mid - end) * (mid - end) * (f_mid - f_start))
-                         / ((mid - start) * (f_mid - f_end)
-                            - (mid - end) * (f_mid - f_start));
-        }
     };
 }  // namespace lab
