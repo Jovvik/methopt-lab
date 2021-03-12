@@ -17,22 +17,16 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
         combo_box->addItem(QString::fromStdString(name));
     }
     combo_box->setFixedWidth(200);
-    connect(slider->slider, &QSlider::valueChanged, graphic, &Drawer::draw);
+    connect(slider, &Slider::valueChanged, graphic, &Drawer::draw);
+    connect(graphic, SIGNAL(method_changed(int)), slider, SLOT(setup(int)));
     connect(combo_box, &QComboBox::currentTextChanged, graphic,
             &Drawer::set_method);
-    connect(graphic, SIGNAL(method_changed(int)), slider, SLOT(setup(int)));
+    // поправь пж, чтобы не выглядело костыльно
     graphic->set_method(QString::fromStdString("Брент"));
 }
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-
-    QFile styles("build/assets/styles.css");
-    styles.open(QIODevice::ReadOnly);
-    QTextStream textStream(&styles);
-    QString styleSheet = textStream.readAll();
-    styles.close();
-    app.setStyleSheet(styleSheet);
 
     MainWindow window;
     window.resize(500, 500);

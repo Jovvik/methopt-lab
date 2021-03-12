@@ -3,11 +3,10 @@
 #include "lab/brent.h"
 #include "lab/dichotomy.h"
 #include "lab/fibonacci.h"
+#include "lab/functions.h"
 #include "lab/golden_ratio.h"
 #include "lab/parabola.h"
 #include "lab/segment.h"
-
-static double f(double x) { return x * x + exp(-0.35 * x); }
 
 class Parabola {
   public:
@@ -37,7 +36,6 @@ Drawer::Drawer(QWidget *parent) : QCustomPlot(parent) {
     connect(this, &QCustomPlot::plottableClick, this,
             &Drawer::rescale_on_click);
 }
-
 void Drawer::recalc_segments() {
     lab::Optimizer *optimizer;
     switch (method) {
@@ -60,99 +58,75 @@ void Drawer::recalc_segments() {
     optimizer->optimize();
     segments = optimizer->get_segments();
 }
-
 void Drawer::draw(int iteration) {
     clearGraphs();
     addGraph();
     addGraph();
     addGraph();
+    graph(0)->setPen(QPen(Qt::blue));
+    graph(1)->setPen(QPen(Qt::green));
+    graph(2)->setPen(QPen(Qt::red));
+    graph(1)->setScatterStyle(QCPScatterStyle::ssCircle);
+    graph(2)->setScatterStyle(QCPScatterStyle::ssCircle);
     iteration == 0 ? replot() : _draw(iteration - 1);
 }
-
-void Drawer::draw_answer(std::optional<double> ans) {
-    if (ans) {
-        graph(1)->setPen(QPen(Qt::green));
-        graph(1)->setScatterStyle(QCPScatterStyle::ssCircle);
-        graph(1)->addData(*ans, f(*ans));
-    }
-}
-
-void Drawer::draw_method(lab::Segment segment) {
-    double a = segment.get_start();
-    double b = segment.get_end();
-    graph(2)->setPen(QPen(Qt::red));
-    switch (method) {
-        case lab::Optimizers ::DICHOTOMY:
-        case lab::Optimizers ::GOLDEN_RATIO:
-        case lab::Optimizers ::FIBONACCI:
-        case lab::Optimizers ::BRENT: {
-            graph(2)->setScatterStyle(QCPScatterStyle::ssCircle);
-            graph(2)->addData(a, f(a));
-            graph(2)->addData(b, f(b));
-            break;
-        }
-        case lab::Optimizers ::PARABOLA: {
-            addGraph();
-            addGraph();
-            addGraph();
-            graph(3)->setPen(QPen(Qt::red));
-            graph(3)->setScatterStyle(QCPScatterStyle::ssCircle);
-            graph(3)->addData(a, f(a));
-            graph(4)->setPen(QPen(Qt::red));
-            graph(4)->setScatterStyle(QCPScatterStyle::ssCircle);
-            graph(4)->addData(b, f(b));
-            graph(5)->setPen(QPen(Qt::red));
-            graph(5)->setScatterStyle(QCPScatterStyle::ssCircle);
-            graph(5)->addData(*segment.get_mid(), f(*segment.get_mid()));
-            auto parabola = new Parabola(a, *segment.get_mid(), b);
-            double step = (3 - -2.) / COUNT;
-            std::vector<double> x, y;
-            for (double point = -2; point < 3; point += step) {
-                x.emplace_back(point);
-                y.emplace_back(parabola->q(point));
-            }
-            graph(2)->setData(QVector<double>(x.begin(), x.end()),
-                              QVector<double>(y.begin(), y.end()));
-            break;
-        }
-    }
-}
-
 void Drawer::_draw(int iteration) {
     lab::Segment segment = segments[iteration];
     draw_answer(segment.get_ans());
     draw_method(segment);
     replot();
 }
-
+void Drawer::draw_answer(std::optional<double> ans) {
+    if (ans) {
+        graph(1)->addData(*ans, f(*ans));
+    }
+}
+void Drawer::draw_method(lab::Segment segment) {
+    double a = segment.get_start(), b = segment.get_end();
+    auto mid_opt = segment.get_mid();
+    graph(2)->addData(a, f(a));
+    graph(2)->addData(b, f(b));
+    if (mid_opt) {
+        addGraph();
+        double mid = *mid_opt;
+        graph(2)->setLineStyle(QCPGraph::LineStyle::lsNone);
+        graph(2)->addData(mid, f(mid));
+        graph(3)->setPen(QPen(Qt::red));
+        replot_function_and_set(
+            std::bind(&Parabola::q, Parabola(a, mid, b), std::placeholders::_1),
+            -2, 3, 3);
+    }
+}
 void Drawer::set_method(const QString &text) {
     method = lab::optimizers_table.at(text.toStdString());
     setup();
     emit method_changed(segments.size());
 }
-
 void Drawer::setup() {
     clearGraphs();
     addGraph();
     xAxis->setRange(-2, 3);
-    yAxis->setRange(0, 5);
+    yAxis->setRange(0, 10);
     recalc_segments();
     replot();
 }
-
-void Drawer::replot_f() {
-    auto [start, end] = xAxis->range();
+void Drawer::replot_function_and_set(const std::function<double(double)> &func,
+                                     double start, double end,
+                                     int graph_index) {
     double step = (end - start) / COUNT;
     std::vector<double> x, y;
     for (double point = start; point < end; point += step) {
         x.emplace_back(point);
-        y.emplace_back(f(point));
+        y.emplace_back(func(point));
     }
-    graph(0)->setPen(QPen(Qt::blue));
-    graph(0)->setData(QVector<double>(x.begin(), x.end()),
-                      QVector<double>(y.begin(), y.end()));
+    graph(graph_index)
+        ->setData(QVector<double>::fromStdVector(x),
+                  QVector<double>::fromStdVector(y));
 }
-
+void Drawer::replot_f() {
+    auto [start, end] = xAxis->range();
+    replot_function_and_set(f, start, end, 0);
+}
 void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int,
                               QMouseEvent *) {
     plottable->rescaleAxes();
@@ -167,6 +141,7 @@ Slider::Slider(QWidget *parent)
     layout->addWidget(label);
     connect(slider, &QSlider::valueChanged, label,
             static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+    connect(slider, &QSlider::valueChanged, this, &Slider::valueChanged);
 }
 void Slider::setup(int size) {
     slider->setSliderPosition(0);
