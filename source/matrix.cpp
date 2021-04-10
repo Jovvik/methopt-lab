@@ -42,3 +42,5 @@ void Matrix::check_size() const {
         throw "Matrix rows have different sizes";
     }
 }
+
+bool Matrix::operator==(Matrix other) const { return data == other.data; }

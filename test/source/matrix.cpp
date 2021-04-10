@@ -7,6 +7,7 @@ lab::Matrix mat = lab::Matrix({{1, 2}, {3, 4}});
 TEST_CASE("matrix size") {
     CHECK_EQ(mat.size(), 2);
     CHECK_THROWS(lab::Matrix({}));
+    CHECK_THROWS(lab::Matrix({{1, 2}, {3}}));
 }
 
 TEST_CASE("matrix reference constructor") {

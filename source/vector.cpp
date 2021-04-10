@@ -55,3 +55,5 @@ double Vector::operator*(Vector other) const {
     }
     return res;
 }
+
+bool Vector::operator==(Vector other) const { return data == other.data; }

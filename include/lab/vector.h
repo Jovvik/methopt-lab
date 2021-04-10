@@ -20,6 +20,7 @@ namespace lab {
         Vector operator+(Vector other) const;
         double operator*(Vector other) const;
         Vector operator*(double val) const;
+        bool operator==(Vector other) const;
     };
 
 }  // namespace lab

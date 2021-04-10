@@ -16,6 +16,7 @@ namespace lab {
         Matrix(const std::vector<std::vector<double>>& data);
         Matrix(std::vector<std::vector<double>>&& data);
 
+        bool operator==(Matrix other) const;
         Vector operator[](std::size_t idx) const;
         std::size_t size() const;
 
