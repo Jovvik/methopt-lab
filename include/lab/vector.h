@@ -15,9 +15,9 @@ namespace lab {
         double operator[](std::size_t idx) const;
         std::size_t size() const;
 
-        Vector operator+(Vector other);
-        double operator*(Vector other);
-        Vector operator*(double val);
+        Vector operator+(Vector other) const;
+        double operator*(Vector other) const;
+        Vector operator*(double val) const;
     };
 
 }  // namespace lab

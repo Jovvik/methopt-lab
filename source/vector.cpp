@@ -14,7 +14,7 @@ std::size_t Vector::size() const { return data.size(); }
 
 double Vector::operator[](std::size_t idx) const { return data[idx]; }
 
-Vector Vector::operator+(Vector other) {
+Vector Vector::operator+(Vector other) const {
     assert(size() == other.size());
     std::vector<double> tmp;
     tmp.reserve(size());
@@ -24,7 +24,7 @@ Vector Vector::operator+(Vector other) {
     return Vector(std::move(tmp));
 }
 
-double Vector::operator*(Vector other) {
+double Vector::operator*(Vector other) const {
     assert(size() == other.size());
     double res = 0;
     for (std::size_t i = 0; i < size(); i++) {
@@ -33,7 +33,7 @@ double Vector::operator*(Vector other) {
     return res;
 }
 
-Vector Vector::operator*(double val) {
+Vector Vector::operator*(double val) const {
     std::vector<double> tmp;
     tmp.reserve(size());
     for (std::size_t i = 0; i < size(); i++) {
