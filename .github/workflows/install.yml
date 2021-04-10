@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - master
+      - v2
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
