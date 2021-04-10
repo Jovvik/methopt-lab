@@ -2,6 +2,7 @@
 
 #include <assert.h>
 
+#include <cmath>
 #include <numeric>
 
 using namespace lab;
@@ -28,6 +29,8 @@ Vector::Vector(std::size_t size, std::function<double(std::size_t)> generator) {
 std::size_t Vector::size() const { return data.size(); }
 
 double Vector::operator[](std::size_t idx) const { return data[idx]; }
+
+double Vector::norm() const { return std::sqrt((*this) * (*this)); }
 
 Vector Vector::operator+(Vector other) const {
     if (size() != other.size()) {

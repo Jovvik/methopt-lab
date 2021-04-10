@@ -36,3 +36,5 @@ TEST_CASE("vector scale") {
     CHECK_EQ(res[0], 3);
     CHECK_EQ(res[1], 6);
 }
+
+TEST_CASE("vector norm") { CHECK_EQ(lab::Vector({3, 4}).norm(), 5); }
