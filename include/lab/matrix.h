@@ -10,6 +10,8 @@ namespace lab {
       private:
         std::vector<Vector> data;
 
+        void check_size() const;
+
       public:
         Matrix(const std::vector<std::vector<double>>& data);
         Matrix(std::vector<std::vector<double>>&& data);

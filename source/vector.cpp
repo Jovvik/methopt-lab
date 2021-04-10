@@ -6,9 +6,17 @@
 
 using namespace lab;
 
-Vector::Vector(const std::vector<double>& data_) : data(data_) {}
+Vector::Vector(const std::vector<double>& data_) : data(data_) {
+    if (size() == 0) {
+        throw "Vector is empty";
+    }
+}
 
-Vector::Vector(std::vector<double>&& data_) : data(data_) {}
+Vector::Vector(std::vector<double>&& data_) : data(data_) {
+    if (size() == 0) {
+        throw "Vector is empty";
+    }
+}
 
 Vector::Vector(std::size_t size, std::function<double(std::size_t)> generator) {
     data.reserve(size);

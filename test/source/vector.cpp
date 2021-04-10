@@ -4,7 +4,7 @@
 
 TEST_CASE("vector size") {
     CHECK_EQ(lab::Vector({1, 2, 3}).size(), 3);
-    CHECK_EQ(lab::Vector({}).size(), 0);
+    CHECK_THROWS(lab::Vector({}));
 }
 
 TEST_CASE("vector operator[]") { CHECK_EQ(lab::Vector({1, 2, 3})[0], 1); }
@@ -13,7 +13,7 @@ TEST_CASE("vector dot product") {
     double sum = lab::Vector({0.1, 0.2}) * lab::Vector({0.3, 0.4});
     CHECK_EQ(sum, doctest::Approx(0.11));
 
-    CHECK_THROWS(lab::Vector({}) * lab::Vector({0.5}));
+    CHECK_THROWS(lab::Vector({1, 2}) * lab::Vector({0.5}));
 }
 
 TEST_CASE("vector add") {
@@ -21,7 +21,7 @@ TEST_CASE("vector add") {
     CHECK_EQ(res[0], 4);
     CHECK_EQ(res[1], 6);
 
-    CHECK_THROWS(lab::Vector({}) + lab::Vector({0.5}));
+    CHECK_THROWS(lab::Vector({1, 2}) + lab::Vector({0.5}));
 }
 
 TEST_CASE("vector reference constror") {

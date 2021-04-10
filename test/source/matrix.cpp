@@ -5,8 +5,8 @@
 lab::Matrix mat = lab::Matrix({{1, 2}, {3, 4}});
 
 TEST_CASE("matrix size") {
-    CHECK_EQ(lab::Matrix({}).size(), 0);
     CHECK_EQ(mat.size(), 2);
+    CHECK_THROWS(lab::Matrix({}));
 }
 
 TEST_CASE("matrix reference constructor") {
@@ -31,5 +31,5 @@ TEST_CASE("matrix product") {
 }
 
 TEST_CASE("matrix product size mismatch") {
-    CHECK_THROWS(mat * lab::Vector({}));
+    CHECK_THROWS(mat * lab::Vector({1}));
 }
