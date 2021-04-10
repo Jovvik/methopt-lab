@@ -22,7 +22,9 @@ std::size_t Vector::size() const { return data.size(); }
 double Vector::operator[](std::size_t idx) const { return data[idx]; }
 
 Vector Vector::operator+(Vector other) const {
-    assert(size() == other.size());
+    if (size() != other.size()) {
+        throw "Size mismatch";
+    }
     return Vector(size(), [this, &other](std::size_t i) {
         return (*this)[i] + other[i];
     });
@@ -36,7 +38,9 @@ Vector Vector::operator*(double val) const {
 }
 
 double Vector::operator*(Vector other) const {
-    assert(size() == other.size());
+    if (size() != other.size()) {
+        throw "Size mismatch";
+    }
     double res = 0;
     for (std::size_t i = 0; i < size(); i++) {
         res += (*this)[i] * other[i];

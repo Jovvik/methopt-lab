@@ -20,7 +20,9 @@ Vector Matrix::operator[](std::size_t idx) const { return data[idx]; }
 std::size_t Matrix::size() const { return data.size(); }
 
 Vector Matrix::operator*(Vector other) const {
-    assert(size() == other.size());
+    if (size() != other.size()) {
+        throw "Size mismatch";
+    }
     return Vector(size(), [this, &other](std::size_t i) {
         return (*this)[i] * other;
     });
