@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     h_box->addWidget(combo_box);
     h_box->addWidget(slider);
 
-    for (auto [name, enum_name] : lab::optimizers_table) {
+    for (auto [name, enum_name] : lab1::optimizers_table) {
         combo_box->addItem(QString::fromStdString(name));
     }
     combo_box->setFixedWidth(200);
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     connect(combo_box, &QComboBox::currentTextChanged, graphic,
             &Drawer::set_method);
     graphic->set_method(
-        QString::fromStdString(lab::optimizers_table.begin()->first));
+        QString::fromStdString(lab1::optimizers_table.begin()->first));
 }
 
 int main(int argc, char *argv[]) {

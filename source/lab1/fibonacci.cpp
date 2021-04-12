@@ -1,8 +1,8 @@
-#include "lab/fibonacci.h"
+#include "lab1/fibonacci.h"
 
 #include <cmath>
 
-using namespace lab;
+using namespace lab1;
 
 Fibonacci::Fibonacci(const func& optimized_function, double epsilon,
                      double start, double end)

@@ -2,9 +2,9 @@
 
 #include <cmath>
 
-#include "lab/optimizer.h"
+#include "lab1/optimizer.h"
 
-namespace lab {
+namespace lab1 {
     /**
      * Оптимизатор на основе комбинированного метода Брента
      */
@@ -24,4 +24,4 @@ namespace lab {
         double fx, fw, fv;
         bool m_is_done = false;
     };
-}  // namespace lab
+}  // namespace lab1

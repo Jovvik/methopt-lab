@@ -1,9 +1,9 @@
-#include "lab/brent.h"
+#include "lab1/brent.h"
 
 #include <cmath>
 #include <iostream>
 
-using namespace lab;
+using namespace lab1;
 
 Brent::Brent(const func& optimized_function, double epsilon, double start,
              double end)

@@ -1,6 +1,6 @@
-#include "lab/vector.h"
+#include "lab2/vector.h"
 
-namespace lab {
+namespace lab2 {
     class NFunction {
       public:
         virtual double operator()(Vector x) = 0;
@@ -17,4 +17,4 @@ namespace lab {
         std::size_t call_count = 0;
         std::size_t grad_count = 0;
     };
-}  // namespace lab
+}  // namespace lab2

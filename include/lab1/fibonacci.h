@@ -1,8 +1,8 @@
 #pragma once
 
-#include "lab/golden_ratio.h"
+#include "lab1/golden_ratio.h"
 
-namespace lab {
+namespace lab1 {
     class Fibonacci : public GoldenRatio {
       public:
         Fibonacci(const func& optimized_function, double epsilon, double start,
@@ -33,4 +33,4 @@ namespace lab {
          */
         int n;
     };
-}  // namespace lab
+}  // namespace lab1

@@ -1,8 +1,8 @@
-#include "lab/optimizer.h"
+#include "lab1/optimizer.h"
 
 #include <iostream>
 
-using namespace lab;
+using namespace lab1;
 
 Optimizer::Optimizer(const func& f, const double epsilon, double start,
                      double end)

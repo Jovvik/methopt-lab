@@ -1,9 +1,9 @@
 #pragma once
 
-#include "lab/n_function.h"
-#include "lab/vector.h"
+#include "lab2/n_function.h"
+#include "lab2/vector.h"
 
-namespace lab {
+namespace lab2 {
 
     class NOptimizer {
       public:
@@ -18,4 +18,4 @@ namespace lab {
         std::vector<Vector> points;
     };
 
-}  // namespace lab
+}  // namespace lab2

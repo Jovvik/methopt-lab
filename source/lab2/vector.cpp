@@ -1,11 +1,11 @@
-#include "lab/vector.h"
+#include "lab2/vector.h"
 
 #include <assert.h>
 
 #include <cmath>
 #include <numeric>
 
-using namespace lab;
+using namespace lab2;
 
 Vector::Vector(const std::vector<double>& data_) : data(data_) {
     if (size() == 0) {

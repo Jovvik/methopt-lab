@@ -1,6 +1,6 @@
-#include "lab/segment.h"
+#include "lab1/segment.h"
 
-using namespace lab;
+using namespace lab1;
 
 Segment::Segment(double start, double end) : start(start), end(end) {}
 

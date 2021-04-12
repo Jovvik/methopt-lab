@@ -1,10 +1,10 @@
-#include "lab/golden_ratio.h"
+#include "lab1/golden_ratio.h"
 
 #include <cmath>
 
-#include "lab/segment.h"
+#include "lab1/segment.h"
 
-using namespace lab;
+using namespace lab1;
 
 GoldenRatio::GoldenRatio(const func& optimized_function, double epsilon,
                          double start, double end)

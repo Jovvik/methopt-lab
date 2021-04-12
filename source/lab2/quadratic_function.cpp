@@ -1,6 +1,6 @@
-#include "lab/quadratic_function.h"
+#include "lab2/quadratic_function.h"
 
-using namespace lab;
+using namespace lab2;
 
 QuadraticFunction::QuadraticFunction(Matrix&& A, Vector&& b, double c)
     : A(A), b(b), c(c) {

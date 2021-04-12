@@ -1,8 +1,8 @@
-#include "lab/parabola.h"
+#include "lab1/parabola.h"
 
 #include <fmt/core.h>
 
-using namespace lab;
+using namespace lab1;
 
 Parabola::Parabola(const func& optimized_function, double epsilon, double start,
                    double end)

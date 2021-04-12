@@ -1,6 +1,6 @@
-#include "lab/n_optimizer.h"
+#include "lab2/n_optimizer.h"
 
-using namespace lab;
+using namespace lab2;
 
 Vector NOptimizer::optimize(NFunction& f, Vector starting_point,
                             double epsilon) {

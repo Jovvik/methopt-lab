@@ -1,12 +1,12 @@
 #include "customwidgets.h"
 
-#include "lab/brent.h"
-#include "lab/dichotomy.h"
-#include "lab/fibonacci.h"
-#include "lab/functions.h"
-#include "lab/golden_ratio.h"
-#include "lab/parabola.h"
-#include "lab/segment.h"
+#include "lab1/brent.h"
+#include "lab1/dichotomy.h"
+#include "lab1/fibonacci.h"
+#include "lab1/functions.h"
+#include "lab1/golden_ratio.h"
+#include "lab1/parabola.h"
+#include "lab1/segment.h"
 
 class Parabola {
   public:
@@ -37,22 +37,22 @@ Drawer::Drawer(QWidget *parent) : QCustomPlot(parent) {
             &Drawer::rescale_on_click);
 }
 void Drawer::recalc_segments() {
-    lab::Optimizer *optimizer;
+    lab1::Optimizer *optimizer;
     switch (method) {
-        case lab::Optimizers::DICHOTOMY:
-            optimizer = new lab::Dichotomy(f, 1e-8, -2, 3);
+        case lab1::Optimizers::DICHOTOMY:
+            optimizer = new lab1::Dichotomy(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers::GOLDEN_RATIO:
-            optimizer = new lab::GoldenRatio(f, 1e-8, -2, 3);
+        case lab1::Optimizers::GOLDEN_RATIO:
+            optimizer = new lab1::GoldenRatio(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers::FIBONACCI:
-            optimizer = new lab::Fibonacci(f, 1e-8, -2, 3);
+        case lab1::Optimizers::FIBONACCI:
+            optimizer = new lab1::Fibonacci(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers::PARABOLA:
-            optimizer = new lab::Parabola(f, 1e-8, -2, 3);
+        case lab1::Optimizers::PARABOLA:
+            optimizer = new lab1::Parabola(f, 1e-8, -2, 3);
             break;
-        case lab::Optimizers::BRENT:
-            optimizer = new lab::Brent(f, 1e-8, -2, 3);
+        case lab1::Optimizers::BRENT:
+            optimizer = new lab1::Brent(f, 1e-8, -2, 3);
             break;
     }
     optimizer->optimize();
@@ -71,7 +71,7 @@ void Drawer::draw(int iteration) {
     iteration == 0 ? replot() : _draw(iteration - 1);
 }
 void Drawer::_draw(int iteration) {
-    lab::Segment segment = segments[iteration];
+    lab1::Segment segment = segments[iteration];
     draw_answer(segment.get_ans());
     draw_method(segment);
     replot();
@@ -81,7 +81,7 @@ void Drawer::draw_answer(std::optional<double> ans) {
         graph(1)->addData(*ans, f(*ans));
     }
 }
-void Drawer::draw_method(lab::Segment segment) {
+void Drawer::draw_method(lab1::Segment segment) {
     double a = segment.get_start(), b = segment.get_end();
     auto mid_opt = segment.get_mid();
     graph(2)->addData(a, f(a));
@@ -98,7 +98,7 @@ void Drawer::draw_method(lab::Segment segment) {
     }
 }
 void Drawer::set_method(const QString &text) {
-    method = lab::optimizers_table.at(text.toStdString());
+    method = lab1::optimizers_table.at(text.toStdString());
     setup();
     emit method_changed(segments.size());
 }
@@ -120,8 +120,11 @@ void Drawer::replot_function_and_set(const std::function<double(double)> &func,
         y.emplace_back(func(point));
     }
     graph(graph_index)
-        ->setData(QVector<double>(x.begin(), x.end()),
-                  QVector<double>(y.begin(), y.end()));
+        ->setData(QVector<double>::fromStdVector(x),
+                  QVector<double>::fromStdVector(y));
+//    graph(graph_index)
+//        ->setData(QVector<double>(x.begin(), x.end()),
+//                  QVector<double>(y.begin(), y.end()));
 }
 void Drawer::replot_f() {
     auto [start, end] = xAxis->range();

@@ -5,9 +5,9 @@
 #include <ostream>
 #include <vector>
 
-#include "lab/segment.h"
+#include "lab1/segment.h"
 
-namespace lab {
+namespace lab1 {
 
     using func = std::function<double(double)>;
 
@@ -86,4 +86,4 @@ namespace lab {
         std::vector<Segment> calculated_segments;
     };
 
-}  // namespace lab
+}  // namespace lab1

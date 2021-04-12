@@ -1,10 +1,10 @@
 #pragma once
 
-#include <lab/vector.h>
+#include <lab2/vector.h>
 
 #include <vector>
 
-namespace lab {
+namespace lab2 {
 
     class Matrix {
       private:
@@ -23,4 +23,4 @@ namespace lab {
         Vector operator*(Vector other) const;
     };
 
-}  // namespace lab
+}  // namespace lab2

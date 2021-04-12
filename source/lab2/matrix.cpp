@@ -1,8 +1,8 @@
-#include "lab/matrix.h"
+#include "lab2/matrix.h"
 
 #include <assert.h>
 
-using namespace lab;
+using namespace lab2;
 
 Matrix::Matrix(const std::vector<std::vector<double>>& data_) {
     for (auto v : data_) {

@@ -2,9 +2,9 @@
 
 #include <cmath>
 
-#include "lab/optimizer.h"
+#include "lab1/optimizer.h"
 
-namespace lab {
+namespace lab1 {
     /**
      * Общий класс оптимизаторов, которые на каждом шаге рассматривают две точки
      */
@@ -38,4 +38,4 @@ namespace lab {
         double fx1, fx2;
     };
 
-}  // namespace lab
+}  // namespace lab1

@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 
-namespace lab {
+namespace lab2 {
 
     class Vector {
       private:
@@ -24,4 +24,4 @@ namespace lab {
         bool operator==(Vector other) const;
     };
 
-}  // namespace lab
+}  // namespace lab2

@@ -1,8 +1,8 @@
-#include "lab/matrix.h"
-#include "lab/n_function.h"
-#include "lab/vector.h"
+#include "lab2/matrix.h"
+#include "lab2/n_function.h"
+#include "lab2/vector.h"
 
-namespace lab {
+namespace lab2 {
     class QuadraticFunction : public NFunction {
       private:
         const Matrix A;
@@ -15,4 +15,4 @@ namespace lab {
         Vector grad(Vector x);
         std::size_t get_dim();
     };
-}  // namespace lab
+}  // namespace lab2

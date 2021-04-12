@@ -1,8 +1,8 @@
-#include "lab/two_point.h"
+#include "lab1/two_point.h"
 
-#include "lab/segment.h"
+#include "lab1/segment.h"
 
-using namespace lab;
+using namespace lab1;
 
 void TwoPoint::calc_points() {
     double start = segment.get_start();

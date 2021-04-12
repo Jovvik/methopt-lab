@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace lab {
+namespace lab1 {
     /**
      * Отрезок [`start`, `end`]
      * (возможно) ответ `ans` для данного отрезка
@@ -33,4 +33,4 @@ namespace lab {
         double end;
         std::optional<double> ans;
     };
-}  // namespace lab
+}  // namespace lab1

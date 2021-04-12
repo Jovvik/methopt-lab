@@ -1,9 +1,9 @@
 #pragma once
 
-#include "lab/optimizer.h"
-#include "lab/two_point.h"
+#include "lab1/optimizer.h"
+#include "lab1/two_point.h"
 
-namespace lab {
+namespace lab1 {
     /**
      * Оптимизатор на основе метода дихотомии
      */
@@ -19,4 +19,4 @@ namespace lab {
         double delta = epsilon / 2;
     };
 
-}  // namespace lab
+}  // namespace lab1

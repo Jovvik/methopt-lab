@@ -2,9 +2,9 @@
 
 #include <cmath>
 
-#include "lab/two_point.h"
+#include "lab1/two_point.h"
 
-namespace lab {
+namespace lab1 {
     /**
      * Оптимизатор на основе метода золтого сечения
      */
@@ -24,4 +24,4 @@ namespace lab {
         const double TAU = (std::sqrt(5) - 1) / 2;
     };
 
-}  // namespace lab
+}  // namespace lab1

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "lab/optimizer.h"
+#include "lab1/optimizer.h"
 
-namespace lab {
+namespace lab1 {
     /**
      * Оптимизатор на основе метода парабол
      */
@@ -18,4 +18,4 @@ namespace lab {
       private:
         double f_start, f_mid, f_end;
     };
-}  // namespace lab
+}  // namespace lab1

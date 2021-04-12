@@ -1,10 +1,10 @@
-#include "lab/dichotomy.h"
+#include "lab1/dichotomy.h"
 
 #include <iostream>
 
-#include "lab/segment.h"
+#include "lab1/segment.h"
 
-using namespace lab;
+using namespace lab1;
 
 void Dichotomy::step() {
     calc_points();
