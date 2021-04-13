@@ -10,18 +10,19 @@ namespace lab2 {
         std::vector<double> data;
 
       public:
-        Vector(const std::vector<double>& data);
-        Vector(std::size_t size, std::function<double(std::size_t)> generator);
-        Vector(std::vector<double>&& data);
+        explicit Vector(const std::vector<double>& data);
+        Vector(std::size_t size,
+               const std::function<double(std::size_t)>& generator);
+        explicit Vector(std::vector<double>&& data);
 
         double operator[](std::size_t idx) const;
-        std::size_t size() const;
-        double norm() const;
+        [[nodiscard]] std::size_t size() const;
+        [[nodiscard]] double norm() const;
 
         Vector operator+(Vector other) const;
-        double operator*(Vector other) const;
+        double operator*(const Vector& other) const;
         Vector operator*(double val) const;
-        bool operator==(Vector other) const;
+        bool operator==(const Vector& other) const;
     };
 
 }  // namespace lab2

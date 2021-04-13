@@ -1,18 +1,16 @@
 #include "lab2/matrix.h"
 
-#include <assert.h>
-
 using namespace lab2;
 
 Matrix::Matrix(const std::vector<std::vector<double>>& data_) {
-    for (auto v : data_) {
-        data.push_back(v);
+    for (const auto& v : data_) {
+        data.emplace_back(v);
     }
     check_size();
 }
 Matrix::Matrix(std::vector<std::vector<double>>&& data_) {
-    for (auto v : data_) {
-        data.push_back(v);
+    for (const auto& v : data_) {
+        data.emplace_back(v);
     }
     check_size();
 }
@@ -43,4 +41,4 @@ void Matrix::check_size() const {
     }
 }
 
-bool Matrix::operator==(Matrix other) const { return data == other.data; }
+bool Matrix::operator==(const Matrix& other) const { return data == other.data; }

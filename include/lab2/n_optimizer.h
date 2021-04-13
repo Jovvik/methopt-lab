@@ -7,12 +7,13 @@ namespace lab2 {
 
     class NOptimizer {
       public:
-        Vector optimize(NFunction& f, Vector starting_point, double epsilon);
-        std::vector<Vector>& get_points() const;
+        Vector optimize(NFunction& f, const Vector& starting_point,
+                        double epsilon);
+        [[nodiscard]] const std::vector<Vector>& get_points() const;
 
       protected:
-        bool is_done(NFunction& f, double epsilon) const;
-        virtual Vector step(const NFunction& f) const = 0;
+        [[nodiscard]] bool is_done(NFunction& f, double epsilon) const;
+        [[nodiscard]] virtual Vector step(const NFunction& f) const = 0;
 
       private:
         std::vector<Vector> points;

@@ -33,4 +33,7 @@ TEST_CASE("matrix product") {
     CHECK_EQ(v[1], 11);
 }
 
-TEST_CASE("matrix product size mismatch") { CHECK_THROWS(mat * Vector({1})); }
+TEST_CASE("matrix product size mismatch") {
+    Vector trash({1});
+    CHECK_THROWS(trash = mat * Vector({1}));
+}

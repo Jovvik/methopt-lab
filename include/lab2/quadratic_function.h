@@ -11,8 +11,8 @@ namespace lab2 {
 
       public:
         QuadraticFunction(Matrix&& A, Vector&& b, double c);
-        double operator()(Vector x);
-        Vector grad(Vector x);
-        std::size_t get_dim();
+        double operator()(Vector x) override;
+        Vector grad(Vector x) override;
+        std::size_t get_dim() override;
     };
 }  // namespace lab2

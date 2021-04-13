@@ -13,14 +13,14 @@ namespace lab2 {
         void check_size() const;
 
       public:
-        Matrix(const std::vector<std::vector<double>>& data);
-        Matrix(std::vector<std::vector<double>>&& data);
+        explicit Matrix(const std::vector<std::vector<double>>& data);
+        explicit Matrix(std::vector<std::vector<double>>&& data);
 
-        bool operator==(Matrix other) const;
-        Vector operator[](std::size_t idx) const;
-        std::size_t size() const;
+        [[nodiscard]] bool operator==(const Matrix& other) const;
+        [[nodiscard]] Vector operator[](std::size_t idx) const;
+        [[nodiscard]] std::size_t size() const;
 
-        Vector operator*(Vector other) const;
+        [[nodiscard]] Vector operator*(Vector other) const;
     };
 
 }  // namespace lab2

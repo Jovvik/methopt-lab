@@ -1,9 +1,7 @@
 #include "lab2/vector.h"
 
-#include <assert.h>
-
 #include <cmath>
-#include <numeric>
+#include <utility>
 
 using namespace lab2;
 
@@ -19,7 +17,8 @@ Vector::Vector(std::vector<double>&& data_) : data(data_) {
     }
 }
 
-Vector::Vector(std::size_t size, std::function<double(std::size_t)> generator) {
+Vector::Vector(std::size_t size,
+               const std::function<double(std::size_t)>& generator) {
     data.reserve(size);
     for (std::size_t i = 0; i < size; i++) {
         data.push_back(generator(i));
@@ -48,7 +47,7 @@ Vector Vector::operator*(double val) const {
     });
 }
 
-double Vector::operator*(Vector other) const {
+double Vector::operator*(const Vector& other) const {
     if (size() != other.size()) {
         throw "Size mismatch";
     }
@@ -59,4 +58,6 @@ double Vector::operator*(Vector other) const {
     return res;
 }
 
-bool Vector::operator==(Vector other) const { return data == other.data; }
+bool Vector::operator==(const Vector& other) const {
+    return data == other.data;
+}

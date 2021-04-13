@@ -2,7 +2,7 @@
 
 using namespace lab2;
 
-Vector NOptimizer::optimize(NFunction& f, Vector starting_point,
+Vector NOptimizer::optimize(NFunction& f, const Vector& starting_point,
                             double epsilon) {
     points.clear();
     points.push_back(starting_point);
@@ -15,3 +15,5 @@ Vector NOptimizer::optimize(NFunction& f, Vector starting_point,
 bool NOptimizer::is_done(NFunction& f, double epsilon) const {
     return f.grad(points.back()).norm() <= epsilon;
 }
+
+const std::vector<Vector>& NOptimizer::get_points() const { return points; }
