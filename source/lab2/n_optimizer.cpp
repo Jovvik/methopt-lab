@@ -4,10 +4,12 @@ using namespace lab2;
 
 Vector NOptimizer::optimize(NFunction& f, const Vector& starting_point,
                             double epsilon) {
+    iteration_count = 0;
     points.clear();
     points.push_back(starting_point);
-    while (!is_done(f, epsilon)) {
+    while (!is_done(f, epsilon) && iteration_count <= 1000) {
         points.push_back(iteration(f));
+        iteration_count++;
     }
     return points.back();
 }

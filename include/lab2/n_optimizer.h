@@ -38,6 +38,8 @@ namespace lab2 {
          */
         [[nodiscard]] virtual Vector iteration(NFunction& f) = 0;
 
+        std::size_t iteration_count;
+
       private:
         /**
          * Вектор точек, рассмотренных в ходе оптимизации
