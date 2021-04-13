@@ -7,7 +7,7 @@ Vector NOptimizer::optimize(NFunction& f, const Vector& starting_point,
     points.clear();
     points.push_back(starting_point);
     while (!is_done(f, epsilon)) {
-        points.push_back(step(f));
+        points.push_back(iteration(f));
     }
     return points.back();
 }
