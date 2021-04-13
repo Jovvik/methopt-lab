@@ -14,7 +14,6 @@ namespace lab2 {
 
       public:
         explicit Matrix(const std::vector<std::vector<double>>& data);
-        explicit Matrix(std::vector<std::vector<double>>&& data);
 
         [[nodiscard]] bool operator==(const Matrix& other) const;
         [[nodiscard]] Vector operator[](std::size_t idx) const;

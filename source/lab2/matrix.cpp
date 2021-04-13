@@ -8,12 +8,6 @@ Matrix::Matrix(const std::vector<std::vector<double>>& data_) {
     }
     check_size();
 }
-Matrix::Matrix(std::vector<std::vector<double>>&& data_) {
-    for (const auto& v : data_) {
-        data.emplace_back(v);
-    }
-    check_size();
-}
 
 Vector Matrix::operator[](std::size_t idx) const { return data[idx]; }
 
@@ -41,4 +35,6 @@ void Matrix::check_size() const {
     }
 }
 
-bool Matrix::operator==(const Matrix& other) const { return data == other.data; }
+bool Matrix::operator==(const Matrix& other) const {
+    return data == other.data;
+}
