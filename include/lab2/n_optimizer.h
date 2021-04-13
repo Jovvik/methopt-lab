@@ -36,7 +36,8 @@ namespace lab2 {
          * @param f Оптимизируемая функция
          * @return Новая рассматриваемая точка
          */
-        [[nodiscard]] virtual Vector iteration(NFunction& f) = 0;
+        [[nodiscard]] virtual Vector iteration(NFunction& f, double epsilon)
+            = 0;
 
         std::size_t iteration_count;
 

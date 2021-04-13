@@ -2,7 +2,7 @@
 
 using namespace lab2;
 
-Vector GradientDescent::iteration(NFunction &f) {
+Vector GradientDescent::iteration(NFunction &f, double) {
     Vector x   = points_last();
     Vector y   = x - f.grad(x) * a;
     double f_x = f(x);
