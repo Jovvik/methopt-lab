@@ -4,7 +4,9 @@
 #include <vector>
 
 namespace lab2 {
-
+    /**
+     * Вектор
+     */
     class Vector {
       private:
         std::vector<double> data;

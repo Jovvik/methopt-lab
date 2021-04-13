@@ -3,6 +3,10 @@
 #include "lab2/vector.h"
 
 namespace lab2 {
+    /**
+     * Квадратичная функция вида f(x) = <A x, x> + <b, x> + c, где
+     * <> обозначает векторное произведение
+     */
     class QuadraticFunction : public NFunction {
       private:
         const Matrix A;

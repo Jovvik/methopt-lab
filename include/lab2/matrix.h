@@ -5,13 +5,10 @@
 #include <vector>
 
 namespace lab2 {
-
+    /**
+     * Матрица
+     */
     class Matrix {
-      private:
-        std::vector<Vector> data;
-
-        void check_size() const;
-
       public:
         explicit Matrix(const std::vector<std::vector<double>>& data);
 
@@ -20,6 +17,11 @@ namespace lab2 {
         [[nodiscard]] std::size_t size() const;
 
         [[nodiscard]] Vector operator*(Vector other) const;
+
+      private:
+        std::vector<Vector> data;
+
+        void check_size() const;
     };
 
 }  // namespace lab2
