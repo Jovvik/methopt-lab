@@ -1,3 +1,5 @@
+#pragma once
+
 #include "lab2/matrix.h"
 #include "lab2/n_function.h"
 #include "lab2/vector.h"
