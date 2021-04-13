@@ -1,4 +1,4 @@
-#include "customwidgets.h"
+#include "lab1/customwidgets.h"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     auto v_box = new QVBoxLayout(this);

@@ -1,4 +1,4 @@
-#include "customwidgets.h"
+#include "lab1/customwidgets.h"
 
 #include "lab1/brent.h"
 #include "lab1/dichotomy.h"
@@ -120,8 +120,10 @@ void Drawer::replot_function_and_set(const std::function<double(double)> &func,
         y.emplace_back(func(point));
     }
     graph(graph_index)
-        ->setData(QVector<double>(x.begin(), x.end()),
-                  QVector<double>(y.begin(), y.end()));
+        ->setData(QVector<double>::fromStdVector(x),
+                  QVector<double>::fromStdVector(y));
+//            QVector<double>(x.begin(), x.end()),
+//                  QVector<double>(y.begin(), y.end()));
 }
 void Drawer::replot_f() {
     auto [start, end] = xAxis->range();
