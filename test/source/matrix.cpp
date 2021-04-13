@@ -19,6 +19,7 @@ TEST_CASE("matrix reference constructor") {
     CHECK_EQ(mat[0][1], 2);
     CHECK_EQ(mat[1][0], 3);
     CHECK_EQ(mat[1][1], 4);
+    CHECK_EQ(mat, Matrix({{1, 2}, {3, 4}}));
 }
 
 TEST_CASE("matrix operator[]") {
