@@ -32,11 +32,11 @@ namespace lab2 {
          */
         [[nodiscard]] bool is_done(NFunction& f, double epsilon) const;
         /**
-         * Шаг алгоритма оптимизации
+         * Итерация алгоритма оптимизации
          * @param f Оптимизируемая функция
          * @return Новая рассматриваемая точка
          */
-        [[nodiscard]] virtual Vector step(NFunction& f) const = 0;
+        [[nodiscard]] virtual Vector iteration(NFunction& f) = 0;
 
       private:
         /**

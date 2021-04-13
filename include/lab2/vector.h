@@ -22,6 +22,7 @@ namespace lab2 {
         [[nodiscard]] double norm() const;
 
         Vector operator+(Vector other) const;
+        Vector operator-(Vector other) const;
         double operator*(const Vector& other) const;
         Vector operator*(double val) const;
         bool operator==(const Vector& other) const;

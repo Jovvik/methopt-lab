@@ -40,6 +40,15 @@ Vector Vector::operator+(Vector other) const {
     });
 }
 
+Vector Vector::operator-(Vector other) const {
+    if (size() != other.size()) {
+        throw "Size mismatch";
+    }
+    return Vector(size(), [this, &other](std::size_t i) {
+        return (*this)[i] - other[i];
+    });
+}
+
 Vector Vector::operator*(double val) const {
     std::vector<double> tmp;
     return Vector(size(), [this, val](std::size_t i) {
