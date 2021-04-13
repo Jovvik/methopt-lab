@@ -51,6 +51,8 @@ namespace lab1 {
          */
         const std::vector<Segment>& get_segments();
 
+        virtual ~Optimizer() = default;
+
       protected:
         /**
          * @param current_segment Рассматриваемый сегмент

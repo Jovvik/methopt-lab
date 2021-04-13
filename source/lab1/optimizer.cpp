@@ -9,7 +9,7 @@ Optimizer::Optimizer(const func& f, const double epsilon, double start,
     : f(f), segment(start, end), epsilon(epsilon), steps_count(0) {}
 
 double Optimizer::optimize() {
-    while (!is_done()) {
+    while (!is_done() && steps_count <= 1000) {
         step();
         steps_count++;
     }
