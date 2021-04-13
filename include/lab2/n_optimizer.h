@@ -36,7 +36,7 @@ namespace lab2 {
          * @param f Оптимизируемая функция
          * @return Новая рассматриваемая точка
          */
-        [[nodiscard]] virtual Vector step(const NFunction& f) const = 0;
+        [[nodiscard]] virtual Vector step(NFunction& f) const = 0;
 
       private:
         /**
