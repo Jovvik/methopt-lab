@@ -12,10 +12,9 @@ namespace lab2 {
         std::vector<double> data;
 
       public:
-        explicit Vector(const std::vector<double>& data);
+        Vector(const std::vector<double>& data);
         Vector(std::size_t size,
                const std::function<double(std::size_t)>& generator);
-        explicit Vector(std::vector<double>&& data);
 
         double operator[](std::size_t idx) const;
         [[nodiscard]] std::size_t size() const;
