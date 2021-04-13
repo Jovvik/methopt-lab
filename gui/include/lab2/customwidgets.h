@@ -2,8 +2,7 @@
 
 #include "lab1/optimizer.h"
 #include "qcustomplot.h"
-
-namespace gui1 {
+namespace gui2 {
     class Drawer : public QCustomPlot {
         Q_OBJECT
       public:
@@ -50,4 +49,4 @@ namespace gui1 {
       public:
         MainWindow(QWidget *parent = 0);
     };
-}  // namespace lab1
+}  // namespace gui2

@@ -1,4 +1,4 @@
-#include "lab1/customwidgets.h"
+#include "lab2/customwidgets.h"
 
 #include "lab1/brent.h"
 #include "lab1/dichotomy.h"
@@ -6,7 +6,7 @@
 #include "lab1/functions.h"
 #include "lab1/parabola.h"
 
-using namespace gui1;
+using namespace gui2;
 
 class Parabola {
   public:

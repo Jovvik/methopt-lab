@@ -1,6 +1,6 @@
-#include "lab1/customwidgets.h"
+#include "lab2/customwidgets.h"
 
-using namespace gui1;
+using namespace gui2;
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     auto v_box = new QVBoxLayout(this);
