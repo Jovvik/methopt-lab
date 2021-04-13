@@ -3,11 +3,11 @@
 using namespace lab2;
 
 Vector GradientDescent::iteration(NFunction &f) {
-    Vector x = points_last(), y = x - f.grad(x) * a;
-    // TODO: don't recompute f
-    while (f(y) >= f(x) && iteration_count <= 1000) {
+    Vector x   = points_last();
+    Vector y   = x - f.grad(x) * a;
+    double f_x = f(x);
+    while (f(y) >= f_x && iteration_count <= 1000) {
         a /= 2;
-        x = points_last();
         y = x - f.grad(x) * a;
         iteration_count++;
     }
