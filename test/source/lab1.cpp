@@ -6,22 +6,26 @@
 
 #define PI 3.141592653589793238462643383279502884197169399375105820974944
 
-#include "lab/brent.h"
-#include "lab/dichotomy.h"
-#include "lab/fibonacci.h"
-#include "lab/golden_ratio.h"
-#include "lab/parabola.h"
 #include "lab/version.h"
+#include "lab1/brent.h"
+#include "lab1/dichotomy.h"
+#include "lab1/fibonacci.h"
+#include "lab1/golden_ratio.h"
+#include "lab1/parabola.h"
+
+using namespace lab1;
 
 TEST_CASE("Lab version") {
     static_assert(std::string_view(LAB_VERSION) == std::string_view("1.0"));
     CHECK(std::string(LAB_VERSION) == std::string("1.0"));
 }
 
-auto f = [](double x) { return x * x + exp(-0.35 * x); };
+auto f = [](double x) {
+    return x * x + exp(-0.35 * x);
+};
 
 TEST_CASE("Segment") {
-    auto optimizer = lab::Dichotomy(f, 1e-4, -2, 3);
+    auto optimizer = Dichotomy(f, 1e-4, -2, 3);
     optimizer.optimize();
     auto segments = optimizer.get_segments();
     CHECK(segments.size() > 0);
@@ -34,41 +38,41 @@ TEST_CASE("Segment") {
 
 TEST_CASE("Dichotomy ratio f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        lab::Dichotomy optimizer(f, epsilon, -2, 3);
+        Dichotomy optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }
 
 TEST_CASE("Golden ratio f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        lab::GoldenRatio optimizer(f, epsilon, -2, 3);
+        GoldenRatio optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }
 
 TEST_CASE("Fibonacci f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        lab::Fibonacci optimizer(f, epsilon, -2, 3);
+        Fibonacci optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }
 
 TEST_CASE("Parabola f") {
     for (double epsilon = 1e-1; epsilon > 1e-6; epsilon /= 10) {
-        lab::Parabola optimizer(f, epsilon, -2, 3);
+        Parabola optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }
 
 TEST_CASE("Brent f") {
     for (double epsilon = 1e-1; epsilon > 1e-8; epsilon /= 10) {
-        lab::Brent optimizer(f, epsilon, -2, 3);
+        Brent optimizer(f, epsilon, -2, 3);
         CHECK(std::abs(optimizer.optimize() - 0.165170191649) < epsilon);
     }
 }
 
 TEST_CASE("Dichotomy logging") {
-    auto optimizer = lab::Dichotomy(f, 1e-4, -2, 3);
+    auto optimizer = Dichotomy(f, 1e-4, -2, 3);
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
@@ -77,7 +81,7 @@ TEST_CASE("Dichotomy logging") {
 }
 
 TEST_CASE("Golden ratio logging") {
-    auto optimizer = lab::GoldenRatio(f, 1e-4, -2, 3);
+    auto optimizer = GoldenRatio(f, 1e-4, -2, 3);
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
@@ -86,7 +90,7 @@ TEST_CASE("Golden ratio logging") {
 }
 
 TEST_CASE("Fibonacci logging") {
-    auto optimizer = lab::Fibonacci(f, 1e-4, -2, 3);
+    auto optimizer = Fibonacci(f, 1e-4, -2, 3);
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
@@ -95,7 +99,7 @@ TEST_CASE("Fibonacci logging") {
 }
 
 TEST_CASE("Parabola logging") {
-    auto optimizer = lab::Parabola(f, 1e-4, -2, 3);
+    auto optimizer = Parabola(f, 1e-4, -2, 3);
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
@@ -105,7 +109,7 @@ TEST_CASE("Parabola logging") {
 }
 
 TEST_CASE("Brent logging") {
-    auto optimizer = lab::Brent(f, 1e-4, -2, 3);
+    auto optimizer = Brent(f, 1e-4, -2, 3);
     optimizer.optimize();
     auto segms = optimizer.get_segments();
     CHECK(segms.size() != 0);
