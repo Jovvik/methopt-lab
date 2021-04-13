@@ -26,6 +26,13 @@ TEST_CASE("vector add") {
     CHECK_THROWS(Vector({1, 2}) + Vector({0.5}));
 }
 
+TEST_CASE("vector diff") {
+    Vector res = Vector({1, 2}) - Vector({4, 3});
+    CHECK_EQ(res, Vector({-3, -1}));
+
+    CHECK_THROWS(Vector({1, 2}) - Vector({0.5}));
+}
+
 TEST_CASE("vector reference constror") {
     std::vector<double> v{1, 2};
     Vector res = Vector(v);
