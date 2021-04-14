@@ -9,12 +9,12 @@ namespace lab2 {
 
     class FastestDescent : public NOptimizer {
         using Gen = std::function<std::unique_ptr<lab1::Optimizer>(
-            const std::function<double(double)>&, double, double, double)>;
+            const std::function<double(double)> &, double, double, double)>;
 
       public:
         FastestDescent(Gen generator);
 
-        Vector iteration(NFunction& f, double epsilon) override;
+        Vector iteration(QuadraticFunction &f, double epsilon) override;
 
       private:
         Gen generator;
