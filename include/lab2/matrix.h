@@ -2,6 +2,7 @@
 
 #include <lab2/vector.h>
 
+#include <optional>
 #include <vector>
 
 namespace lab2 {
