@@ -9,6 +9,7 @@
 #include "lab1/golden_ratio.h"
 #include "lab1/optimizer.h"
 #include "lab1/parabola.h"
+#include "lab2/conjugate_gradient.h"
 #include "lab2/fastest_descent.h"
 #include "lab2/functions.h"
 #include "lab2/gradient_descent.h"
@@ -65,7 +66,12 @@ TEST_CASE("gradient descent") {
 }
 
 TEST_CASE("fastest descent") {
-    std::vector<Vector> starting_points = {Vector({1, 1})};
+    std::vector<Vector> starting_points;
+    for (double x = 0.5; x <= 4; x *= 2) {
+        for (double y = 0.5; y <= 4; y *= 2) {
+            starting_points.emplace_back(std::vector{x, y});
+        }
+    }
 
     using Gen = std::function<std::unique_ptr<lab1::Optimizer>(
         const std::function<double(double)>&, double, double, double)>;
@@ -104,6 +110,32 @@ TEST_CASE("fastest descent") {
                           .norm()
                       <= epsilon);
             }
+        }
+    }
+}
+
+TEST_CASE("conjugate") {
+    std::vector<Vector> starting_points;
+    for (double x = 0.5; x <= 4; x *= 2) {
+        for (double y = 0.5; y <= 4; y *= 2) {
+            starting_points.emplace_back(std::vector{x, y});
+        }
+    }
+
+    for (double epsilon : epsilons) {
+        for (const Vector& starting_point : starting_points) {
+            for (auto& [f, ans] : fns) {
+                CHECK((ConjugateGradient().optimize(f, starting_point, epsilon)
+                       - ans)
+                          .norm()
+                      <= epsilon);
+            };
+            QuadraticFunction f(Matrix({{422, -420}, {-420, 422}}),
+                                Vector({-192, 50}), -25);
+            CHECK((ConjugateGradient().optimize(f, starting_point, epsilon)
+                   - Vector({15006. / 421, 14885. / 421}))
+                      .norm()
+                  <= epsilon);
         }
     }
 }
