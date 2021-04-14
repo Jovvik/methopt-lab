@@ -1,8 +1,10 @@
 #include "lab2/n_optimizer.h"
 
+#include <lab2/quadratic_function.h>
+
 using namespace lab2;
 
-Vector NOptimizer::optimize(NFunction& f, const Vector& starting_point,
+Vector NOptimizer::optimize(QuadraticFunction& f, const Vector& starting_point,
                             double epsilon) {
     iteration_count = 0;
     points.clear();
@@ -14,7 +16,7 @@ Vector NOptimizer::optimize(NFunction& f, const Vector& starting_point,
     return points.back();
 }
 
-bool NOptimizer::is_done(NFunction& f, double epsilon) const {
+bool NOptimizer::is_done(QuadraticFunction& f, double epsilon) const {
     return f.grad(points.back()).norm() <= epsilon;
 }
 
