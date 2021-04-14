@@ -6,7 +6,7 @@ namespace lab2 {
     class GradientDescent : public NOptimizer {
       public:
         explicit GradientDescent(double step) : a(step) {}
-        Vector iteration(NFunction &f, double epsilon) override;
+        Vector iteration(QuadraticFunction &f, double epsilon) override;
 
       private:
         [[nodiscard]] Vector points_last() const;

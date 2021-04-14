@@ -2,13 +2,15 @@
 
 using namespace lab2;
 
-Vector GradientDescent::iteration(NFunction &f, double) {
-    Vector x   = points_last();
-    Vector y   = x - f.grad(x) * a;
-    double f_x = f(x);
+Vector GradientDescent::iteration(QuadraticFunction &f, double) {
+    Vector x        = points_last();
+    Vector f_x_grad = f.grad(x);
+    f_x_grad        = f_x_grad * (1 / f_x_grad.norm());
+    Vector y        = x - f_x_grad * a;
+    double f_x      = f(x);
     while (f(y) >= f_x && iteration_count <= 1000) {
         a /= 2;
-        y = x - f.grad(x) * a;
+        y = x - f_x_grad * a;
         iteration_count++;
     }
     return y;
