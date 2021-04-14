@@ -2,7 +2,9 @@
 
 using namespace lab2;
 
-Matrix::Matrix(const std::vector<std::vector<double>>& data_) {
+Matrix::Matrix(const std::vector<std::vector<double>>& data_,
+               std::optional<double> max_eigenvalue)
+    : max_eigenvalue(max_eigenvalue) {
     for (const auto& v : data_) {
         data.emplace_back(v);
     }
