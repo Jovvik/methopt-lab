@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "lab2/matrix.h"
 #include "lab2/n_function.h"
 #include "lab2/vector.h"
@@ -11,12 +13,12 @@ namespace lab2 {
      */
     class QuadraticFunction : public NFunction {
       public:
-        QuadraticFunction(Matrix&& A, Vector&& b, double c);
+        QuadraticFunction(AbstractMatrix* A, Vector&& b, double c);
         double operator()(Vector x) override;
         Vector grad(Vector x) override;
         std::size_t get_dim() override;
 
-        const Matrix A;
+        std::unique_ptr<AbstractMatrix> A;
         const Vector b;
         const double c;
     };

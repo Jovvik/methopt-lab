@@ -31,13 +31,13 @@ using namespace lab2;
     _doctest_subcase_idx = 0
 
 std::vector<double> zero_vector{0, 0};
-std::vector<std::pair<QuadraticFunction, Vector>> fns
-    = {{Functions::paraboloid(), zero_vector},
-       {Functions::f1(), Vector({-11. / 3, -10. / 3})}};
 
 std::vector<double> epsilons = {1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6};
 
 TEST_CASE("gradient descent") {
+    std::vector<std::pair<QuadraticFunction, Vector>> fns;
+    fns.emplace_back(Functions::paraboloid(), zero_vector);
+    fns.emplace_back(Functions::f1(), Vector({-11. / 3, -10. / 3}));
     std::vector<double> alphas;
     for (double a = 128; a >= 1; a /= 2.0) {
         alphas.push_back(a);
@@ -66,6 +66,9 @@ TEST_CASE("gradient descent") {
 }
 
 TEST_CASE("fastest descent") {
+    std::vector<std::pair<QuadraticFunction, Vector>> fns;
+    fns.emplace_back(Functions::paraboloid(), zero_vector);
+    fns.emplace_back(Functions::f1(), Vector({-11. / 3, -10. / 3}));
     std::vector<Vector> starting_points;
     for (double x = 0.5; x <= 4; x *= 2) {
         for (double y = 0.5; y <= 4; y *= 2) {
@@ -115,6 +118,9 @@ TEST_CASE("fastest descent") {
 }
 
 TEST_CASE("conjugate") {
+    std::vector<std::pair<QuadraticFunction, Vector>> fns;
+    fns.emplace_back(Functions::paraboloid(), zero_vector);
+    fns.emplace_back(Functions::f1(), Vector({-11. / 3, -10. / 3}));
     std::vector<Vector> starting_points;
     for (double x = 0.5; x <= 4; x *= 2) {
         for (double y = 0.5; y <= 4; y *= 2) {
@@ -130,7 +136,7 @@ TEST_CASE("conjugate") {
                           .norm()
                       <= epsilon);
             };
-            QuadraticFunction f(Matrix({{422, -420}, {-420, 422}}),
+            QuadraticFunction f(new Matrix({{422, -420}, {-420, 422}}),
                                 Vector({-192, 50}), -25);
             CHECK((ConjugateGradient().optimize(f, starting_point, epsilon)
                    - Vector({15006. / 421, 14885. / 421}))

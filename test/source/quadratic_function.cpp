@@ -7,7 +7,7 @@
 using namespace lab2;
 
 TEST_CASE("qfun") {
-    auto f = QuadraticFunction(Matrix({{1, 0.3}, {0.4, 1.8}}),
+    auto f = QuadraticFunction(new Matrix({{1, 0.3}, {0.4, 1.8}}),
                                Vector({1.4, -0.6}), -1.2);
     CHECK_EQ(f.get_dim(), 2);
     CHECK_EQ(f.get_call_count(), 0);
@@ -22,5 +22,5 @@ TEST_CASE("qfun") {
 
 TEST_CASE("qfun throws") {
     CHECK_THROWS(
-        QuadraticFunction(Matrix({{1, 0.3}, {0.4, 1.8}}), Vector({1}), 3));
+        QuadraticFunction(new Matrix({{1, 0.3}, {0.4, 1.8}}), Vector({1}), 3));
 }

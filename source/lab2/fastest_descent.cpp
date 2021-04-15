@@ -19,7 +19,8 @@ lab2::Vector lab2::FastestDescent::iteration(QuadraticFunction &f,
                   return f(x_k - grad_x_k * alpha);
               },
               epsilon, 0,
-              f.A.max_eigenvalue.has_value() ? 2. / *f.A.max_eigenvalue : 1000)
+              f.A->max_eigenvalue.has_value() ? 2. / *f.A->max_eigenvalue
+                                              : 1000)
               ->optimize();
     return x_k - grad_x_k * alpha;
 }

@@ -4,7 +4,7 @@ using namespace lab2;
 
 Matrix::Matrix(const std::vector<std::vector<double>>& data_,
                std::optional<double> max_eigenvalue)
-    : max_eigenvalue(max_eigenvalue) {
+    : AbstractMatrix(max_eigenvalue) {
     for (const auto& v : data_) {
         data.emplace_back(v);
     }
@@ -35,8 +35,4 @@ void Matrix::check_size() const {
                        })) {
         throw "Matrix rows have different sizes";
     }
-}
-
-bool Matrix::operator==(const Matrix& other) const {
-    return data == other.data;
 }

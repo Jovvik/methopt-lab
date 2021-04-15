@@ -1,26 +1,28 @@
 #pragma once
 
-#include <lab2/vector.h>
-
 #include <optional>
 #include <vector>
 
+#include "lab2/abstract_matrix.h"
+#include "lab2/vector.h"
+
 namespace lab2 {
     /**
-     * Матрица
+     * Произвольная матрица
      */
-    class Matrix {
+    class Matrix : public AbstractMatrix {
       public:
         explicit Matrix(const std::vector<std::vector<double>>& data,
                         std::optional<double> max_eigenvalue = std::nullopt);
 
-        [[nodiscard]] bool operator==(const Matrix& other) const;
-        [[nodiscard]] Vector operator[](std::size_t idx) const;
-        [[nodiscard]] std::size_t size() const;
+        [[nodiscard]] Vector operator[](std::size_t idx) const override;
+        [[nodiscard]] std::size_t size() const override;
 
-        [[nodiscard]] Vector operator*(Vector other) const;
+        [[nodiscard]] Vector operator*(Vector other) const override;
 
         const std::optional<double> max_eigenvalue;
+
+        ~Matrix() override = default;
 
       private:
         std::vector<Vector> data;
