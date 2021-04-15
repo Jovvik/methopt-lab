@@ -29,7 +29,6 @@ namespace gui1 {
         void recalc_segments();
         void replot_f();
         void setup();
-        void clear();
     };
 
     class Slider : public QWidget {
