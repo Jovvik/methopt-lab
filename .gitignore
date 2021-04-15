@@ -3,3 +3,4 @@
 /cpm_modules
 .DS_Store
 /cmake-build-debug
+/include/lab2/functions.h

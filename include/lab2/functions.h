@@ -11,10 +11,10 @@ namespace lab2 {
         /**
          * Параболоид x^2 + y^2 + 1
          */
-        static QuadraticFunction paraboloid();
+        static QuadraticFunction paraboloid;
         /**
          * x^2 + y^2 - xy + 4x + 3y - 1
          */
-        static QuadraticFunction f1();
+        static QuadraticFunction f1;
     };
 }  // namespace lab2

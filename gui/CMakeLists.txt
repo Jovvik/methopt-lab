@@ -23,7 +23,7 @@ find_package(
 
 file(GLOB_RECURSE headers CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
-add_executable(LabGui ${headers} ${sources})
+add_executable(LabGui ${headers} ${sources} include/lab2/slider.h source/lab2/slider.cpp include/lab2/main_window.h)
 target_include_directories(LabGui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(LabGui PUBLIC Qt5::Widgets)

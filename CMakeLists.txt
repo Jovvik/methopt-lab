@@ -44,7 +44,7 @@ file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface
 # target: add_library(Lab INTERFACE)
-add_library(Lab ${headers} ${sources})
+add_library(Lab ${headers} ${sources} source/lab2/function_2d.cpp)
 
 set_target_properties(Lab PROPERTIES CXX_STANDARD 20)
 

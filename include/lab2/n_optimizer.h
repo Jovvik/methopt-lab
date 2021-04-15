@@ -8,6 +8,17 @@ namespace lab2 {
     /**
      * Абстрактный класс оптимизатора N-мерных функций
      */
+    enum class NOptimizers {
+        CONJUGATE_GRADIENT,
+        FASTEST_DESCENT,
+        GRADIENT_DESCENT
+    };
+
+    static std::unordered_map<std::string, NOptimizers> const n_optimizers_table
+        = {{"Градиентный спуск", NOptimizers::GRADIENT_DESCENT},
+           {"Наискорейший спуск", NOptimizers::FASTEST_DESCENT},
+           {"Сопряжённые градиенты", NOptimizers::CONJUGATE_GRADIENT}};
+
     class NOptimizer {
       public:
         /**
