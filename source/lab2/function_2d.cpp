@@ -7,11 +7,10 @@
 
 using namespace lab2;
 
-Function2D::Function2D(QuadraticFunction *f_2d) {
-    if (f_2d->A->size() != 2) {
+Function2D::Function2D(QuadraticFunction *f_2d) : f(f_2d) {
+    if (f->A->size() != 2) {
         throw "not a 2d function";
     }
-    f = f_2d;
 }
 
 double Function2D::operator()(double x, double y) {
@@ -29,7 +28,5 @@ std::pair<double, double> Function2D::get_y(double x, double z) {
 }
 
 Function2D Function2D::paraboloid_2d() {
-    return Function2D(
-        std::make_unique<lab2::QuadraticFunction>(lab2::Functions::paraboloid())
-            .release());
+    return Function2D(&Functions::paraboloid);
 }
