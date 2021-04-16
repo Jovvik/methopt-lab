@@ -160,41 +160,34 @@ void Drawer::replot_f() {
     }
 }
 
-void Drawer::replot_lines() const {
-    //    auto [start, end] = xAxis->range();
-    //    double step       = (end - start) / COUNT;
-
+void Drawer::replot_lines() {
+    auto [start, end] = xAxis->range();
+    double step       = (end - start) / COUNT;
+    double z          = FIRST_LINE;
     for (int index = 0; index < LINE_COUNT; index++) {
-        std::vector<double> x_up, x_down, y_up, y_down, t;
-        //        double z;
-        //        std::cout << index << "\n";
-        //        for (double point = start; point < end; point += step) {
-        //            try {
-        //                auto temp
-        //                    = func.get_y(point, (end - start) / 20. *
-        //         (index +
-        //                    1));
-        //                double y_d = temp.first, y_u = temp.second;
-        //                if (y_d > y_u) {
-        //                    std::swap(y_d, y_u);
-        //                }
-        //                if (y_d == y_d) {
-        //                    x_down.emplace_back(point);
-        //                    y_down.emplace_back(y_d);
-        //                }
-        //                if (y_u == y_u && y_u != y_d) {
-        //                    x_up.emplace_back(point);
-        //                    y_up.emplace_back(y_u);
-        //                }
-        //            } catch (std::overflow_error &ignored) {
-        //            }
-        //        }
-        //        x_up.insert(x_up.end(), x_down.rbegin(), x_down.rend());
-        //        y_up.insert(y_up.end(), y_down.rbegin(), y_down.rend());
-        //        x_up.emplace_back(x_up.front());
-        //        y_up.emplace_back(y_up.front());
-        // curves[index]->setData(QVector<double>::fromStdVector(x_up),
-        // QVector<double>::fromStdVector(y_up));
+        std::vector<double> x_up, x_down, y_up, y_down;
+        for (double point = start; point < end; point += step) {
+            auto temp  = func.get_y(point, z);
+            double y_d = temp.first, y_u = temp.second;
+            if (y_d > y_u) {
+                std::swap(y_d, y_u);
+            }
+            if (y_d == y_d) {
+                x_down.insert(x_down.begin(), point);
+                y_down.insert(y_down.begin(), y_d);
+            }
+            if (y_u == y_u) {
+                x_up.emplace_back(point);
+                y_up.emplace_back(y_u);
+            }
+        }
+        x_up.insert(x_up.end(), x_down.begin(), x_down.end());
+        y_up.insert(y_up.end(), y_down.begin(), y_down.end());
+        x_up.emplace_back(x_up.front());
+        y_up.emplace_back(y_up.front());
+        curves[index]->setData(QVector<double>::fromStdVector(x_up),
+                               QVector<double>::fromStdVector(y_up));
+        z *= LINE_STEP;
     }
 }
 

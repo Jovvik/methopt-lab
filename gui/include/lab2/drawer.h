@@ -27,8 +27,10 @@ namespace gui2 {
         void pepsilon_changed(QString epsilon_expression);
 
       private:
-        const int COUNT             = 200;
+        const int COUNT             = 500;
         const int LINE_COUNT        = 5;
+        const int LINE_STEP         = 5;
+        const int FIRST_LINE        = 4;
         int optimize_points_to_draw = 0;
         double pepsilon             = 1e-2;
         bool draw_level_lines = true, draw_optimize_lines = true;
@@ -43,7 +45,7 @@ namespace gui2 {
                                      QMouseEvent *);
         void recalc_optimize_points();
         void before_replot();
-        void replot_lines() const;
+        void replot_lines();
         void replot_f();
         void setup();
     };
