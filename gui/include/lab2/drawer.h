@@ -48,5 +48,6 @@ namespace gui2 {
         void replot_lines();
         void replot_f();
         void setup();
+        void onMousePress(QMouseEvent *event);
     };
 }  // namespace gui2

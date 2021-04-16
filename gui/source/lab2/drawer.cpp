@@ -29,6 +29,7 @@ Drawer::Drawer(QWidget *parent) : QCustomPlot(parent) {
     connect(this, &QCustomPlot::beforeReplot, this, &Drawer::before_replot);
     connect(this, &QCustomPlot::plottableClick, this,
             &Drawer::rescale_on_click);
+    connect(this, &QCustomPlot::mousePress, this, &Drawer::onMousePress);
 }
 
 void Drawer::recalc_optimize_points() {
@@ -207,4 +208,10 @@ void Drawer::replot_lines() {
 void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int,
                               QMouseEvent *) {
     plottable->rescaleAxes();
+}
+void Drawer::onMousePress(QMouseEvent *event) {
+    if (event->button() == Qt::RightButton) {
+        starting_point = lab2::Vector(
+            {xAxis->pixelToCoord(event->x()), yAxis->pixelToCoord(event->y())});
+    }
 }
