@@ -30,4 +30,4 @@ Vector Function2D::grad(Vector x) { return f->grad(x); }
 
 double Function2D::operator()(Vector x) { return (*f)(x); }
 
-std::size_t Function2D::get_dim() { return 2; };
+std::size_t Function2D::get_dim() { return 2; }
