@@ -26,7 +26,3 @@ std::pair<double, double> Function2D::get_y(double x, double z) {
     double t3 = sqrt(t1 * t1 - 4 * (*f->A)[1][1] * t2);
     return {(-t3 - t1) / (2 * (*f->A)[1][1]), (t3 - t1) / (2 * (*f->A)[1][1])};
 }
-
-Function2D Function2D::paraboloid_2d() {
-    return Function2D(&Functions::paraboloid);
-}

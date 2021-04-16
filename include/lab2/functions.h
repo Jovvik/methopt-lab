@@ -17,4 +17,8 @@ namespace lab2 {
          */
         static QuadraticFunction f1;
     };
+    static std::unordered_map<std::string, QuadraticFunction*> const
+        functions_table
+        = {{"x^2 + y^2 + 1", &Functions::paraboloid},
+           {"x^2 + y^2 - xy + 4x + 3y - 1", &Functions::f1}};
 }  // namespace lab2
