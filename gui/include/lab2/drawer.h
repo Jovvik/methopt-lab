@@ -23,8 +23,6 @@ namespace gui2 {
 
       signals:
         void method_changed(int size);
-        void x_y_changed(QString x_y_expression);
-        void pepsilon_changed(QString epsilon_expression);
 
       private:
         const int COUNT             = 500;
@@ -37,6 +35,7 @@ namespace gui2 {
         lab2::Vector starting_point = lab2::Vector({5, 5});
         std::vector<lab2::Vector> optimize_points;
         std::vector<QCPCurve *> curves;
+        std::vector<QCPGraph *> graphs;
         lab2::NOptimizers method_2d = lab2::NOptimizers::GRADIENT_DESCENT;
         lab1::Optimizers method_1d  = lab1::Optimizers::BRENT;
         lab2::Function2D func = lab2::Function2D(&lab2::Functions::paraboloid);

@@ -69,14 +69,20 @@ void Drawer::setup() {
     yAxis->setRange(-10, 10);
     recalc_optimize_points();
     clearItems();
-    addGraph();
-    graph(0)->setPen(QPen(Qt::red));
-    graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
-    graph(0)->setSelectable(QCP::SelectionType::stSingleData);
     for (auto curve : curves) {
         removePlottable(curve);
     }
+    for (auto graph : graphs) {
+        removePlottable(graph);
+    }
     curves.clear();
+    graphs.clear();
+    for (int i = 0; i < optimize_points.size() - 1; i++) {
+        graphs.emplace_back(new QCPGraph(xAxis, yAxis));
+        graphs.back()->setPen(QPen(Qt::red));
+        graphs.back()->setScatterStyle(QCPScatterStyle::ssCircle);
+        graphs.back()->setSelectable(QCP::SelectionType::stSingleData);
+    }
     for (int i = 0; i < LINE_COUNT; i++) {
         curves.emplace_back(new QCPCurve(xAxis, yAxis));
     }
@@ -95,11 +101,6 @@ void Drawer::change_draw_optimize_lines() {
 
 void Drawer::change() {
     setup();
-    std::ostringstream temp_pepsilon, temp_x_y;
-    temp_pepsilon << ":Eps=" << pepsilon;
-    temp_x_y << ":{" << starting_point[0] << ", " << starting_point[1] << "}";
-    emit pepsilon_changed(QString::fromStdString(temp_pepsilon.str()));
-    emit x_y_changed(QString::fromStdString(temp_x_y.str()));
     emit method_changed(optimize_points.size());
 }
 
@@ -153,14 +154,21 @@ void Drawer::before_replot() {
 }
 
 void Drawer::replot_f() {
-    if (draw_optimize_lines) {
-        graph(0)->setLineStyle(QCPGraph::LineStyle::lsLine);
-    } else {
-        graph(0)->setLineStyle(QCPGraph::LineStyle::lsNone);
-    }
-    graph(0)->setData(QVector<double>(), QVector<double>());
-    for (int i = 0; i < optimize_points_to_draw; i++) {
-        graph(0)->addData(optimize_points[i][0], optimize_points[i][1]);
+    for (int i = 0; i < optimize_points.size() - 1; i++) {
+        if (draw_optimize_lines) {
+            graphs[i]->setLineStyle(QCPGraph::LineStyle::lsLine);
+        } else {
+            graphs[i]->setLineStyle(QCPGraph::LineStyle::lsNone);
+        }
+        graphs[i]->setData(QVector<double>(), QVector<double>());
+        if (i < optimize_points_to_draw - 1) {
+            graphs[i]->addData(optimize_points[i][0], optimize_points[i][1]);
+            graphs[i]->addData(optimize_points[i + 1][0],
+                               optimize_points[i + 1][1]);
+        }
+        if (i == optimize_points_to_draw - 1) {
+            graphs[i]->addData(optimize_points[i][0], optimize_points[i][1]);
+        }
     }
 }
 
@@ -213,5 +221,6 @@ void Drawer::onMousePress(QMouseEvent *event) {
     if (event->button() == Qt::RightButton) {
         starting_point = lab2::Vector(
             {xAxis->pixelToCoord(event->x()), yAxis->pixelToCoord(event->y())});
+        change();
     }
 }
