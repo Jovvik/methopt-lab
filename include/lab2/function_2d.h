@@ -5,7 +5,7 @@
 #include "lab2/quadratic_function.h"
 
 namespace lab2 {
-    class Function2D : NFunction {
+    class Function2D : public NFunction {
       public:
         explicit Function2D(QuadraticFunction *f_2d);
         [[nodiscard]] std::pair<double, double> get_y(double x, double z) const;
