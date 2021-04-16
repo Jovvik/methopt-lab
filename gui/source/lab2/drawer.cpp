@@ -72,6 +72,9 @@ void Drawer::setup() {
     graph(0)->setPen(QPen(Qt::red));
     graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
     graph(0)->setSelectable(QCP::SelectionType::stSingleData);
+    for (auto curve : curves) {
+        removePlottable(curve);
+    }
     curves.clear();
     for (int i = 0; i < LINE_COUNT; i++) {
         curves.emplace_back(new QCPCurve(xAxis, yAxis));
@@ -165,29 +168,39 @@ void Drawer::replot_lines() {
     double step       = (end - start) / COUNT;
     double z          = FIRST_LINE;
     for (int index = 0; index < LINE_COUNT; index++) {
-        std::vector<double> x_up, x_down, y_up, y_down;
-        for (double point = start; point < end; point += step) {
-            auto temp  = func.get_y(point, z);
-            double y_d = temp.first, y_u = temp.second;
-            if (y_d > y_u) {
-                std::swap(y_d, y_u);
+        try {
+            std::vector<double> x_up, x_down, y_up, y_down;
+            for (double point = start; point < end; point += step) {
+                auto temp  = func.get_y(point, z);
+                double y_d = temp.first, y_u = temp.second;
+                if (y_d > y_u) {
+                    std::swap(y_d, y_u);
+                }
+                if (y_d == y_d) {
+                    x_down.insert(x_down.begin(), point);
+                    y_down.insert(y_down.begin(), y_d);
+                }
+                if (y_u == y_u) {
+                    x_up.emplace_back(point);
+                    y_up.emplace_back(y_u);
+                }
             }
-            if (y_d == y_d) {
-                x_down.insert(x_down.begin(), point);
-                y_down.insert(y_down.begin(), y_d);
+            x_up.insert(x_up.end(), x_down.begin(), x_down.end());
+            y_up.insert(y_up.end(), y_down.begin(), y_down.end());
+            if (!x_up.empty()) {
+                x_up.emplace_back(x_up.front());
+                y_up.emplace_back(y_up.front());
             }
-            if (y_u == y_u) {
-                x_up.emplace_back(point);
-                y_up.emplace_back(y_u);
+            if (draw_level_lines) {
+                curves[index]->setLineStyle(QCPCurve::LineStyle::lsLine);
+            } else {
+                curves[index]->setLineStyle(QCPCurve::LineStyle::lsNone);
             }
+            curves[index]->setData(QVector<double>::fromStdVector(x_up),
+                                   QVector<double>::fromStdVector(y_up));
+            z *= LINE_STEP;
+        } catch (int a) {
         }
-        x_up.insert(x_up.end(), x_down.begin(), x_down.end());
-        y_up.insert(y_up.end(), y_down.begin(), y_down.end());
-        x_up.emplace_back(x_up.front());
-        y_up.emplace_back(y_up.front());
-        curves[index]->setData(QVector<double>::fromStdVector(x_up),
-                               QVector<double>::fromStdVector(y_up));
-        z *= LINE_STEP;
     }
 }
 
