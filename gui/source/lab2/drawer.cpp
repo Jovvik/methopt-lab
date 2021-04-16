@@ -1,8 +1,9 @@
 #include "lab2/drawer.h"
 
+#include <iomanip>
+#include <iostream>
 #include <sstream>
 
-#include "iostream"
 #include "lab1/brent.h"
 #include "lab1/dichotomy.h"
 #include "lab1/fibonacci.h"
@@ -102,6 +103,13 @@ void Drawer::change_draw_optimize_lines() {
 void Drawer::change() {
     setup();
     emit method_changed(optimize_points.size());
+    std::ostringstream eps_stream, x_stream, y_stream;
+    eps_stream << std::setprecision(2) << pepsilon;
+    x_stream << std::setprecision(2) << starting_point[0];
+    y_stream << std::setprecision(2) << starting_point[1];
+    emit pepsilon_changed(QString::fromStdString(eps_stream.str()));
+    emit x_changed(QString::fromStdString(x_stream.str()));
+    emit y_changed(QString::fromStdString(y_stream.str()));
 }
 
 void Drawer::set_method_2d(const QString &text) {

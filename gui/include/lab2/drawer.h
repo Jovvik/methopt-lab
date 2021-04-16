@@ -23,6 +23,9 @@ namespace gui2 {
 
       signals:
         void method_changed(int size);
+        void x_changed(QString x_expression);
+        void y_changed(QString y_expression);
+        void pepsilon_changed(QString epsilon_expression);
 
       private:
         const int COUNT             = 500;
