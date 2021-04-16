@@ -15,17 +15,23 @@ namespace gui2 {
         void set_method_1d(const QString &text);
         void set_func(const QString &text);
         void set_pepsilon(const QString &text);
+        void set_x(const QString &text);
+        void set_y(const QString &text);
+        void change_draw_level_lines();
+        void change_draw_optimize_lines();
         void change();
 
       signals:
         void method_changed(int size);
-        void pepsilon_changed(double epsilon);
+        void x_y_changed(QString x_y_expression);
+        void pepsilon_changed(QString epsilon_expression);
 
       private:
         const int COUNT             = 200;
         const int LINE_COUNT        = 5;
         int optimize_points_to_draw = 0;
         double pepsilon             = 1e-2;
+        bool draw_level_lines = true, draw_optimize_lines = true;
         lab2::Vector starting_point = lab2::Vector({5, 5});
         std::vector<lab2::Vector> optimize_points;
         std::vector<QCPCurve *> curves;
@@ -37,7 +43,7 @@ namespace gui2 {
                                      QMouseEvent *);
         void recalc_optimize_points();
         void before_replot();
-        void replot_lines();
+        void replot_lines() const;
         void replot_f();
         void setup();
     };

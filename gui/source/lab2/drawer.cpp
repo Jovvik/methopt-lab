@@ -1,5 +1,7 @@
 #include "lab2/drawer.h"
 
+#include <sstream>
+
 #include "iostream"
 #include "lab1/brent.h"
 #include "lab1/dichotomy.h"
@@ -77,10 +79,24 @@ void Drawer::setup() {
     replot();
 }
 
+void Drawer::change_draw_level_lines() {
+    draw_level_lines = !draw_level_lines;
+    replot();
+}
+
+void Drawer::change_draw_optimize_lines() {
+    draw_optimize_lines = !draw_optimize_lines;
+    replot();
+}
+
 void Drawer::change() {
     setup();
+    std::ostringstream temp_pepsilon, temp_x_y;
+    temp_pepsilon << ":Eps=" << pepsilon;
+    temp_x_y << ":{" << starting_point[0] << ", " << starting_point[1] << "}";
+    emit pepsilon_changed(QString::fromStdString(temp_pepsilon.str()));
+    emit x_y_changed(QString::fromStdString(temp_x_y.str()));
     emit method_changed(optimize_points.size());
-    emit pepsilon_changed(pepsilon);
 }
 
 void Drawer::set_method_2d(const QString &text) {
@@ -104,10 +120,27 @@ void Drawer::set_count_to_draw(int iteration) {
 }
 
 void Drawer::set_pepsilon(const QString &text) {
-    double temp = atof(text.toStdString().c_str());
-    if (temp != 0) {
-        pepsilon = temp;
+    auto temp_str = text.toStdString();
+    if (temp_str.empty()) {
+        return;
     }
+    pepsilon = atof(temp_str.c_str());
+}
+
+void Drawer::set_x(const QString &text) {
+    auto temp_str = text.toStdString();
+    if (temp_str.empty()) {
+        return;
+    }
+    starting_point = lab2::Vector({atof(temp_str.c_str()), starting_point[1]});
+}
+
+void Drawer::set_y(const QString &text) {
+    auto temp_str = text.toStdString();
+    if (temp_str.empty()) {
+        return;
+    }
+    starting_point = lab2::Vector({starting_point[0], atof(temp_str.c_str())});
 }
 
 void Drawer::before_replot() {
@@ -116,13 +149,18 @@ void Drawer::before_replot() {
 }
 
 void Drawer::replot_f() {
+    if (draw_optimize_lines) {
+        graph(0)->setLineStyle(QCPGraph::LineStyle::lsLine);
+    } else {
+        graph(0)->setLineStyle(QCPGraph::LineStyle::lsNone);
+    }
     graph(0)->setData(QVector<double>(), QVector<double>());
     for (int i = 0; i < optimize_points_to_draw; i++) {
         graph(0)->addData(optimize_points[i][0], optimize_points[i][1]);
     }
 }
 
-void Drawer::replot_lines() {
+void Drawer::replot_lines() const {
     //    auto [start, end] = xAxis->range();
     //    double step       = (end - start) / COUNT;
 
