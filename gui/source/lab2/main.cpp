@@ -10,9 +10,10 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     auto h_box       = new QHBoxLayout(this);
     auto h_box_check = new QHBoxLayout(this);
 
-    auto graphic      = new Drawer(this);
-    auto combo_box_2d = new QComboBox(this), combo_box_1d = new QComboBox(this),
-         combo_box_f              = new QComboBox(this);
+    auto graphic                  = new Drawer(this);
+    auto combo_box_2d             = new QComboBox(this);
+    auto combo_box_1d             = new QComboBox(this);
+    auto combo_box_f              = new QComboBox(this);
     auto check_box_level_lines    = new QCheckBox("Hide level lines", this),
          check_box_optimize_lines = new QCheckBox("Hide opt lines", this);
     auto slider                   = new Slider(this);
@@ -20,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     auto input_epsilon            = new QLineEdit(this);
     auto input_x                  = new QLineEdit(this);
     auto input_y                  = new QLineEdit(this);
-    auto label_epsilon            = new QLabel(this);
-    auto label_x_y                = new QLabel(this);
+    auto label_epsilon            = new QLabel("Eps", this);
+    auto label_x_y = new QLabel("Начальная точка", this);
 
     v_box->addLayout(h_box_check);
     v_box->addLayout(h_box);
@@ -67,9 +68,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
             &Drawer::change_draw_level_lines);
     connect(check_box_optimize_lines, &QCheckBox::stateChanged, graphic,
             &Drawer::change_draw_optimize_lines);
-    connect(graphic, SIGNAL(pepsilon_changed(QString)), label_epsilon,
+    connect(graphic, SIGNAL(pepsilon_changed(QString)), input_epsilon,
             SLOT(setText(const QString &)));
-    connect(graphic, SIGNAL(x_y_changed(QString)), label_x_y,
+    connect(graphic, SIGNAL(x_changed(QString)), input_x,
+            SLOT(setText(const QString &)));
+    connect(graphic, SIGNAL(y_changed(QString)), input_y,
             SLOT(setText(const QString &)));
     connect(slider, &Slider::valueChanged, graphic, &Drawer::set_count_to_draw);
     connect(input_epsilon, &QLineEdit::textChanged, graphic,
