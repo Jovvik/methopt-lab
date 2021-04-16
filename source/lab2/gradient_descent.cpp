@@ -5,7 +5,6 @@ using namespace lab2;
 Vector GradientDescent::iteration(QuadraticFunction &f, double) {
     Vector x        = points_last();
     Vector f_x_grad = f.grad(x);
-    f_x_grad        = f_x_grad;
     Vector y        = x - f_x_grad * a;
     double f_x      = f(x);
     while (f(y) >= f_x && iteration_count <= 1000) {
