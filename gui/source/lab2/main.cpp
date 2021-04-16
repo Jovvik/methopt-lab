@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     auto check_box_level_lines    = new QCheckBox("Hide level lines", this),
          check_box_optimize_lines = new QCheckBox("Hide opt lines", this);
     auto slider                   = new Slider(this);
+    auto redraw                   = new QPushButton("Redraw", this);
     auto input_epsilon            = new QLineEdit(this);
     auto input_x                  = new QLineEdit(this);
     auto input_y                  = new QLineEdit(this);
@@ -35,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     h_box->addWidget(input_x, 0);
     h_box->addWidget(input_y, 0);
     h_box->addWidget(label_x_y, 0);
+    h_box->addWidget(redraw, 0);
     h_box->addLayout(new QVBoxLayout(this), 1);
     v_box_check->setSpacing(20);
     v_box_check->addWidget(check_box_level_lines, 0);
@@ -81,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     connect(input_y, &QLineEdit::textChanged, graphic, &Drawer::set_y);
     connect(input_y, &QLineEdit::returnPressed, graphic, &Drawer::change);
     connect(input_y, &QLineEdit::returnPressed, input_y, &QLineEdit::clear);
+    connect(redraw, &QAbstractButton::clicked, graphic, &Drawer::change);
     connect(combo_box_2d, &QComboBox::currentTextChanged, graphic,
             &Drawer::set_method_2d);
     connect(combo_box_1d, &QComboBox::currentTextChanged, graphic,
