@@ -89,6 +89,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
             &Drawer::set_func);
     connect(graphic, SIGNAL(method_changed(int)), slider, SLOT(setup(int)));
 
+    graphic->set_func(
+        QString::fromStdString(lab2::functions_table.begin()->first));
     graphic->set_method_2d(
         QString::fromStdString(lab2::n_optimizers_table.begin()->first));
     graphic->set_method_1d(
