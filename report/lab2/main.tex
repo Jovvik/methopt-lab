@@ -3,55 +3,55 @@
 \begin{document}
 
 \begin{titlepage}
-    \begin{center}
-        \textsc{Национальный исследовательский университет ИТМО\\
-            Прикладная математика и информатика}\\[5cm]
+	\begin{center}
+		\textsc{Национальный исследовательский университет ИТМО\\
+			Прикладная математика и информатика}\\[5cm]
 
-        \huge{Методы оптимизации\\[6mm]
-            \large Отчет по лабораторной работе №2\\
-            ``Алгоритмы минимизации многомерных функций''\\[4cm]
-           
-        }
-    \end{center}
+		\huge{Методы оптимизации\\[6mm]
+			\large Отчет по лабораторной работе №2\\
+			``Алгоритмы минимизации многомерных функций''\\[4cm]
 
-    \begin{flushright}
-        \begin{minipage}{0.25\textwidth}
-            Выполнили:\\[2mm]
-            Михайлов Максим\\
-            Загребина Мария\\
-            Кулагин Ярослав\\[2mm]
-            Команда:
+		}
+	\end{center}
 
-            \(\forall \bar R \in \mathscr{R}^n : \mathrm{\textbf{R}}(\bar R) \in \mathscr{R}\)
+	\begin{flushright}
+		\begin{minipage}{0.25\textwidth}
+			Выполнили:\\[2mm]
+			Михайлов Максим\\
+			Загребина Мария\\
+			Кулагин Ярослав\\[2mm]
+			Команда:
 
-            (КаМаЗ)\\[2mm]
-            Группа: M3237
-        \end{minipage}
-    \end{flushright}
+			\(\forall \bar R \in \mathscr{R}^n : \mathrm{\textbf{R}}(\bar R) \in \mathscr{R}\)
 
-    \vfill
-    \begin{center}
-        Санкт-Петербург, \today
-    \end{center}
+			(КаМаЗ)\\[2mm]
+			Группа: M3237
+		\end{minipage}
+	\end{flushright}
+
+	\vfill
+	\begin{center}
+		Санкт-Петербург, \today
+	\end{center}
 \end{titlepage}
 
 
 
 \section{Цели}
-\begin{enumerate} 
-\item Реализовать алгоритмы минимизации функций:
-	\begin{itemize}
-		\item Метод градиентного спуска
-		\item Метод наискорейшего спуска
-		\item Метод сопряженных градиентов
-	\end{itemize}
-\item Исследовать скорость сходимости в зависимости от выбора алгоритма одномерной оптимизации в методе наискорейшего спуска.
-\item Проанализировать траектории методов на различных квадратичных функциях
-\item Исследовать зависимость числа итераций от следующих входных параметров:
-	\begin{itemize}
-		\item Число обусловленности
-		\item Размерность пространства
-	\end{itemize}
+\begin{enumerate}
+	\item Реализовать алгоритмы минимизации функций:
+	      \begin{itemize}
+		      \item Метод градиентного спуска
+		      \item Метод наискорейшего спуска
+		      \item Метод сопряженных градиентов
+	      \end{itemize}
+	\item Исследовать скорость сходимости в зависимости от выбора алгоритма одномерной оптимизации в методе наискорейшего спуска.
+	\item Проанализировать траектории методов на различных квадратичных функциях
+	\item Исследовать зависимость числа итераций от следующих входных параметров:
+	      \begin{itemize}
+		      \item Число обусловленности
+		      \item Размерность пространства
+	      \end{itemize}
 \end{enumerate}
 
 \section{Вычислительная схема методов}
@@ -65,7 +65,7 @@
 \subsection{Скорость сходимости в зависимости от выбора алгоритма одномерной оптимизации}
 
 Следующие измерения проводились для функции
-\(f = x^2 + y^2 - xy + 4x + 3y - 1\)  \\ 
+\(f = x^2 + y^2 - xy + 4x + 3y - 1\)  \\
 Точка минимума (-3.66667, -3.33333). \\
 Начальная точка (2, 2) \\
 $\varepsilon = 10^{-6}$ \\
@@ -73,17 +73,17 @@ $\varepsilon = 10^{-6}$ \\
 
 \begin{enumerate}
 	\item Метод золотого сечения \\
-	\\
-	\funtable{dichotomy} \\
+	      \\
+	      \funtable{dichotomy} \\
 	\item Метод фибоначчи \\
-	\\
-	\funtable{fibonacci}
+	      \\
+	      \funtable{fibonacci}
 	\item Метод золотого сечения \\
-	\\
-	\funtable{golden_ratio}
+	      \\
+	      \funtable{golden_ratio}
 	\item Метод Брента \\
-	\\
-	\funtable{brent}
+	      \\
+	      \funtable{brent}
 \end{enumerate}
 
 Таким образом, количество итераций метода наискорейшего спуска не зависит от выбора способа одномерного поиска, но это влияет на скорость работы. Метод парабол не практически не работает для данной функции.
@@ -95,28 +95,28 @@ $\varepsilon = 10^{-6}$ \\
 
 \begin{enumerate}
 	\item \(f_1 = x^2 + y^2 - xy + 4x + 3y - 1\) \\
-	Точка минимума (-3.66667 -3.33333), $\alpha = 0.5$ для метода градиентного спуска. \\
-	\\
-	\smalltable{data/f1.csv} \\
-	\
-	
-	
+	      Точка минимума (-3.66667 -3.33333), $\alpha = 0.5$ для метода градиентного спуска. \\
+	      \\
+	      \smalltable{data/f1.csv} \\
+	      \
+
+
 	\item \(f_2 = 254x^2 + 506xy + 254y^2 + 50x + 130y - 111\) \\
-	Точка минимума (19.9112, -20.0888), $\alpha = 0.00196$ \\
-	\\
-	\smalltable{data/f2.csv} \\
-	
-	\begin{center}
-		\includegraphics[width=9cm, height=7cm]{img/f2.png}
-	\end{center}
+	      Точка минимума (19.9112, -20.0888), $\alpha = 0.00196$ \\
+	      \\
+	      \smalltable{data/f2.csv} \\
+
+	      \begin{center}
+		      \includegraphics[width=9cm, height=7cm]{img/f2.png}
+	      \end{center}
 
 	\item \(f_3 = 108x^2 + 116y^2 + 5xy + 43x + 33y - 211\) \\
-	Точка минимума (-0.195879, -0.13802), $\alpha = 0.00446$  \\
-	\\
-	\smalltable{data/f3.csv} \\
-	\begin{center}
-		\includegraphics[width=9cm, height=7cm]{img/f3.png}
-	\end{center}
+	      Точка минимума (-0.195879, -0.13802), $\alpha = 0.00446$  \\
+	      \\
+	      \smalltable{data/f3.csv} \\
+	      \begin{center}
+		      \includegraphics[width=9cm, height=7cm]{img/f3.png}
+	      \end{center}
 
 \end{enumerate}
 
@@ -127,13 +127,13 @@ $\varepsilon = 10^{-6}$ \\
 
 \begin{itemize}
 	\item Метод градиентного спуска
-	\kngraph{grad}
-	
+	      \kngraph{grad}
+
 	\item Метод наискорейшего спуска
-	\kngraph{fast}
-	
+	      \kngraph{fast}
+
 	\item Метод сопряженных градиентов
-	\kngraph{con}
+	      \kngraph{conjugate}
 \end{itemize}
 
 \section{Выводы}
