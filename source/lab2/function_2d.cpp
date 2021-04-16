@@ -1,7 +1,6 @@
 #include "lab2/function_2d.h"
 
 #include <cmath>
-#include <memory>
 
 #include "lab2/functions.h"
 
