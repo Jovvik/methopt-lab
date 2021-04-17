@@ -133,7 +133,6 @@
 	\subsection{Траектории методов на различных функциях}
 	Во всех вычислениях для алгоритма наискорейшего спуска использовался метод Брента.\\
 	$\varepsilon = 10^{-6}$ \\
-	Начальная точка (-3, 3) \\
 	
 	\begin{enumerate}
 		\item \(f_1 = x^2 + y^2 - xy + 4x + 3y - 1\) \\
@@ -158,8 +157,7 @@
 		
 	\end{enumerate}
 	
-	По данным таблиц видно, что первые 2 метода в общем случае не могут найти минимум овражной функции (вторая) и используют во много раз больше итераций для произвольных функций, чем третий метод.
-	И еще что-нибудь на основе траекторий.
+	В общем случае работа каждого из методов на одной функции различается. Метод градиентного спуска подвержен зигзагообразным скачкам и не доходит до минимума из-за слишком маленьких шагов у функции с очень большим числом обусловленности. Метод сопряженных градиентов использует во много раз меньше итераций для произвольных функций, чем остальные.
 	
 	\subsection{Скорость сходимости в зависимости от числа обусловленности и размерности пространства}
 	
@@ -174,11 +172,27 @@
 		\kngraph{conjugate}
 	\end{itemize}
 	
+	
+	Метод сопряженных градиентов имеет самую высокую скорость сходимости и работает для любых размерностей и чисел обусловленности. 
+	Остальные при больших $n$ и $k$
+	
 	\section{Выводы}
+	Метод сопряженных градиентов хорош, а все остальные не очень.
+	
+	\newpage
 	
 	\section{Графический интерфейс}
-	
+	\includegraphics[scale=0.2]{img/gui.png}\\
+	Графический интерфейс позволяет выбрать метод оптимизации функций, способ одномерного поиска для наискорейшего спуска, одну из четырех предложенных квадратичных функций, а также указать начальное приближение и стартовую точку.\\
+	При передвижении ползунка внизу последовательно отображаются точки, вычисленные на каждой итерации.\\
+	Изображение можно масштабировать и передвигать, справа есть вариант скрыть линии уровня и прямые, соединяющие точки.
+	\newpage
+
 	\section{Код}
+	
+	\subsubsection{Диаграмма классов}
+	\includegraphics{img/diagram.jpg}
+	\newpage
 	
 	\subsubsection{Вектор}
 	\mcode{../../include/lab2/vector.h}
@@ -188,6 +202,51 @@
 	\subsubsection{Общий класс матриц}
 	\mcode{../../include/lab2/vector.h}
 	\mcode{../../source/lab2/vector.cpp}
+	\newpage
+	
+	\subsubsection{Матрица}
+	\mcode{../../include/lab2/matrix.h}
+	\mcode{../../source/lab2/matrix.cpp}
+	\newpage
+	
+	\subsubsection{Диагональная матрица}
+	\mcode{../../include/lab2/matrix.h}
+	\mcode{../../source/lab2/matrix.cpp}
+	\newpage
+	
+	\subsubsection{Функция}
+	\mcode{../../include/lab2/n_function.h}
+	\mcode{../../source/lab2/n_function.cpp}
+	\newpage
+	
+	\subsubsection{Квадратичная фунция}
+	\mcode{../../include/lab2/quadratic_function.h}
+	\mcode{../../source/lab2/quadratic_function.cpp}
+	\newpage
+	
+	\subsubsection{Абстрактный класс оптимизатора}
+	\mcode{../../include/lab2/n_optimizer.h}
+	\mcode{../../source/lab2/n_optimizer.cpp}
+	\newpage
+	
+	\subsubsection{Метод градиентного спуска}
+	\mcode{../../include/lab2/gradient_descent.h}
+	\mcode{../../source/lab2/gradient_descent.cpp}
+	\newpage
+	
+	\subsubsection{Метод наискорейшего спуска}
+	\mcode{../../include/lab2/fastest_descent.h}
+	\mcode{../../source/lab2/fastest_descent.cpp}
+	\newpage
+	
+	\subsubsection{Метод сопряженных градиентов}
+	\mcode{../../include/lab2/conjugate_gradient.h}
+	\mcode{../../source/lab2/conjugate_gradient.cpp}
+	\newpage
+	
+	\subsubsection{Используемые функции}
+	\mcode{../../include/lab2/functions.h}
+	\mcode{../../source/lab2/functions.cpp}
 	\newpage
 	
 \end{document}
