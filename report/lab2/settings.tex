@@ -12,9 +12,10 @@
 \usepackage{minted}
 \usepackage{listings}
 \usepackage{lstfiracode}
-\usepackage{caption}
 \usepackage{mathrsfs}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \usemintedstyle{colorful}
 \newenvironment{code}{\captionsetup{type=listing}}{}
@@ -50,17 +51,49 @@
 	]{data/methods/#1.csv}
 }
 
+\newcommand{\img}[2]{
+	\begin{figure}[h]
+		\center{\includegraphics[width=.5\textwidth,
+			height=.4\textwidth]{img/#1}}
+		\caption{#2}
+	\end{figure}
+}
+
+\newcommand{\imgs}[1]{
+	
+	\hbox to\linewidth{
+		\vbox{
+			\hbox{\includegraphics[width=.5\textwidth,
+				height=.4\textwidth]{img/#1/g.png}}
+			\hbox{Градиентный спуск}
+		}
+		\t
+		\hfill
+		\vbox{
+			\hbox{\includegraphics[width=.5\textwidth,
+				height=.4\textwidth]{img/#1/f.png}}
+			\hbox{Наискорейший спуск}
+		}
+	}
+
+	
+	\vbox{
+		\hbox{\includegraphics[width=.5\textwidth,
+			height=.4\textwidth]{img/#1/c.png}}
+		\hbox{Сопряженные градиенты}
+	}
+
+}
 
 \newcommand{\kngraph}[1] {
 	\begin{center}
 		\begin{tikzpicture}
-		\begin{axis}[
+		\begin{semilogxaxis}[
 		title = {},
-		xlabel = k,
+		xlabel = $\log{k}$,
 		ylabel = number of iterations,
-		%legend pos = south east,
-		width=0.9\textwidth,
-		xmax=2500
+		legend pos=outer north east,
+		width=0.8\textwidth,
 		]
 		\addplot table [x={k}, y={number}] {data/#1/n1.csv};
 		\addplot table [x={k}, y={number}] {data/#1/n2.csv};
@@ -70,7 +103,7 @@
 		\addlegendentry{$n = 10^2$}
 		\addlegendentry{$n = 10^3$}
 		\addlegendentry{$n = 10^4$}
-		\end{axis}
+		\end{semilogxaxis}
 		\end{tikzpicture}
 	\end{center}
 }
