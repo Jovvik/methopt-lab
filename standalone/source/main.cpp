@@ -2,6 +2,6 @@
 #include <iostream>
 #include <optional>
 
-#include "lab/optimizer.h"
+#include "lab1/optimizer.h"
 
 int main() {}
