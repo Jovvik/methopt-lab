@@ -51,27 +51,19 @@
 	]{data/methods/#1.csv}
 }
 
-\newcommand{\img}[2]{
-	\begin{figure}[h]
-		\center{\includegraphics[width=.5\textwidth,
-			height=.4\textwidth]{img/#1}}
-		\caption{#2}
-	\end{figure}
-}
-
 \newcommand{\imgs}[1]{
 	
 	\hbox to\linewidth{
 		\vbox{
 			\hbox{\includegraphics[width=.5\textwidth,
-				height=.4\textwidth]{img/#1/g.png}}
+				height=.4\textwidth]{img/#1/g.jpg}}
 			\hbox{Градиентный спуск}
 		}
 		\t
 		\hfill
 		\vbox{
 			\hbox{\includegraphics[width=.5\textwidth,
-				height=.4\textwidth]{img/#1/f.png}}
+				height=.4\textwidth]{img/#1/f.jpg}}
 			\hbox{Наискорейший спуск}
 		}
 	}
@@ -79,7 +71,7 @@
 	
 	\vbox{
 		\hbox{\includegraphics[width=.5\textwidth,
-			height=.4\textwidth]{img/#1/c.png}}
+			height=.4\textwidth]{img/#1/c.jpg}}
 		\hbox{Сопряженные градиенты}
 	}
 
@@ -106,20 +98,6 @@
 		\end{semilogxaxis}
 		\end{tikzpicture}
 	\end{center}
-}
-
-\newcommand{\graph}[1]{
-    \begin{center}
-        \begin{tikzpicture}
-            \begin{semilogxaxis}[
-                    title = {График зависимости количества измерений \(n\) от логарифма задаваемой точности $\varepsilon$},
-                    xlabel = $\varepsilon$,
-                    ylabel = $n$,
-                ]
-                \addplot table [x={k}, y={number}] {#1};
-            \end{semilogxaxis}
-        \end{tikzpicture}
-    \end{center}
 }
 
 \newcommand{\mcode}[1]{
