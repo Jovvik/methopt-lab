@@ -2,7 +2,6 @@
 
 #include <iomanip>
 #include <iostream>
-#include <sstream>
 
 #include "lab1/brent.h"
 #include "lab1/dichotomy.h"
@@ -65,27 +64,31 @@ void Drawer::recalc_optimize_points() {
     optimize_points = n_optimizer->get_points();
 }
 
+void Drawer::clear_curves(){
+    for (auto curve : curves) {
+        removePlottable(curve);
+    }
+    curves.clear();
+    for (int i = 0; i < LINE_COUNT; i++) {
+        curves.emplace_back(new QCPCurve(xAxis, yAxis));
+    }
+}
+
 void Drawer::setup() {
     xAxis->setRange(-10, 10);
     yAxis->setRange(-10, 10);
     recalc_optimize_points();
     clearItems();
-    for (auto curve : curves) {
-        removePlottable(curve);
-    }
+    clear_curves();
     for (auto graph : graphs) {
         removePlottable(graph);
     }
-    curves.clear();
     graphs.clear();
-    for (int i = 0; i < optimize_points.size() - 1; i++) {
+    for (size_t i = 0; i < optimize_points.size() - 1; i++) {
         graphs.emplace_back(new QCPGraph(xAxis, yAxis));
         graphs.back()->setPen(QPen(Qt::red));
         graphs.back()->setScatterStyle(QCPScatterStyle::ssCircle);
         graphs.back()->setSelectable(QCP::SelectionType::stSingleData);
-    }
-    for (int i = 0; i < LINE_COUNT; i++) {
-        curves.emplace_back(new QCPCurve(xAxis, yAxis));
     }
     replot();
 }
@@ -162,7 +165,7 @@ void Drawer::before_replot() {
 }
 
 void Drawer::replot_f() {
-    for (int i = 0; i < optimize_points.size() - 1; i++) {
+    for (int i = 0; i < (int)optimize_points.size() - 1; i++) {
         if (draw_optimize_lines) {
             graphs[i]->setLineStyle(QCPGraph::LineStyle::lsLine);
         } else {
@@ -215,10 +218,38 @@ void Drawer::replot_lines() {
             }
             curves[index]->setData(QVector<double>::fromStdVector(x_up),
                                    QVector<double>::fromStdVector(y_up));
-            z *= LINE_STEP;
+            z = (z + LINE_STEP_ADD) * LINE_STEP_MUL;
         } catch (int a) {
         }
     }
+}
+
+void Drawer::set_count(const QString &text) {
+    auto temp_str = text.toStdString();
+    if (temp_str.empty()) {
+        return;
+    }
+    LINE_COUNT = std::stoi(temp_str);
+    clear_curves();
+    replot();
+}
+void Drawer::set_step_add(const QString &text) {
+    auto temp_str = text.toStdString();
+    if (temp_str.empty()) {
+        return;
+    }
+    LINE_STEP_ADD = std::stoi(temp_str);
+    clear_curves();
+    replot();
+}
+void Drawer::set_step_mul(const QString &text) {
+    auto temp_str = text.toStdString();
+    if (temp_str.empty()) {
+        return;
+    }
+    LINE_STEP_MUL = std::stof(temp_str);
+    clear_curves();
+    replot();
 }
 
 void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int,

@@ -17,9 +17,14 @@ namespace gui2 {
         void set_pepsilon(const QString &text);
         void set_x(const QString &text);
         void set_y(const QString &text);
+        void set_count(const QString &text);
+        void set_step_add(const QString &text);
+        void set_step_mul(const QString &text);
         void change_draw_level_lines();
         void change_draw_optimize_lines();
         void change();
+        void clear_curves();
+        void public_replot();
 
       signals:
         void method_changed(int size);
@@ -29,13 +34,14 @@ namespace gui2 {
 
       private:
         const int COUNT             = 500;
-        const int LINE_COUNT        = 5;
-        const int LINE_STEP         = 5;
-        const int FIRST_LINE        = 4;
+        int LINE_COUNT              = 30;
+        int LINE_STEP_ADD           = 5;
+        double LINE_STEP_MUL        = 1.1;
+        const int FIRST_LINE        = 0;
         int optimize_points_to_draw = 0;
-        double pepsilon             = 1e-2;
+        double pepsilon             = 1e-6;
         bool draw_level_lines = true, draw_optimize_lines = true;
-        lab2::Vector starting_point = lab2::Vector({5, 5});
+        lab2::Vector starting_point = lab2::Vector({10, 10});
         std::vector<lab2::Vector> optimize_points;
         std::vector<QCPCurve *> curves;
         std::vector<QCPGraph *> graphs;
