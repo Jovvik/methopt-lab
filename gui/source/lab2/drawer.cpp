@@ -64,7 +64,7 @@ void Drawer::recalc_optimize_points() {
     optimize_points = n_optimizer->get_points();
 }
 
-void Drawer::clear_curves(){
+void Drawer::clear_curves() {
     for (auto curve : curves) {
         removePlottable(curve);
     }
@@ -224,6 +224,8 @@ void Drawer::replot_lines() {
     }
 }
 
+void Drawer::public_replot() { replot(); }
+
 void Drawer::set_count(const QString &text) {
     auto temp_str = text.toStdString();
     if (temp_str.empty()) {
@@ -231,7 +233,6 @@ void Drawer::set_count(const QString &text) {
     }
     LINE_COUNT = std::stoi(temp_str);
     clear_curves();
-    replot();
 }
 void Drawer::set_step_add(const QString &text) {
     auto temp_str = text.toStdString();
@@ -240,7 +241,6 @@ void Drawer::set_step_add(const QString &text) {
     }
     LINE_STEP_ADD = std::stoi(temp_str);
     clear_curves();
-    replot();
 }
 void Drawer::set_step_mul(const QString &text) {
     auto temp_str = text.toStdString();
@@ -249,7 +249,6 @@ void Drawer::set_step_mul(const QString &text) {
     }
     LINE_STEP_MUL = std::stof(temp_str);
     clear_curves();
-    replot();
 }
 
 void Drawer::rescale_on_click(QCPAbstractPlottable *plottable, int,

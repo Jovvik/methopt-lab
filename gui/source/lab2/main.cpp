@@ -109,14 +109,17 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     connect(input_y, &QLineEdit::returnPressed, graphic, &Drawer::change);
     connect(input_y, &QLineEdit::returnPressed, input_y, &QLineEdit::clear);
     connect(input_count, &QLineEdit::textChanged, graphic, &Drawer::set_count);
+    connect(input_count, &QLineEdit::returnPressed, graphic, &Drawer::public_replot);
     connect(input_count, &QLineEdit::returnPressed, input_count,
             &QLineEdit::clear);
     connect(input_step_add, &QLineEdit::textChanged, graphic,
             &Drawer::set_step_add);
+    connect(input_step_add, &QLineEdit::returnPressed, graphic, &Drawer::public_replot);
     connect(input_step_add, &QLineEdit::returnPressed, input_step_add,
             &QLineEdit::clear);
     connect(input_step_mul, &QLineEdit::textChanged, graphic,
             &Drawer::set_step_mul);
+    connect(input_step_mul, &QLineEdit::returnPressed, graphic, &Drawer::public_replot);
     connect(input_step_mul, &QLineEdit::returnPressed, input_step_mul,
             &QLineEdit::clear);
     connect(redraw, &QAbstractButton::clicked, graphic, &Drawer::change);
