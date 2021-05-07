@@ -9,17 +9,18 @@ lab2::FastestDescent::FastestDescent(
     : generator(std::move(generator)) {}
 
 lab2::Vector lab2::FastestDescent::iteration(QuadraticFunction &f, double) {
-    Vector x_k      = get_points().back();
-    Vector grad_x_k = f.grad(x_k);
-    grad_x_k        = grad_x_k * (1 / grad_x_k.norm());
-    double alpha
-        = generator(
-              [&f, &x_k, &grad_x_k](double alpha) {
-                  return f(x_k - grad_x_k * alpha);
-              },
-              1e-6, 0,
-              f.A->max_eigenvalue.has_value() ? 2. / *f.A->max_eigenvalue
-                                              : 1000)
-              ->optimize();
+    Vector x_k       = get_points().back();
+    Vector grad_x_k  = f.grad(x_k);
+    double grad_norm = grad_x_k.norm();
+    grad_x_k         = grad_x_k * (1 / grad_norm);
+    double alpha     = generator(
+                       [&f, &x_k, &grad_x_k](double alpha) {
+                           return f(x_k - grad_x_k * alpha);
+                       },
+                       1e-6, 0,
+                       f.A->max_eigenvalue.has_value()
+                               ? 2. / *f.A->max_eigenvalue * grad_norm
+                               : 1000)
+                       ->optimize();
     return x_k - grad_x_k * alpha;
 }
