@@ -14,6 +14,8 @@ namespace lab2 {
       public:
         explicit Matrix(const std::vector<std::vector<double>>& data,
                         std::optional<double> max_eigenvalue = std::nullopt);
+        explicit Matrix(std::size_t size,
+                        const std::function<double(std::size_t, std::size_t)>& generator);
 
         [[nodiscard]] Vector operator[](std::size_t idx) const override;
         [[nodiscard]] std::size_t size() const override;

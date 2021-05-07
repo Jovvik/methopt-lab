@@ -11,6 +11,16 @@ Matrix::Matrix(const std::vector<std::vector<double>>& data_,
     check_size();
 }
 
+Matrix::Matrix(std::size_t size,
+               const std::function<double(std::size_t, std::size_t)>& generator)
+    : AbstractMatrix(std::nullopt) {
+    data.reserve(size);
+    for (std::size_t i = 0; i < size; i++) {
+        data.push_back(
+            Vector(size, std::bind(generator, i, std::placeholders::_1)));
+    }
+}
+
 Vector Matrix::operator[](std::size_t idx) const { return data[idx]; }
 
 std::size_t Matrix::size() const { return data.size(); }
