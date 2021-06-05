@@ -19,7 +19,7 @@ public class Solver {
             }
         }
         List<Double> b = parseDoubleList(Files.newBufferedReader(Path.of("data", "b.txt")));
-        Files.writeString(Path.of("data", "x.txt"), new DenseMatrix(mat).gauss(b).stream().map(Object::toString)
+        Files.writeString(Path.of("data", "x.txt"), new DenseMatrix(mat).gauss(b, true).stream().map(Object::toString)
                 .collect(Collectors.joining(" ", "", "\n")));
     }
 }
