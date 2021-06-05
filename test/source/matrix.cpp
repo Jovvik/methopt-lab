@@ -2,6 +2,9 @@
 
 #include <doctest/doctest.h>
 
+#include <fstream>
+#include <sstream>
+
 #include "lab2/diagonal_matrix.h"
 
 using namespace lab2;
@@ -62,4 +65,23 @@ TEST_CASE("matrix product") {
 TEST_CASE("matrix product size mismatch") {
     Vector trash({1});
     CHECK_THROWS(trash = dmat * Vector({1}));
+}
+
+TEST_CASE("matrix file write") {
+    std::ofstream of("data/test.txt");
+    of << mat;
+    of.close();
+    std::ifstream ifs("data/test.txt");
+    std::vector<std::vector<double>> read_mat;
+    std::string line;
+    while (getline(ifs, line)) {
+        std::stringstream ss(line);
+        read_mat.emplace_back();
+        // technically pasted
+        while (!ss.eof()) {
+            read_mat.back().emplace_back();
+            ss >> read_mat.back().back();
+        }
+    }
+    CHECK_EQ(Matrix(read_mat), mat);
 }

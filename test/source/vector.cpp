@@ -2,6 +2,8 @@
 
 #include <doctest/doctest.h>
 
+#include <fstream>
+
 using namespace lab2;
 
 TEST_CASE("vector size") {
@@ -33,7 +35,7 @@ TEST_CASE("vector diff") {
     CHECK_THROWS(Vector({1, 2}) - Vector({0.5}));
 }
 
-TEST_CASE("vector reference constror") {
+TEST_CASE("vector reference constructor") {
     std::vector<double> v{1, 2};
     Vector res = Vector(v);
     CHECK_EQ(res[0], 1);
@@ -47,3 +49,11 @@ TEST_CASE("vector scale") {
 }
 
 TEST_CASE("vector norm") { CHECK_EQ(Vector({3, 4}).norm(), 5); }
+
+TEST_CASE("vector file write") {
+    std::ofstream of("data/tmp.txt");
+    of << Vector({1, 2, 3});
+    of.close();
+    std::ifstream ifs("data/tmp.txt");
+    CHECK_EQ(Vector({1, 2, 3}), Vector(ifs));
+}
