@@ -37,6 +37,9 @@ jobs:
       - name: build
         run: cmake --build build --config Debug -j4
 
+      - name: gradle build
+        run: ./gradlew build
+
       - name: test
         run: |
           cd build
