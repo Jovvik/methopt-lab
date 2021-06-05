@@ -2,6 +2,7 @@
 #include <lab3/solver.h>
 
 #include <fstream>
+#include <string>
 
 using namespace lab3;
 
