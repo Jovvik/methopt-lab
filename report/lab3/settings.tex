@@ -1,0 +1,176 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage[a4paper, mag=1000, left=1.5cm, right=2cm, top=2cm, bottom=2cm, headsep=0.7cm, footskip=1cm]{geometry}
+\usepackage{amsmath}
+\usepackage{pgfplots, colortbl}
+\usepackage{makecell}
+\usepackage{multicol}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.16}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{lstfiracode}
+\usepackage{caption}
+\usepackage{mathrsfs}
+\usepackage{placeins}
+
+\usemintedstyle{colorful}
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+
+\newcommand{\nktable}[2]{
+	\FloatBarrier
+	\begin{table}[h]
+		\centering
+		\caption*{#2}
+		\pgfplotstabletypeset[
+			every even row/.style=
+				{before row={\rowcolor[gray]{0.95}}},
+			string type,
+			columns/n/.style={column name=Размерность, column type={|c}},
+			columns/k/.style={column name=$k$, column type={|c}},
+			columns/abs/.style={column name=$\|x^* - x_k\|$, column type={|c}},
+			columns/rel/.style={column name=$\|x^* - x_k\| / \|x^*\|$, column type={|c}},
+			columns/cond/.style={column name=$cond$, column type={|c|}},
+			columns/number/.style={column name=Количество действий, column type={|c|}},
+			columns/iter/.style={column name=Количество итераций, column type={|c}},
+			every head row/.style={before row=\hline, after row=\hline},
+			every last row/.style={after row=\hline}
+		]{#1}
+	\end{table}
+	\FloatBarrier
+}
+
+
+\newcommand{\ntable}[2]{
+	\FloatBarrier
+	\begin{table}[h]
+		\centering
+		\caption*{#2}
+		\pgfplotstabletypeset[
+			every even row/.style=
+				{before row={\rowcolor[gray]{0.95}}},
+			string type,
+			columns/n/.style={column name=Размерность, column type={|c}},
+			columns/abs/.style={column name=$\|x^* - x\|$, column type={|c}},
+			columns/rel/.style={column name=$\|x^* - x\| / \|x^*\|$, column type={|c}},
+			columns/cond/.style={column name=$cond$, column type={|c|}},
+			columns/number/.style={column name=Количество действий, column type={|c|}},
+			columns/iter/.style={column name=Количество итераций, column type={|c}},
+			every head row/.style={before row=\hline, after row=\hline},
+			every last row/.style={after row=\hline}
+		]{#1}
+	\end{table}
+	\FloatBarrier
+}
+
+\newcommand{\fullgraph}[4]{
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					title = {График зависимости логарифма относительной погрешности от $k$},
+					xlabel = $k$,
+					ylabel = \(\log \delta x\),
+					legend pos=outer north east,
+					ylabel style={rotate=-90},
+					ymode = log
+				]
+				\addplot table [x={k}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#1.csv};
+				\addplot table [x={k}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#2.csv};
+				\addplot table [x={k}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#3.csv};
+				\addplot table [x={k}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#4.csv};
+				\addlegendentry{$n = #1$}
+				\addlegendentry{$n = #2$}
+				\addlegendentry{$n = #3$}
+				\addlegendentry{$n = #4$}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+					title = {График зависимости логарифма относительной погрешности от $cond$},
+					xlabel = $\log cond$,
+					ylabel = \(\log \delta x\),
+					legend pos=outer north east,
+					ylabel style={rotate=-90},
+					xmode = log,
+					ymode = log,
+				]
+				\addplot table [x={cond}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#1.csv};
+				\addplot table [x={cond}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#2.csv};
+				\addplot table [x={cond}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#3.csv};
+				\addplot table [x={cond}, y={rel}, /pgf/number format/read comma as period] {data/task2/n#4.csv};
+				\addlegendentry{$n = #1$}
+				\addlegendentry{$n = #2$}
+				\addlegendentry{$n = #3$}
+				\addlegendentry{$n = #4$}
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+}
+
+\newcommand{\graph}[1]{
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					title = {График зависимости логарифма относительной погрешности от размерности матрицы},
+					xlabel = $n$,
+					ylabel = \(\log \delta x\),
+					ylabel style={rotate=-90},
+					ymode = log
+				]
+				\addplot table [x={n}, y={rel}, /pgf/number format/read comma as period] {#1};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+}
+
+\newcommand{\loggraph}[3]{
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{semilogxaxis}[
+					title = {График зависимости количества итераций метода от размерности},
+					xlabel = $\log n$,
+					ylabel = \(\log iterations\),
+					ylabel style={rotate=-90},
+					ymode = log,
+					legend pos=outer north east
+				]
+				\addplot table [x={n}, y={iter}, /pgf/number format/read comma as period] {#1};
+				\addplot table [x={n}, y={iter}, /pgf/number format/read comma as period] {#2};
+				\addplot table [x={n}, y={iter}, /pgf/number format/read comma as period] {#3};
+				\addlegendentry{диагональное преобладание}
+				\addlegendentry{обратный знак}
+				\addlegendentry{матрицы Гильберта}
+			\end{semilogxaxis}
+		\end{tikzpicture}
+	\end{center}
+}
+
+\newcommand{\densegraph}[2]{
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					title = {График зависимости логарифма относительной погрешности от размерности матрицы},
+					xlabel = $n$,
+					ylabel = \(\log \delta x\),
+					legend pos=outer north east,
+					ylabel style={rotate=-90}
+				]
+				\addplot table [x={n}, y={rel}, /pgf/number format/read comma as period] {#1};
+				\addplot table [x={n}, y={rel}, /pgf/number format/read comma as period] {#2};
+				\addlegendentry{метод Гаусса для плотных матриц}
+				\addlegendentry{метод Гаусса для LU-разложения}
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+}
+
+\newcommand{\mcode}[2]{
+	\begin{code}
+		\caption*{#1}
+		\inputminted[breaklines=true, xleftmargin=1em, linenos, frame=single, framesep=10pt, fontsize=\footnotesize]{java}{../../src/main/java/matrix/#2}
+	\end{code}
+	\newpage
+}

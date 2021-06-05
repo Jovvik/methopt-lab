@@ -1,10 +1,21 @@
+# cpp
 /build*
 /.vscode
 /cpm_modules
 .DS_Store
 /cmake-build-*
 
+# java
 /.gradle/
 /.idea/
 /.settings/
 /bin/
+
+# tex
+_minted-*
+*.aux
+*.fls
+*.fdb_latexmk
+*.log
+*.synctex.gz
+*.xdv
