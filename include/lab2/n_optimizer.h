@@ -42,7 +42,7 @@ namespace lab2 {
          * @param epsilon Искомая точность
          * @return Достигнута ли искомая точность
          */
-        [[nodiscard]] bool is_done(NFunction& f, double epsilon) const;
+        [[nodiscard]] virtual bool is_done(NFunction& f, double epsilon) const;
         /**
          * Итерация алгоритма оптимизации
          * @param f Оптимизируемая функция

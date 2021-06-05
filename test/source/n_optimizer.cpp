@@ -8,15 +8,16 @@
 #include "lab1/fibonacci.h"
 #include "lab1/golden_ratio.h"
 #include "lab1/optimizer.h"
-#include "lab1/parabola.h"
 #include "lab2/conjugate_gradient.h"
 #include "lab2/fastest_descent.h"
 #include "lab2/functions.h"
 #include "lab2/gradient_descent.h"
 #include "lab2/matrix.h"
 #include "lab2/quadratic_function.h"
+#include "lab4/classic_newton.h"
 
 using namespace lab2;
+using namespace lab4;
 
 #define DOCTEST_VALUE_PARAMETERIZED_DATA(data, data_container)               \
     static size_t _doctest_subcase_idx = 0;                                  \
@@ -136,6 +137,26 @@ TEST_CASE("conjugate") {
                    - Vector({15006. / 421, 14885. / 421}))
                       .norm()
                   <= epsilon);
+        }
+    }
+}
+
+TEST_CASE("classic newton") {
+    std::vector<double> less_epsilons = {1, 1e-4, 1e-8};
+    std::vector<Vector> starting_points;
+    for (double x = 0.5; x <= 2; x *= 2) {
+        for (double y = 0.5; y <= 2; y *= 2) {
+            starting_points.emplace_back(std::vector{x, y});
+        }
+    }
+    for (double epsilon : less_epsilons) {
+        for (const Vector& starting_point : starting_points) {
+            for (auto& [f, ans] : fns) {
+                CHECK((ClassicNewton().optimize(*f, starting_point, epsilon)
+                       - ans)
+                          .norm()
+                      <= epsilon);
+            }
         }
     }
 }
