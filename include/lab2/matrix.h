@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <ostream>
 #include <vector>
 
 #include "lab2/abstract_matrix.h"
@@ -22,7 +23,11 @@ namespace lab2 {
 
         [[nodiscard]] Vector operator*(Vector other) const override;
 
+        bool operator==(const Matrix& other) const;
+
         const std::optional<double> max_eigenvalue;
+
+        friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
 
         ~Matrix() override = default;
 

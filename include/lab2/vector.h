@@ -1,6 +1,8 @@
 #pragma once
 
 #include <functional>
+#include <istream>
+#include <ostream>
 #include <vector>
 
 namespace lab2 {
@@ -13,6 +15,7 @@ namespace lab2 {
 
       public:
         Vector(const std::vector<double>& data);
+        Vector(std::istream& is);
         Vector(std::size_t size,
                const std::function<double(std::size_t)>& generator);
 
@@ -25,6 +28,7 @@ namespace lab2 {
         double operator*(const Vector& other) const;
         Vector operator*(double val) const;
         bool operator==(const Vector& other) const;
+        friend std::ostream& operator<<(std::ostream& os, const Vector& v);
     };
 
 }  // namespace lab2

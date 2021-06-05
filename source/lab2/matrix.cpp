@@ -1,5 +1,7 @@
 #include "lab2/matrix.h"
 
+#include <iterator>
+
 using namespace lab2;
 
 Matrix::Matrix(const std::vector<std::vector<double>>& data_,
@@ -44,5 +46,15 @@ void Matrix::check_size() const {
                            return lhs.size() == rhs.size();
                        })) {
         throw "Matrix rows have different sizes";
+    }
+}
+
+bool Matrix::operator==(const Matrix& other) const { return data == other.data; }
+
+namespace lab2 {
+    std::ostream& operator<<(std::ostream& os, const Matrix& m) {
+        copy(m.data.begin(), m.data.end(),
+             std::ostream_iterator<Vector>(os, "\n")); // not portable :(
+        return os;
     }
 }

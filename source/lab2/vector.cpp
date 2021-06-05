@@ -1,9 +1,20 @@
 #include "lab2/vector.h"
 
 #include <cmath>
+#include <iterator>
 #include <utility>
 
 using namespace lab2;
+
+Vector::Vector(std::istream& is) {
+    double el;
+    while (is >> el) {
+        data.push_back(el);
+    }
+    if (size() == 0) {
+        throw "Vector is empty";
+    }
+}
 
 Vector::Vector(const std::vector<double>& data_) : data(data_) {
     if (size() == 0) {
@@ -63,4 +74,16 @@ double Vector::operator*(const Vector& other) const {
 
 bool Vector::operator==(const Vector& other) const {
     return data == other.data;
+}
+
+namespace lab2 {
+    std::ostream& operator<<(std::ostream& os, const Vector& v) {
+        for (std::size_t i = 0; i < v.size(); i++) {
+            os << v[i];
+            if (i != v.size() - 1) {
+                os << " ";
+            }
+        }
+        return os;
+    }
 }
