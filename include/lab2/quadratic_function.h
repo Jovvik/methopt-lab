@@ -17,6 +17,7 @@ namespace lab2 {
         double operator()(Vector x) override;
         Vector grad(Vector x) override;
         std::size_t get_dim() override;
+        Matrix hessian(Vector x) override;
 
         std::unique_ptr<AbstractMatrix> A;
         const Vector b;

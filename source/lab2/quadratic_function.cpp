@@ -20,3 +20,14 @@ Vector QuadraticFunction::grad(Vector x) {
     inc_grad_count();
     return *A * x + b;
 }
+
+Matrix QuadraticFunction::hessian(Vector) {
+    size_t size = (*A).size();
+    std::vector<std::vector<double>> data(size, std::vector<double>(size, 0));
+    for (size_t i = 0; i < size; i++) {
+        for (size_t j = 0; j < size; j++) {
+            data[i][j] = (*A)[i][j];
+        }
+    }
+    return Matrix(data, (*A).max_eigenvalue);
+}

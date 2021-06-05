@@ -1,5 +1,6 @@
 #pragma once
 
+#include "lab2/matrix.h"
 #include "lab2/vector.h"
 
 namespace lab2 {
@@ -24,6 +25,10 @@ namespace lab2 {
          * @return Размерность функции
          */
         [[nodiscard]] virtual std::size_t get_dim() = 0;
+        /**
+         * @return Гессиан
+         */
+        [[nodiscard]] virtual Matrix hessian(Vector x) = 0;
         /**
          * @return Число вызовов функции
          */
