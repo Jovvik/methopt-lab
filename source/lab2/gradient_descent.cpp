@@ -2,7 +2,7 @@
 
 using namespace lab2;
 
-Vector GradientDescent::iteration(QuadraticFunction &f, double) {
+Vector GradientDescent::iteration(NFunction &f, double) {
     Vector x        = points_last();
     Vector f_x_grad = f.grad(x);
     Vector y        = x - f_x_grad * a;

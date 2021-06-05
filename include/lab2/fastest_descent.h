@@ -14,7 +14,7 @@ namespace lab2 {
       public:
         FastestDescent(Gen generator);
 
-        Vector iteration(QuadraticFunction &f, double epsilon) override;
+        Vector iteration(NFunction &f, double epsilon) override;
 
       private:
         Gen generator;

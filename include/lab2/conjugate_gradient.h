@@ -3,7 +3,7 @@
 namespace lab2 {
     class ConjugateGradient : public NOptimizer {
       public:
-        Vector iteration(QuadraticFunction &f, double epsilon) override;
+        Vector iteration(NFunction &f, double epsilon) override;
 
       private:
         Vector p      = Vector({1, 1});
