@@ -149,8 +149,6 @@ lab4::NFunctionImpl Functions::f_2_4 = lab4::NFunctionImpl(
     [](Vector v) {
         double x = v[0];
         double y = v[1];
-        double z = v[2];
-        double k = v[3];
         return Matrix(
             {{-2
                       * (std::pow(-1 + x, 2)
