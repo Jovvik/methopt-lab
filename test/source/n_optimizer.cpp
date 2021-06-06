@@ -184,7 +184,7 @@ TEST_CASE("one d search newton") {
 }
 
 TEST_CASE("descent newton") {
-    std::vector<double> less_epsilons = {1, 1e-4, 1e-8};
+    std::vector<double> less_epsilons = {1, 1e-4, 1e-7};
     std::vector<Vector> starting_points;
     for (double x = 0.5; x <= 2; x *= 2) {
         for (double y = 0.5; y <= 2; y *= 2) {

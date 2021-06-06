@@ -9,8 +9,9 @@ using namespace lab4;
 DescentNewton::DescentNewton() : p(lab2::Vector({1})) {}
 
 lab2::Vector DescentNewton::iteration(lab2::NFunction& f, double) {
-    const lab2::Vector x = get_points().back(), grad = f.grad(x),
-                       anti_grad = grad * (-1);
+    const lab2::Vector x         = get_points().back();
+    const lab2::Vector grad      = f.grad(x);
+    const lab2::Vector anti_grad = grad * (-1);
     auto d                       = anti_grad;
     if (iteration_count == 0) {
         const double r = lab1::Brent(
