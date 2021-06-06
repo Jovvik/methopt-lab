@@ -2,6 +2,7 @@
 
 #include "lab2/n_function.h"
 #include "lab2/quadratic_function.h"
+#include "lab4/n_function_impl.h"
 
 namespace lab2 {
     class Functions {
@@ -26,6 +27,8 @@ namespace lab2 {
          * 108x^2 + 116y^2 + 80xy + 43x + 33y - 211
          */
         static QuadraticFunction f3;
+
+        static lab4::NFunctionImpl sincos;
     };
 
     static std::unordered_map<std::string, QuadraticFunction*> const
