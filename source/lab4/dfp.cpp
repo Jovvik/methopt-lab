@@ -28,22 +28,17 @@ lab2::Vector DFP::iteration(lab2::NFunction &f, double) {
         G       = lab2::Matrix::I(x_k_1.size());
         return x_k_1 + delta_x;
     }
-    std::cout << G;
-    auto w_k = anti_grad, delta_w_k = w_k - w;
-    //    lab2::Matrix G_k
-    //        = (*G)
-    //          - lab2::Matrix::vector_mul(delta_x, delta_x) / (delta_w_k *
-    //          delta_x)
-    //          - lab2::Matrix::vector_mul(v_k, v_k) / (v_k * delta_w_k);
-    //    G                = &G_k;
-    //    p                = (*G) * w_k;
-    //    const auto alpha = lab1::Brent(
-    //                           [&f, x = x_k_1, p_ = p](double a) {
-    //                               return f(x + p_ * a);
-    //                           },
-    //                           ONE_DIM_EPS, ONE_DIM_START, ONE_DIM_END)
-    //                           .optimize();
-    //    delta_x = p * alpha;
+    const auto w_k = anti_grad, delta_w_k = w_k - w, v_k = G * delta_w_k;
+    G = G - lab2::Matrix::vector_mul(delta_x, delta_x) / (delta_w_k * delta_x)
+        - lab2::Matrix::vector_mul(v_k, v_k) / (v_k * delta_w_k);
+    p                = G * w_k;
+    const auto alpha = lab1::Brent(
+                           [&f, x = x_k_1, p_ = p](double a) {
+                               return f(x + p_ * a);
+                           },
+                           ONE_DIM_EPS, ONE_DIM_START, ONE_DIM_END)
+                           .optimize();
+    delta_x = p * alpha;
     return x_k_1 + delta_x;
 }
 
