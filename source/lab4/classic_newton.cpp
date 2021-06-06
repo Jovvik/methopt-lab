@@ -10,9 +10,7 @@ ClassicNewton::ClassicNewton() : p(lab2::Vector({1})) {}
 
 lab2::Vector ClassicNewton::iteration(lab2::NFunction& f, double) {
     lab2::Vector x    = get_points().back();
-    const auto grad_f = f.grad(x);
-    const auto H      = f.hessian(x);
-    p                 = lab3::Solver::solve(H, grad_f * (-1));
+    p                 = lab3::Solver::solve(f.hessian(x), f.grad(x) * (-1));
     return x + p;
 }
 
