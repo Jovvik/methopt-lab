@@ -14,6 +14,7 @@
 #include "lab2/gradient_descent.h"
 #include "lab2/matrix.h"
 #include "lab2/quadratic_function.h"
+#include "lab4/1d_seach_newton.h"
 #include "lab4/classic_newton.h"
 
 using namespace lab2;
@@ -153,6 +154,26 @@ TEST_CASE("classic newton") {
         for (const Vector& starting_point : starting_points) {
             for (auto& [f, ans] : fns) {
                 CHECK((ClassicNewton().optimize(*f, starting_point, epsilon)
+                       - ans)
+                          .norm()
+                      <= epsilon);
+            }
+        }
+    }
+}
+
+TEST_CASE("one d search newton") {
+    std::vector<double> less_epsilons = {1, 1e-4, 1e-8};
+    std::vector<Vector> starting_points;
+    for (double x = 0.5; x <= 0.5; x *= 2) {
+        for (double y = 0.5; y <= 0.5; y *= 2) {
+            starting_points.emplace_back(std::vector{x, y});
+        }
+    }
+    for (double epsilon : less_epsilons) {
+        for (const Vector& starting_point : starting_points) {
+            for (auto& [f, ans] : fns) {
+                CHECK((OneDSearchNewton().optimize(*f, starting_point, epsilon)
                        - ans)
                           .norm()
                       <= epsilon);
