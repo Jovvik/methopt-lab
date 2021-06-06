@@ -18,6 +18,7 @@
 #include "lab4/classic_newton.h"
 #include "lab4/descent_newton.h"
 #include "lab4/dfp.h"
+#include "lab4/powell.h"
 
 using namespace lab2;
 using namespace lab4;
@@ -216,6 +217,25 @@ TEST_CASE("DFP method") {
         for (const Vector& starting_point : starting_points) {
             for (auto& [f, ans] : fns) {
                 CHECK((DFP().optimize(*f, starting_point, epsilon) - ans).norm()
+                      <= epsilon);
+            }
+        }
+    }
+}
+
+TEST_CASE("Powell's method") {
+    std::vector<double> less_epsilons = {1, 1e-4, 1e-8};
+    std::vector<Vector> starting_points;
+    for (double x = 0.5; x <= 2; x *= 2) {
+        for (double y = 0.5; y <= 2; y *= 2) {
+            starting_points.emplace_back(std::vector{x, y});
+        }
+    }
+    for (double epsilon : less_epsilons) {
+        for (const Vector& starting_point : starting_points) {
+            for (auto& [f, ans] : fns) {
+                CHECK((Powell().optimize(*f, starting_point, epsilon) - ans)
+                          .norm()
                       <= epsilon);
             }
         }
