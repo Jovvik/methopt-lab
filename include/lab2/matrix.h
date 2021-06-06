@@ -22,12 +22,20 @@ namespace lab2 {
         [[nodiscard]] std::size_t size() const override;
 
         [[nodiscard]] Vector operator*(Vector other) const override;
+        Matrix operator*(double value) ;
+        Matrix operator/(double value) ;
+        Matrix operator+(Matrix other) ;
+        Matrix operator-(Matrix other) ;
 
         bool operator==(const Matrix& other) const;
 
         const std::optional<double> max_eigenvalue;
 
         friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
+
+        static Matrix I(size_t size);
+
+        static Matrix vector_mul(const Vector& first, const Vector& second);
 
         ~Matrix() override = default;
 
