@@ -1,3 +1,5 @@
+#pragma once
+
 #include "lab2/n_optimizer.h"
 
 namespace lab4 {
@@ -9,8 +11,8 @@ namespace lab4 {
         bool is_done(lab2::NFunction& f, double epsilon) const override;
 
       private:
-        const double EPS = 1e-7;
-        const int START = -100, END = 100;
+        const double ONE_DIM_EPS = 1e-7;
+        const int ONE_DIM_START = -100, ONE_DIM_END = 100;
         lab2::Vector p;
     };
 }  // namespace lab4

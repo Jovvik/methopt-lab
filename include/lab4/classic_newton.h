@@ -1,3 +1,5 @@
+#pragma once
+
 #include "lab2/n_optimizer.h"
 
 namespace lab4 {
