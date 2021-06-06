@@ -23,11 +23,12 @@ Vector QuadraticFunction::grad(Vector x) {
 
 Matrix QuadraticFunction::hessian(Vector) {
     size_t size = A->size();
-    std::vector<std::vector<double>> result{size, {static_cast<double>(size), 0}};
+    std::vector<std::vector<double>> result{size,
+                                            {static_cast<double>(size), 0}};
     for (size_t i = 0; i < size; i++) {
         for (size_t j = 0; j < size; j++) {
             result[i][j] = (*A)[i][j];
         }
     }
-    return Matrix(result, A->max_eigenvalue);
+    return Matrix(result, A->max_eigenvalue());
 }

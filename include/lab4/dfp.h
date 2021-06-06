@@ -1,7 +1,7 @@
 #pragma once
 
-#include "lab2/n_optimizer.h"
 #include "lab2/matrix.h"
+#include "lab2/n_optimizer.h"
 
 namespace lab4 {
     class DFP : public lab2::NOptimizer {
@@ -13,7 +13,7 @@ namespace lab4 {
 
       private:
         lab2::Vector w, p, delta_x;
-        lab2::Matrix *G{};
+        lab2::Matrix G;
         const double ONE_DIM_EPS = 1e-7;
         const int ONE_DIM_START = -100, ONE_DIM_END = 100;
     };

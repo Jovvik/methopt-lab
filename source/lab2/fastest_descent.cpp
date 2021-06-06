@@ -23,10 +23,7 @@ lab2::Vector lab2::FastestDescent::iteration(NFunction &f, double) {
                        [&f, &x_k, &grad_x_k](double alpha) {
                            return f(x_k - grad_x_k * alpha);
                        },
-                       1e-6, 0,
-                       f_quad->A->max_eigenvalue.has_value()
-                           ? 2. / *f_quad->A->max_eigenvalue * grad_norm
-                           : 1000)
+                       1e-6, 0, 2. / f_quad->A->max_eigenvalue() * grad_norm)
                        ->optimize();
     return x_k - grad_x_k * alpha;
 }

@@ -86,4 +86,4 @@ namespace lab2 {
         }
         return os;
     }
-}
+}  // namespace lab2

@@ -7,7 +7,10 @@
 using namespace lab4;
 
 DFP::DFP()
-    : w(lab2::Vector({1})), p(lab2::Vector({1})), delta_x(lab2::Vector({1})) {}
+    : w(lab2::Vector({1})),
+      p(lab2::Vector({1})),
+      delta_x(lab2::Vector({1})),
+      G(lab2::Matrix({{1}}, std::nullopt)) {}
 
 lab2::Vector DFP::iteration(lab2::NFunction &f, double) {
     const lab2::Vector x_k_1 = get_points().back(), grad = f.grad(x_k_1),
@@ -21,12 +24,11 @@ lab2::Vector DFP::iteration(lab2::NFunction &f, double) {
                                },
                                ONE_DIM_EPS, ONE_DIM_START, ONE_DIM_END)
                                .optimize();
-        delta_x        = p * alpha;
-        lab2::Matrix I = lab2::Matrix::I(x_k_1.size());
-        G              = std::make_unique<lab2::Matrix>(I);
+        delta_x = p * alpha;
+        G       = lab2::Matrix::I(x_k_1.size());
         return x_k_1 + delta_x;
     }
-    std::cout << *G;
+    std::cout << G;
     auto w_k = anti_grad, delta_w_k = w_k - w;
     //    lab2::Matrix G_k
     //        = (*G)

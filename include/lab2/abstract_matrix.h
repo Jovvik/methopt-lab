@@ -17,12 +17,16 @@ namespace lab2 {
         // TODO: ref
         [[nodiscard]] virtual Vector operator*(Vector other) const = 0;
 
-        const std::optional<double> max_eigenvalue;
+        [[nodiscard]] double max_eigenvalue() const;
 
         virtual ~AbstractMatrix() = default;
 
       protected:
         explicit AbstractMatrix(std::optional<double> max_eigenvalue);
+
+      private:
+        double max_eigenvalue_;
+        bool has_max_eigenvalue;
     };
 
 }  // namespace lab2
