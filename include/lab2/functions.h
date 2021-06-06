@@ -29,6 +29,12 @@ namespace lab2 {
         static QuadraticFunction f3;
 
         static lab4::NFunctionImpl sincos;
+
+        static QuadraticFunction f_1_2_1;
+        static lab4::NFunctionImpl f_2_1;
+        static lab4::NFunctionImpl f_2_2;
+        static lab4::NFunctionImpl f_2_3;
+        static lab4::NFunctionImpl f_2_4;
     };
 
     static std::unordered_map<std::string, QuadraticFunction*> const
