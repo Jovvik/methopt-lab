@@ -165,8 +165,8 @@ TEST_CASE("classic newton") {
 TEST_CASE("one d search newton") {
     std::vector<double> less_epsilons = {1, 1e-4, 1e-8};
     std::vector<Vector> starting_points;
-    for (double x = 0.5; x <= 0.5; x *= 2) {
-        for (double y = 0.5; y <= 0.5; y *= 2) {
+    for (double x = 0.5; x <= 2; x *= 2) {
+        for (double y = 0.5; y <= 2; y *= 2) {
             starting_points.emplace_back(std::vector{x, y});
         }
     }
