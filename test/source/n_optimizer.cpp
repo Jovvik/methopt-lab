@@ -185,6 +185,17 @@ TEST_CASE("one d search newton") {
     }
 }
 
+TEST_CASE("test") {
+    std::cout << DFP().optimize(Functions::f_2_1,
+                                          lab2::Vector({10, 10}), 1e-8);
+    std::cout << DFP().optimize(Functions::f_2_1,
+                                lab2::Vector({10, -10}), 1e-8);
+    std::cout << DFP().optimize(Functions::f_2_1,
+                                lab2::Vector({-10, 10}), 1e-8);
+    std::cout << DFP().optimize(Functions::f_2_1,
+                                lab2::Vector({-10, -10}), 1e-8);
+}
+
 TEST_CASE("descent newton") {
     std::vector<double> less_epsilons = {1, 1e-4, 1e-7};
     std::vector<Vector> starting_points;

@@ -3,6 +3,7 @@
 #include <lab3/solver.h>
 
 #include <utility>
+#include "iostream"
 
 using namespace lab4;
 

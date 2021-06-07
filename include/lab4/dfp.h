@@ -12,7 +12,7 @@ namespace lab4 {
         bool is_done(lab2::NFunction& f, double epsilon) const override;
 
       private:
-        lab2::Vector w, p, delta_x;
+        lab2::Vector s, d;
         lab2::Matrix G;
         const double ONE_DIM_EPS = 1e-7;
         const int ONE_DIM_START = -100, ONE_DIM_END = 100;
