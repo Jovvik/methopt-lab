@@ -5,8 +5,7 @@
 
 using namespace lab4;
 
-OneDSearchNewton::OneDSearchNewton()
-    : p(lab2::Vector({1})) {}
+OneDSearchNewton::OneDSearchNewton() : p(lab2::Vector({1})) {}
 
 lab2::Vector OneDSearchNewton::iteration(lab2::NFunction& f, double) {
     lab2::Vector x   = get_points().back();
@@ -17,7 +16,8 @@ lab2::Vector OneDSearchNewton::iteration(lab2::NFunction& f, double) {
                            },
                            ONE_DIM_EPS, ONE_DIM_START, ONE_DIM_END)
                            .optimize();
-    return x + p * alpha;
+    p = p * alpha;
+    return x + p;
 }
 
 bool OneDSearchNewton::is_done(lab2::NFunction&, double epsilon) const {

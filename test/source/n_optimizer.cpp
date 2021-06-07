@@ -186,14 +186,21 @@ TEST_CASE("one d search newton") {
 }
 
 TEST_CASE("test") {
-    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({10, 10}), 1e-8)
+//    std::cout << ClassicNewton().optimize(Functions::f_2_1, lab2::Vector({-1.2, 2}), 1e-8)
+//              << "\n";
+//    std::cout << DescentNewton().optimize(Functions::f_2_1, lab2::Vector({-1.2, 2}), 1e-8)
+//              << "\n";
+    std::cout << OneDSearchNewton().optimize(Functions::f_2_1, lab2::Vector({-1.2, 1}), 1e-8)
               << "\n";
-    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({10, -10}), 1e-8)
+    std::cout << DFP().optimize(Functions::f_2_1, lab2::Vector({-1.2, 1}), 1e-8)
               << "\n";
-    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({-10, 10}), 1e-8)
+    std::cout << Powell().optimize(Functions::f_2_1, lab2::Vector({-1.2, 1}), 1e-8)
               << "\n";
-    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({-10, -10}),
-                                1e-8)
+    std::cout << OneDSearchNewton().optimize(Functions::f_2_1, lab2::Vector({5.1, -5}), 1e-8)
+              << "\n";
+    std::cout << DFP().optimize(Functions::f_2_1, lab2::Vector({5.1, -5}), 1e-8)
+              << "\n";
+    std::cout << Powell().optimize(Functions::f_2_1, lab2::Vector({5.1, -5}), 1e-8)
               << "\n";
 }
 
