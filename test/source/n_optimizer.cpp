@@ -186,14 +186,15 @@ TEST_CASE("one d search newton") {
 }
 
 TEST_CASE("test") {
-    std::cout << DFP().optimize(Functions::f_2_1,
-                                          lab2::Vector({10, 10}), 1e-8);
-    std::cout << DFP().optimize(Functions::f_2_1,
-                                lab2::Vector({10, -10}), 1e-8);
-    std::cout << DFP().optimize(Functions::f_2_1,
-                                lab2::Vector({-10, 10}), 1e-8);
-    std::cout << DFP().optimize(Functions::f_2_1,
-                                lab2::Vector({-10, -10}), 1e-8);
+    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({10, 10}), 1e-8)
+              << "\n";
+    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({10, -10}), 1e-8)
+              << "\n";
+    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({-10, 10}), 1e-8)
+              << "\n";
+    std::cout << Powell().optimize(Functions::f_2_2, lab2::Vector({-10, -10}),
+                                1e-8)
+              << "\n";
 }
 
 TEST_CASE("descent newton") {
