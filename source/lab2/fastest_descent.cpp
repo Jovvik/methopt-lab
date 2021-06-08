@@ -16,14 +16,14 @@ lab2::Vector lab2::FastestDescent::iteration(NFunction &f, double) {
 
     auto *f_quad = dynamic_cast<QuadraticFunction *>(&f);
 
-    double alpha
-        = generator(
-              [&f, &x_k, &grad_x_k](double alpha) {
-                  return f(x_k - grad_x_k * alpha);
-              },
-              1e-6, 0,
-              2. / (f_quad == nullptr ? 1 : f_quad->A->max_eigenvalue())
-                  * grad_norm)
-              ->optimize();
+    double alpha = generator(
+                       [&f, &x_k, &grad_x_k](double alpha) {
+                           return f(x_k - grad_x_k * alpha);
+                       },
+                       1e-6, 0,
+                       f_quad == nullptr || !f_quad->A->has_max_eigenvalue
+                           ? 10
+                           : 2. / f_quad->A->max_eigenvalue() * grad_norm)
+                       ->optimize();
     return x_k - grad_x_k * alpha;
 }

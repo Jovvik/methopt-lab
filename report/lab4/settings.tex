@@ -16,16 +16,21 @@
 \usepackage{mathrsfs}
 \usepackage{placeins}
 \usepackage{graphicx}
+\usepackage{svg}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\setlength{\parindent}{0pt}
 
 \usemintedstyle{colorful}
 \newenvironment{code}{\captionsetup{type=listing}}{}
 
 
 \newcommand{\itertable}[2]{
-	\FloatBarrier
-	\begin{table}[h]
+	% \FloatBarrier
+	\begin{table}[H]
 		\centering
-		\caption*{Количество точек}
+		\caption*{#2}
 		\pgfplotstabletypeset[
 			every even row/.style=
 				{before row={\rowcolor[gray]{0.95}}},
@@ -39,7 +44,7 @@
 			every last row/.style={after row=\hline}
 		]{#1}
 	\end{table}
-	\FloatBarrier
+	% \FloatBarrier
 }
 
 \newcommand{\dstable}{
@@ -48,17 +53,17 @@
 		\centering
 		\caption*{$\alpha$, полученные одномерным поиском для $f_2$}
 		\pgfplotstabletypeset[
-		every even row/.style=
-		{before row={\rowcolor[gray]{0.95}}},
-		string type,
-		columns/iter/.style={column name=№, column type={|c|}},
-		columns/p1/.style={column name=(0.1; 0.1), column type={c|}},
-		columns/p2/.style={column name=(1; 1), column type={c|}},
-		columns/p3/.style={column name=(2; 2), column type={c|}},
-		columns/p4/.style={column name=(-5; -5), column type={c|}},
-		columns/p5/.style={column name=(10; 10), column type={c|}},
-		every head row/.style={before row=\hline, after row=\hline},
-		every last row/.style={after row=\hline}
+			every even row/.style=
+				{before row={\rowcolor[gray]{0.95}}},
+			string type,
+			columns/iter/.style={column name=№, column type={|c|}},
+			columns/p1/.style={column name=(0.1; 0.1), column type={c|}},
+			columns/p2/.style={column name=(1; 1), column type={c|}},
+			columns/p3/.style={column name=(2; 2), column type={c|}},
+			columns/p4/.style={column name=(-5; -5), column type={c|}},
+			columns/p5/.style={column name=(10; 10), column type={c|}},
+			every head row/.style={before row=\hline, after row=\hline},
+			every last row/.style={after row=\hline}
 		]{data/task1/alpha.txt}
 	\end{table}
 	\FloatBarrier
@@ -74,10 +79,10 @@
 	\FloatBarrier
 	\begin{table}[h]
 		\centering
-		\caption*{Количество точек}
+		% \caption*{}
 		\pgfplotstabletypeset[
 			every even row/.style=
-			{before row={\rowcolor[gray]{0.95}}},
+				{before row={\rowcolor[gray]{0.95}}},
 			string type,
 			columns/method/.style={column name=Метод, column type={|c|}},
 			columns/f1/.style={column name=$f_1$, column type={c|}},

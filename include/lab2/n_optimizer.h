@@ -36,6 +36,8 @@ namespace lab2 {
          */
         [[nodiscard]] const std::vector<Vector>& get_points() const;
 
+        std::size_t iteration_count;
+
       protected:
         /**
          * @param f Оптимизируемая функция
@@ -50,8 +52,6 @@ namespace lab2 {
          */
         [[nodiscard]] virtual Vector iteration(NFunction& f, double epsilon)
             = 0;
-
-        std::size_t iteration_count;
 
       private:
         /**

@@ -9,7 +9,7 @@ Vector NOptimizer::optimize(NFunction& f, const Vector& starting_point,
     iteration_count = 0;
     points.clear();
     points.push_back(starting_point);
-    while (!is_done(f, epsilon) && iteration_count <= 1000) {
+    while (!is_done(f, epsilon) && iteration_count <= 100) {
         points.push_back(iteration(f, epsilon));
         iteration_count++;
     }
